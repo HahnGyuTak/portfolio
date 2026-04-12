@@ -72,7 +72,7 @@ export default function App() {
               duration: 0.7,
               ease: [0.33, 1, 0.68, 1],
             }}
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: false, margin: "-100px" }}
           >
             <h2
               className="text-[clamp(2.5rem,5vw,4rem)] mb-8"
@@ -138,7 +138,7 @@ export default function App() {
               duration: 0.7,
               ease: [0.33, 1, 0.68, 1],
             }}
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: false, margin: "-100px" }}
             className="relative aspect-[4/5] rounded-2xl overflow-hidden"
           >
             <ImageWithFallback
@@ -159,14 +159,15 @@ export default function App() {
             duration: 0.7,
             ease: [0.33, 1, 0.68, 1],
           }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: false, margin: "-100px" }}
           className="text-[clamp(2.5rem,5vw,4rem)] mb-16"
           style={{ fontWeight: 600, lineHeight: 1.1 }}
         >
           Publications
         </motion.h2>
 
-        <div className="space-y-12">
+        {/* Currently no published papers */}
+        {/* <div className="space-y-12">
           {[
             {
               title:
@@ -199,7 +200,7 @@ export default function App() {
                 delay: index * 0.1,
                 ease: [0.33, 1, 0.68, 1],
               }}
-              viewport={{ once: true, margin: "-50px" }}
+              viewport={{ once: false, margin: "-50px" }}
               className="group pb-12 border-b border-neutral-200 last:border-0"
             >
               <div className="flex items-start justify-between gap-8">
@@ -226,7 +227,25 @@ export default function App() {
               </div>
             </motion.div>
           ))}
-        </div>
+        </div> */}
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.7,
+            ease: [0.33, 1, 0.68, 1],
+          }}
+          viewport={{ once: false, margin: "-100px" }}
+          className="max-w-3xl"
+        >
+          <p className="text-[1.25rem] text-neutral-600 leading-relaxed">
+            Currently conducting research on Multimodal Large
+            Language Models (LLMs), exploring how AI systems can
+            understand and generate content across multiple
+            modalities such as text and images.
+          </p>
+        </motion.div>
       </Section>
 
       {/* Projects */}
@@ -238,7 +257,7 @@ export default function App() {
             duration: 0.7,
             ease: [0.33, 1, 0.68, 1],
           }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: false, margin: "-100px" }}
           className="text-[clamp(2.5rem,5vw,4rem)] mb-16"
           style={{ fontWeight: 600, lineHeight: 1.1 }}
         >
@@ -293,7 +312,7 @@ export default function App() {
                 delay: index * 0.1,
                 ease: [0.33, 1, 0.68, 1],
               }}
-              viewport={{ once: true, margin: "-50px" }}
+              viewport={{ once: false, margin: "-50px" }}
               className="group"
             >
               <div className="relative aspect-[16/10] rounded-2xl overflow-hidden mb-6">
@@ -342,7 +361,7 @@ export default function App() {
             duration: 0.7,
             ease: [0.33, 1, 0.68, 1],
           }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: false, margin: "-100px" }}
           className="text-[clamp(2.5rem,5vw,4rem)] mb-16"
           style={{ fontWeight: 600, lineHeight: 1.1 }}
         >
@@ -381,7 +400,7 @@ export default function App() {
                 delay: index * 0.08,
                 ease: [0.33, 1, 0.68, 1],
               }}
-              viewport={{ once: true, margin: "-50px" }}
+              viewport={{ once: false, margin: "-50px" }}
             >
               <div className="flex items-start justify-between mb-2">
                 <h3
@@ -412,7 +431,7 @@ export default function App() {
             duration: 0.7,
             ease: [0.33, 1, 0.68, 1],
           }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: false, margin: "-100px" }}
           className="text-[clamp(2.5rem,5vw,4rem)] mb-16"
           style={{ fontWeight: 600, lineHeight: 1.1 }}
         >
@@ -451,7 +470,7 @@ export default function App() {
                 delay: index * 0.1,
                 ease: [0.33, 1, 0.68, 1],
               }}
-              viewport={{ once: true, margin: "-50px" }}
+              viewport={{ once: false, margin: "-50px" }}
               className="block group pb-8 border-b border-neutral-200 last:border-0"
             >
               <div className="flex items-start justify-between gap-8">
@@ -486,7 +505,7 @@ export default function App() {
               duration: 0.7,
               ease: [0.33, 1, 0.68, 1],
             }}
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: false, margin: "-100px" }}
             className="text-[clamp(2.5rem,5vw,4rem)] mb-8"
             style={{ fontWeight: 600, lineHeight: 1.1 }}
           >
@@ -501,7 +520,7 @@ export default function App() {
               delay: 0.1,
               ease: [0.33, 1, 0.68, 1],
             }}
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: false, margin: "-100px" }}
             className="text-[1.25rem] text-neutral-600 mb-12 leading-relaxed"
           >
             I'm always interested in hearing about new
@@ -517,7 +536,7 @@ export default function App() {
               delay: 0.2,
               ease: [0.33, 1, 0.68, 1],
             }}
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: false, margin: "-100px" }}
             className="flex justify-center gap-8"
           >
             <a
