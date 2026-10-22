@@ -8,7 +8,8 @@ import {
   ExternalLink,
   Mail,
 } from "lucide-react";
-import { data, projects, projectOrder, type Project } from "./data";
+import { getContent, projectOrder, type Project } from "./data";
+import { copy, readLanguage, rememberLanguage, type Language } from "./locale";
 
 const sections = [
   { id: "about", label: "About" },
@@ -66,14 +67,38 @@ function ResourceLink({
   );
 }
 
+function LanguageButton({ language, onToggle, inDialog = false }: {
+  language: Language;
+  onToggle: () => void;
+  inDialog?: boolean;
+}) {
+  const label = language === "ko" ? "Switch to English" : "한국어로 보기";
+  return (
+    <button
+      className={`language-switch${inDialog ? " language-switch--dialog" : ""}`}
+      onClick={onToggle}
+      aria-label={label}
+      title={label}
+      lang={language === "ko" ? "en" : "ko"}
+    >
+      {language === "ko" ? "EN" : "KO"}
+    </button>
+  );
+}
+
 function ProjectDialog({
   project,
+  language,
+  onToggleLanguage,
   onClose,
 }: {
   project: Project | null;
+  language: Language;
+  onToggleLanguage: () => void;
   onClose: () => void;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
+  const t = copy[language];
   useEffect(() => {
     const dialog = ref.current;
     if (!project || !dialog) return;
@@ -86,7 +111,7 @@ function ProjectDialog({
       document.body.style.overflow = prior;
       focused?.focus();
     };
-  }, [project]);
+  }, [project?.id]);
   if (!project) return null;
   return (
     <dialog
@@ -104,13 +129,16 @@ function ProjectDialog({
             {project.category === "research" ? "RESEARCH" : "DEVELOPMENT"} /{" "}
             {project.period}
           </span>
-          <button
-            className="icon-button"
-            onClick={onClose}
-            aria-label="프로젝트 상세 닫기"
-          >
-            <X size={22} />
-          </button>
+          <div className="dialog-actions">
+            <LanguageButton language={language} onToggle={onToggleLanguage} inDialog />
+            <button
+              className="icon-button"
+              onClick={onClose}
+              aria-label={t.closeDetails}
+            >
+              <X size={22} />
+            </button>
+          </div>
         </div>
         <h2 id="dialog-title">{project.name}</h2>
         <p className="dialog-subtitle">{project.subtitle}</p>
@@ -160,16 +188,16 @@ function ProjectDialog({
             <div>
               <img
                 src="./images/mote-recording.jpg"
-                alt="Mote 앱의 회의 녹음 화면"
+                alt={t.moteRecording}
                 loading="lazy"
               />
               <img
                 src="./images/mote-summary.jpg"
-                alt="Mote 앱의 AI 회의 요약 결과 화면"
+                alt={t.moteSummary}
                 loading="lazy"
               />
             </div>
-            <figcaption>실제 앱 화면 · 녹음 및 회의 요약</figcaption>
+            <figcaption>{t.moteCaption}</figcaption>
           </figure>
         )}
         {project.id === "wallbaduk" && (
@@ -177,11 +205,11 @@ function ProjectDialog({
             <div>
               <img
                 src="./images/wallbaduk-game.png"
-                alt="벽바둑 개발 버전의 7×7 게임판과 2인 대결 화면"
+                alt={t.wallbadukAlt}
                 loading="lazy"
               />
             </div>
-            <figcaption>개발 버전의 실제 대전 화면</figcaption>
+            <figcaption>{t.wallbadukCaption}</figcaption>
           </figure>
         )}
       </div>
@@ -192,7 +220,29 @@ function ProjectDialog({
 export default function App() {
   const [active, setActive] = useState("");
   const [filter, setFilter] = useState("all");
-  const [selected, setSelected] = useState<Project | null>(null);
+  const [language, setLanguage] = useState<Language>(readLanguage);
+  const [selectedId, setSelectedId] = useState<string | null>(() =>
+    new URLSearchParams(location.search).get("project"),
+  );
+  const data = getContent(language);
+  const projects = data.projects as Project[];
+  const selected = projects.find((p) => p.id === selectedId) || null;
+  const t = copy[language];
+  const resumeHref = language === "en" ? "./resume-en.html" : "./resume.html";
+  useEffect(() => {
+    rememberLanguage(language);
+    document.documentElement.lang = language;
+    for (const selector of ['meta[name="description"]', 'meta[property="og:description"]']) {
+      document.querySelector(selector)?.setAttribute("content", copy[language].description);
+    }
+  }, [language]);
+  const toggleLanguage = () => {
+    const next = language === "ko" ? "en" : "ko";
+    const url = new URL(location.href);
+    url.searchParams.set("lang", next);
+    history.replaceState(null, "", url);
+    setLanguage(next);
+  };
   const [copied, setCopied] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
   const [indicator, setIndicator] = useState({ left: 0, width: 0 });
@@ -239,8 +289,8 @@ export default function App() {
   }, [active]);
   useEffect(() => {
     const sync = () => {
-      const id = new URLSearchParams(location.search).get("project");
-      setSelected(projects.find((p) => p.id === id) || null);
+      setSelectedId(new URLSearchParams(location.search).get("project"));
+      setLanguage(readLanguage());
     };
     sync();
     window.addEventListener("popstate", sync);
@@ -256,7 +306,9 @@ export default function App() {
     cancelAnimationFrame(scrollFrame.current);
     const from = window.scrollY;
     const to = Math.max(0, element.getBoundingClientRect().top + from - 69);
-    history.replaceState(null, "", `#${id}`);
+    const url = new URL(location.href);
+    url.hash = id;
+    history.replaceState(null, "", url);
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       window.scrollTo(0, to);
       return;
@@ -274,13 +326,13 @@ export default function App() {
     const u = new URL(location.href);
     u.searchParams.set("project", p.id);
     history.replaceState(null, "", u);
-    setSelected(p);
+    setSelectedId(p.id);
   };
   const closeProject = () => {
     const u = new URL(location.href);
     u.searchParams.delete("project");
     history.replaceState(null, "", u);
-    setSelected(null);
+    setSelectedId(null);
   };
   const copyEmail = async () => {
     try {
@@ -303,36 +355,33 @@ export default function App() {
       <a className="skip-link" href="#projects">
         Skip to R&amp;D
       </a>
+      {!selected && <LanguageButton language={language} onToggle={toggleLanguage} />}
       <header className="hero" id="about">
         <div className="profile">
           <img
             className="profile-photo"
             src="./images/profile.png"
-            alt="한규탁의 GitHub 프로필 이미지"
+            alt={t.profileAlt}
             width="136"
             height="136"
           />
           <h1>GYUTAK HAHN</h1>
           <h3 className="profile-role">AI RESEARCHER &amp; DEVELOPER</h3>
           <p className="profile-intro">
-            이미지·텍스트·음성 AI를 연구하고, 모델을 서비스에 연결합니다.
-            <br /> 필요한 기술을 배우며 앱 개발과 출시·운영까지 경험했습니다.
+            {t.intro[0]}<br /> {t.intro[1]}
           </p>
           <div className="profile-education">
             <h2>Education</h2>
-            <p>
-              고려대학교 인공지능학과 석사과정 <span>2025.09 입학</span>
-            </p>
-            <p>
-              세종대학교 지능기전공학 학사 <span>2019.03 – 2025.02</span>
-            </p>
+            {t.education.map((entry) => (
+              <p key={entry.degree}>{entry.degree} <span>{entry.period}</span></p>
+            ))}
           </div>
           <div className="profile-links">
             <a
               className="profile-icon"
               href={data.person.github}
               {...external}
-              aria-label="GitHub 프로필"
+              aria-label={t.github}
               title="GitHub"
             >
               <img src="./icons/github.svg" alt="" width="19" height="19" />
@@ -340,18 +389,18 @@ export default function App() {
             <a
               className="profile-icon"
               href={`mailto:${data.person.email}`}
-              aria-label="이메일 보내기"
+              aria-label={t.email}
               title="Email"
             >
               <Mail size={20} />
             </a>
-            <a className="resume-link" href="./resume.html" {...external}>
+            <a className="resume-link" href={resumeHref} {...external}>
               CV <ArrowUpRight size={15} />
             </a>
           </div>
         </div>
       </header>
-      <nav className="sticky-nav" aria-label="Main navigation">
+      <nav className="sticky-nav" data-stuck={active !== ""} aria-label="Main navigation">
         <div className="nav-inner" ref={navRef}>
           {sections.map((s) => (
             <a
@@ -433,7 +482,7 @@ export default function App() {
                   <button
                     className="details-button"
                     onClick={() => openProject(p)}
-                    aria-label={`${p.name} 상세 보기`}
+                    aria-label={`${p.name} · ${t.details}`}
                   >
                     Details <ArrowUpRight size={16} />
                   </button>
@@ -450,7 +499,7 @@ export default function App() {
               <div className="research-list">
                 {data.researchHistory.map((r, i) => (
                   <article key={r.organization}>
-                    <time>{i === 0 ? "2025.09 시작" : r.period}</time>
+                    <time>{i === 0 ? t.researchStart : r.period}</time>
                     <h4>{r.organization}</h4>
                     <span className="research-role">{r.role}</span>
                     <p>{r.topic}</p>
@@ -467,7 +516,7 @@ export default function App() {
                 </div>
                 <h4>{data.submission.title}</h4>
                 <p>{data.submission.authors}</p>
-                <small>{data.submission.submittedAt} 제출 · 제1저자</small>
+                <small>{data.submission.submittedAt} {t.submitted}</small>
               </article>
               <a
                 className="publication"
@@ -479,7 +528,7 @@ export default function App() {
                 </span>
                 <h4>{data.publication.title}</h4>
                 <p>{data.publication.authors}</p>
-                <small>제38회 제어로봇시스템학회 학술대회 · pp. 924–925</small>
+                <small>{t.conference}</small>
               </a>
               <h3 className="group-title awards-title">Awards</h3>
               <div className="awards-list">
@@ -511,7 +560,7 @@ export default function App() {
             <button
               className="icon-button"
               onClick={copyEmail}
-              aria-label="이메일 주소 복사"
+              aria-label={t.copyEmail}
               title="Copy email"
             >
               {copied ? <Check size={18} /> : <Copy size={18} />}
@@ -530,7 +579,7 @@ export default function App() {
             <a href={data.person.linkedin} {...external}>
               LinkedIn <ArrowUpRight size={15} />
             </a>
-            <a href="./resume.html" {...external}>
+            <a href={resumeHref} {...external}>
               CV <ArrowUpRight size={15} />
             </a>
           </div>
@@ -548,7 +597,7 @@ export default function App() {
           Back to top ↑
         </a>
       </footer>
-      <ProjectDialog project={selected} onClose={closeProject} />
+      <ProjectDialog project={selected} language={language} onToggleLanguage={toggleLanguage} onClose={closeProject} />
     </>
   );
 }

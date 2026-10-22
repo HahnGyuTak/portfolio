@@ -85,6 +85,41 @@ svg {
 .skip-link:focus {
   transform: none;
 }
+.language-switch {
+  position: fixed;
+  top: max(13px, env(safe-area-inset-top));
+  right: max(16px, env(safe-area-inset-right));
+  z-index: 20;
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border: 1px solid #d7d7d7;
+  background: #fff;
+  box-shadow: 0 2px 9px #00000008;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08rem;
+  transition: border-color 0.2s, background 0.2s;
+}
+.language-switch:hover {
+  background: #e7f3fd;
+  border-color: var(--blue);
+}
+.language-switch--dialog {
+  position: static;
+  box-shadow: none;
+}
+.dialog-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.dialog-actions .icon-button {
+  width: 44px;
+  height: 44px;
+}
 .hero {
   min-height: calc(100svh - var(--nav-height));
   display: flex;
@@ -197,6 +232,9 @@ svg {
   font-size: 1rem;
   letter-spacing: 0.1rem;
   transition: all 0.5s ease;
+}
+.sticky-nav[data-stuck="true"] .nav-inner {
+  width: calc(100% - 68px);
 }
 .nav-inner > a:hover {
   color: #fff;
@@ -647,6 +685,7 @@ footer {
   font-size: 10px;
   color: #888;
   letter-spacing: 0.08rem;
+  line-height: 1.65;
 }
 .dialog-inner > h2 {
   font-size: 32px;

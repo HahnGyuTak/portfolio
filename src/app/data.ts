@@ -1,4 +1,6 @@
 import content from "./content.json";
+import englishContent from "./content.en.json";
+import type { Language } from "./locale";
 export type Project = {
   id: string;
   name: string;
@@ -17,8 +19,8 @@ export type Project = {
   links: { label: string; url: string }[];
   metric?: { value: string; label: string };
 };
-export const data = content;
-export const projects = content.projects as Project[];
+export const getContent = (language: Language) =>
+  language === "en" ? englishContent : content;
 export const projectOrder = [
   "stable",
   "wallbaduk",

@@ -22,13 +22,18 @@ pnpm preview     # dist/ 결과 확인
 ## 콘텐츠 수정
 
 - `src/app/content.json`: 프로젝트 설명, 날짜, 역할, 결과, 링크, 이력, 연락처
+- `src/app/content.en.json`: 동일한 항목의 영어 번역. ID·분류·URL·수치는 한국어와 함께 유지합니다.
+- `src/app/locale.ts`: 소개·학력·접근성 문구 번역과 언어 선택 저장
 - `src/app/data.ts`: 프로젝트 타입과 아카이브 최신순 정렬
 - `src/app/App.tsx`: 섹션, 고정 메뉴, 필터, 프로젝트 상세, 이메일 복사
 - `src/styles/index.css`: 반응형 화면, 프로젝트 카드, 접근성 스타일
 - `public/resume.html`: 브라우저에서 인쇄/PDF 저장 가능한 이력서. 사이트 콘텐츠 수정 시 함께 갱신합니다.
+- `public/resume-en.html`: 영어 이력서. 영어 화면의 CV 버튼에서 연결됩니다.
 - `public/images/`: GitHub 프로필 이미지와 본인 프로젝트의 실제 앱 화면
 
 프로젝트 링크는 `?project=mote`, `?project=writenow`, `?project=wallbaduk`처럼 공유할 수 있습니다. 상세는 Escape, 닫기 버튼, 배경 클릭으로 닫을 수 있고 열었던 버튼으로 포커스가 돌아옵니다. 모션 줄이기 설정을 지원합니다.
+
+우측 상단의 EN / KO 버튼으로 언어를 바꿉니다. `?lang=en` 또는 `?lang=ko`로 언어를 지정하여 공유할 수 있으며, 프로젝트 링크와 함께 사용할 수 있습니다(예: `?lang=en&project=stable#projects`). URL에 언어가 없으면 브라우저에 저장된 선택을 사용하고 최초 방문은 한국어로 표시합니다. 언어를 바꿔도 열린 상세, 필터, 스크롤 위치를 유지합니다.
 
 ## 사실과 역할 범위
 
