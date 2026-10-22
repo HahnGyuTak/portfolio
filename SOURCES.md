@@ -18,7 +18,7 @@
 | --- | --- |
 | StarGAN-TA | [연구 저장소](https://github.com/shp216/StarGAN-TA), [ICROS 논문](https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11480637), CV |
 | Lenfit | 본인 제공 `Lenfit_Hanium.pdf`, 역할 설명 |
-| Diff-SVC / DiffWave | 본인 제공 로컬 Diff-SVC 연구 디렉터리, CV, 증강·학습·실험 범위 직접 확인 |
+| Diff-SVC / DiffWave | 본인 제공 2023-2 창의학기제 최종결과보고서 2~4쪽(전처리·학습·개인 역할·실험 구성), 로컬 연구 디렉터리, CV, 역할 직접 확인 |
 | RESTED | [세종대학교 공식 대상 수상 기록](https://withus.sejong.ac.kr/non/stuTlnt/view.do?dataSeq=1000040&sstTyCd=ST01&currentPageNo=1), [공개 발표자료 PDF](https://withus.sejong.ac.kr/comm/cmfile/download.do?encFileGrpSeq=19b82d7b338cb31f922c99903b99dbe2&encFileSeq=6f0d09eaa7573ee1a905876da477a5f4), CV, 역할 설명 |
 | WriteNow | [팀 프로젝트](https://github.com/AcademicFestival/.github/blob/main/profile/README.md), CV, 문서 샘플 수집·입출력 학습 데이터 직접 구축·OpenAI API를 통한 GPT 파인튜닝에 대한 본인 확인 (2026.10.22) |
 | Mote | [모델 학습](https://github.com/HahnGyuTak/openai-whisper-finetuning), [AI 서비스](https://github.com/MettingApp/AI), [모델·데이터](https://huggingface.co/imTak), 팀 발표 PDF |
@@ -52,3 +52,11 @@
 ## Reserved research references (2026.10.22)
 
 PromptStyler는 본인 요청에 따라 공개 프로젝트 카드·상세와 이력서의 개별 프로젝트 항목에서 제외했습니다. 추후 학부연구생 경험을 설명할 때 활용하도록 [본인 재현 코드](https://github.com/HahnGyuTak/PromptStyler), [원논문](https://promptstyler.github.io/) 및 로컬 경험 원문을 보존합니다.
+
+## Diff-SVC / DiffWave final report (2026.10.22)
+
+- 최종보고서 2쪽: 확장자 변환·길이 분할·binarize 전처리, Diff-SVC 학습, DiffWave 증강, 원본+증강 데이터 학습, 클라이언트·서버·AI 결합 완료.
+- 3쪽 한규탁 개인 성과: 여러 가수의 Diff-SVC 모델 구축, 데이터 부족에 대응한 DiffWave 증강, 증강 데이터로 Diff-SVC 학습.
+- 4쪽 최종결과물: 원본만 쓰는 기본 모델과 원본+증강 모델이 같은 목표 목소리를 사용하는 실험 구성. 모델 결과 확인을 기재하되, 수치 평가·개선율은 주장하지 않았습니다.
+- Asyrp 기반 guide 제안은 보고서상 다른 AI 팀원 역할입니다. 서버·API·iOS 구축도 각 담당자의 작업이므로 개인 기여로 귀속하지 않고 최종 프로그램 완성은 팀 성과로 구분했습니다.
+- 전체 활동 기간은 CV의 2023.07–12를 유지합니다. 최종보고서의 창의학기제 학습 기간은 2023.09.01–12.14입니다. 보고서는 본인 제공 비공개 원본으로 검토했으며 사이트에 업로드하지 않았습니다.
