@@ -1,680 +1,757 @@
-import { motion, useScroll, useTransform } from "motion/react";
-import { useRef, useState, useEffect } from "react";
-import { ImageWithFallback } from "./components/figma/ImageWithFallback";
+import { useEffect, useRef, useState } from "react";
 import {
-  Mail,
+  ArrowUpRight,
+  ArrowDown,
+  ArrowRight,
+  Check,
+  Copy,
   Github,
-  Linkedin,
-  ExternalLink,
+  Plus,
+  X,
+  FileText,
 } from "lucide-react";
+import { data, projects, projectOrder, type Project } from "./data";
 
-interface BlogPost {
-  title: string;
-  link: string;
-  date: string;
-  excerpt: string;
-}
+const sections = [
+  { id: "about", label: "소개" },
+  { id: "work", label: "대표 프로젝트" },
+  { id: "archive", label: "전체 경험" },
+  { id: "journey", label: "이력" },
+  { id: "contact", label: "연락" },
+];
+const external = { target: "_blank", rel: "noopener noreferrer" };
 
-export default function App() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
-
-  const heroOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.2],
-    [1, 0],
-  );
-  const heroScale = useTransform(
-    scrollYProgress,
-    [0, 0.2],
-    [1, 0.95],
-  );
-
-  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
-  const [isLoadingBlog, setIsLoadingBlog] = useState(true);
-
-  useEffect(() => {
-    const fetchBlogPosts = async () => {
-      try {
-        const response = await fetch(
-          "https://hahngyutak.github.io/feed.xml",
-        );
-        const text = await response.text();
-        const parser = new DOMParser();
-        const xml = parser.parseFromString(text, "text/xml");
-
-        const items = xml.querySelectorAll("item");
-        const posts: BlogPost[] = Array.from(items)
-          .slice(0, 3)
-          .map((item) => {
-            const title =
-              item.querySelector("title")?.textContent || "";
-            const link =
-              item.querySelector("link")?.textContent || "";
-            const pubDate =
-              item.querySelector("pubDate")?.textContent || "";
-            const description =
-              item.querySelector("description")?.textContent ||
-              "";
-
-            const date = new Date(pubDate);
-            const formattedDate = date.toLocaleDateString(
-              "en-US",
-              {
-                year: "numeric",
-                month: "long",
-              },
-            );
-
-            // 첫 번째 </blockquote> 이후의 내용만 추출
-            const blockquoteIndex =
-              description.indexOf("</blockquote>");
-            const contentAfterBlockquote =
-              blockquoteIndex !== -1
-                ? description.substring(
-                    blockquoteIndex + "</blockquote>".length,
-                  )
-                : description;
-
-            const excerpt =
-              contentAfterBlockquote
-                .replace(/<[^>]*>/g, "")
-                .trim()
-                .substring(0, 150) + "...";
-
-            return {
-              title,
-              link,
-              date: formattedDate,
-              excerpt,
-            };
-          });
-
-        setBlogPosts(posts);
-      } catch (error) {
-        console.error("Failed to fetch blog posts:", error);
-        setBlogPosts([
-          {
-            title: "Visit my blog for latest posts",
-            date: "",
-            excerpt:
-              "Check out my blog at hahngyutak.github.io",
-            link: "https://hahngyutak.github.io",
-          },
-        ]);
-      } finally {
-        setIsLoadingBlog(false);
-      }
-    };
-
-    fetchBlogPosts();
-  }, []);
-
-  return (
-    <div ref={containerRef} className="bg-white relative">
-      {/* Hero Section */}
-      <motion.section
-        style={{ opacity: heroOpacity, scale: heroScale }}
-        className="min-h-screen flex items-center justify-center px-6 sticky top-0"
+function ProjectVisual({ id }: { id: string }) {
+  if (id === "wallbaduk")
+    return (
+      <div
+        className="project-art board-art"
+        aria-label="벽바둑 7×7 게임판 구조도"
       >
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.8,
-              ease: [0.33, 1, 0.68, 1],
-            }}
-            className="text-[clamp(3rem,8vw,6rem)] tracking-tight mb-6"
-            style={{ fontWeight: 600, lineHeight: 1.1 }}
-          >
-            Gyutak Hahn
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.8,
-              delay: 0.2,
-              ease: [0.33, 1, 0.68, 1],
-            }}
-            className="text-[clamp(1.25rem,3vw,1.75rem)] text-neutral-600"
-            style={{ fontWeight: 400 }}
-          >
-            AI Researcher · Developer · Operator
-          </motion.p>
-        </div>
-      </motion.section>
-
-      {/* Introduce & Education */}
-      <Section id="introduce" delay={0}>
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{
-              duration: 0.7,
-              ease: [0.33, 1, 0.68, 1],
-            }}
-            viewport={{ once: false, margin: "-100px" }}
-          >
-            <h2
-              className="text-[clamp(2.5rem,5vw,4rem)] mb-8"
-              style={{ fontWeight: 600, lineHeight: 1.1 }}
+        <span className="art-caption">WALLBADUK / STRATEGY BOARD GAME</span>
+        <div className="game-board" aria-hidden="true">
+          {Array.from({ length: 49 }, (_, i) => (
+            <span
+              key={i}
+              className={`board-cell ${[10, 17, 24].includes(i) ? "wall-right" : ""} ${[29, 30, 31].includes(i) ? "wall-bottom" : ""}`}
             >
-              About Me
-            </h2>
-            <p className="text-[1.125rem] text-neutral-700 leading-relaxed mb-8">
-              I am pursuing a master's degree at Korea
-              University, studying multi-modal learning —
-              focused on building frameworks that mimic human
-              multisensory reasoning and designing models for
-              natural human-AI interaction.
-            </p>
-            <p className="text-[1.125rem] text-neutral-700 leading-relaxed mb-8">
-              Beyond research, I am passionate about following
-              the latest AI trends and turning cutting-edge
-              ideas into real products across web and mobile
-              domains. Several of my projects have been deployed
-              on the App Store, Google Play, and GitHub, with
-              some reaching top 100 rankings in their
-              categories.
-            </p>
-
-            <div className="space-y-6">
-              <h3
-                className="text-[1.5rem]"
-                style={{ fontWeight: 600 }}
-              >
-                Education
-              </h3>
-              <div className="space-y-4">
-                <div className="border-l-2 border-neutral-300 pl-6">
-                  <p
-                    className="text-neutral-900"
-                    style={{ fontWeight: 500 }}
-                  >
-                    M.S. in Artificial Intelligence
-                  </p>
-                  <p className="text-neutral-600">
-                    Korea University, 2025 - Present
-                  </p>
-                </div>
-                <div className="border-l-2 border-neutral-300 pl-6">
-                  <p
-                    className="text-neutral-900"
-                    style={{ fontWeight: 500 }}
-                  >
-                    B.S. in Intelligent Mechatronics Engineering
-                  </p>
-                  <p className="text-neutral-600">
-                    Sejong University, 2019 - 2025
-                  </p>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{
-              duration: 0.7,
-              ease: [0.33, 1, 0.68, 1],
-            }}
-            viewport={{ once: false, margin: "-100px" }}
-            className="relative aspect-[4/5] rounded-2xl overflow-hidden"
-          >
-            <ImageWithFallback
-              src="https://images.unsplash.com/photo-1644337540803-2b2fb3cebf12?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwd29ya3NwYWNlJTIwZGVza3xlbnwxfHx8fDE3NzU3MTYxNzR8MA&ixlib=rb-4.1.0&q=80&w=1080"
-              alt="Workspace"
-              className="w-full h-full object-cover"
-            />
-          </motion.div>
-        </div>
-      </Section>
-
-      {/* Papers */}
-      <Section id="papers" delay={0.1}>
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: 0.7,
-            ease: [0.33, 1, 0.68, 1],
-          }}
-          viewport={{ once: false, margin: "-100px" }}
-          className="text-[clamp(2.5rem,5vw,4rem)] mb-16"
-          style={{ fontWeight: 600, lineHeight: 1.1 }}
-        >
-          Publications
-        </motion.h2>
-
-        {/* Currently no published papers */}
-        {/* <div className="space-y-12">
-          {[
-            {
-              title:
-                "Advanced Machine Learning Techniques for Data Analysis",
-              venue: "ICML 2025",
-              authors: "Your Name, Co-Author",
-              year: "2025",
-            },
-            {
-              title:
-                "Neural Networks and Deep Learning Applications",
-              venue: "NeurIPS 2024",
-              authors: "Your Name, Co-Author, Another Author",
-              year: "2024",
-            },
-            {
-              title:
-                "Computer Vision Systems in Real-World Scenarios",
-              venue: "CVPR 2024",
-              authors: "Your Name, Research Team",
-              year: "2024",
-            },
-          ].map((paper, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.6,
-                delay: index * 0.1,
-                ease: [0.33, 1, 0.68, 1],
-              }}
-              viewport={{ once: false, margin: "-50px" }}
-              className="group pb-12 border-b border-neutral-200 last:border-0"
-            >
-              <div className="flex items-start justify-between gap-8">
-                <div className="flex-1">
-                  <h3
-                    className="text-[1.5rem] mb-3 group-hover:text-neutral-600 transition-colors"
-                    style={{ fontWeight: 600 }}
-                  >
-                    {paper.title}
-                  </h3>
-                  <p className="text-neutral-600 mb-2">
-                    {paper.authors}
-                  </p>
-                  <p className="text-neutral-500">
-                    {paper.venue}
-                  </p>
-                </div>
-                <span
-                  className="text-neutral-400"
-                  style={{ fontWeight: 500 }}
-                >
-                  {paper.year}
-                </span>
-              </div>
-            </motion.div>
-          ))}
-        </div> */}
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: 0.7,
-            ease: [0.33, 1, 0.68, 1],
-          }}
-          viewport={{ once: false, margin: "-100px" }}
-          className="max-w-3xl"
-        >
-          <p className="text-[1.25rem] text-neutral-600 leading-relaxed">
-            Currently conducting research on Multimodal Large
-            Language Models (LLMs), exploring how AI systems can
-            understand and generate content across multiple
-            modalities such as text and images.
-          </p>
-        </motion.div>
-      </Section>
-
-      {/* Projects */}
-      <Section id="projects" delay={0.2}>
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: 0.7,
-            ease: [0.33, 1, 0.68, 1],
-          }}
-          viewport={{ once: false, margin: "-100px" }}
-          className="text-[clamp(2.5rem,5vw,4rem)] mb-16"
-          style={{ fontWeight: 600, lineHeight: 1.1 }}
-        >
-          Projects
-        </motion.h2>
-
-        <div className="grid md:grid-cols-2 gap-8">
-          {[
-            {
-              title: "Data Visualization Tool",
-              description:
-                "Interactive data visualization library for real-time analytics and reporting.",
-              image:
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAABBCAYAAACKLts9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAzLSURBVHgB7Z1Ndhs3EoALICeUk8UwFxg1F5lneRajnCD0CaycQPQi7420sX0CyyeIsxl5XhaWT2D5BKJPYHlj+c0sCJ3A8iLPVEZqpApASy2qSfZPgY1m+L0nimxRJLuJQv2gqiCAgbv/GkX4qy8ANkGIdaDfFjoOePxM4487pswxASqO9Wks4FhfgPrfr71jWLEiEASUBIWBBGFLCLGNg74LFXHCcwyxOLyI47crQVluaPxAoIzX4LiQYESPR907X+S2kHqgr7WCLxRo/Qbf5/nHFz0FK5aKjR2lIVC01r3cgoESPkDt8BScebRIvnT0t+p57wxWLARnGrORNbGFLBgn+5Foz3sSXSQUiJd4tw81sRKKxSJAHOFNBEygpXFjYuMWPB/MFAyyA6UQrzl8iAooWDBkMq6Nb59zHSbdvV31UmszSM8wYGEGl47151Qwg1BZ9y8v4azVss9Du/ks9wQjzGtEwIS7lk2Z3BTdTBWMjd3TR2hsPa9b34kFXNAkkIChsn8CDYhz/MkwMlH92yABDRyNP7EYahG/R4EZgidQKAap+xaUkDw2cDv17d45t5+/DrMUBbTOibUUmYJxd/f0KX4LexAAOBi8fIllo2rmudoEHjZB6i0aojjgFI7VIYafX3EKyXe7o01gnJnwfI/zCAU6n6d4XYAL1FrNEQw9RWP8fWe0JQIRCkJLXlPKCIQNIvTN6wMLEc3s+LoDEhINYu/j/vorqEhb8wY6fE0yOYigYcj0A3KK2mAc7XDARUBggM4NB+0RDt4j8BtIiAToA3yv0d2d022ogNbcIXH9HsIggmDRn+n2hmDQoKnZ0b5F4nBWgfwlDCK8g8VG1hIBOSobhRHW52HDLKDmed/mOMrsaCk+0e8rwaB1CghQkkXcGkEFNnZOf3ZBhLoEnky3d2SiQnG4P7PK8yTNLxgRNAQRT2gMZ3cHRywuP0MJKORKszV+zY+hfrotEK/vUVCjAII5u4BSHWDFTJJJwQhGqNqCoFg8FMSkrvzu3ZcoDEZ79vIKxyaeA7OWO1stlM4nMd2lfRCmtiD+/03xqJQRCu09l6sUJBwbO6O5Wuy335knKr3SFnlIInfSxMoDtgGLznLWpwhTKK4RP8/LLm3F3P6FLmWSeiKCcFF0I9sXYZkbE6giTzar9WH4FHOh/DMy+WY8JQJG8kakVlja0BI/QKjo/IJhQqIYfYLmEH1zLsmEfTLt78CLghU2pSdZ6LQ5YaDF9bUZd+wE0ha0agu84BsPMYb/3s1SSqIDHbtkNrzfxftddHK6tIAlkvykzAhMfvXvFu4aRYzaDQX6TVYaiagpVNtYtP4l0YrkQNPgT4+7ogmglBISARMkEHj7sMCHOEzuuIzWTZfMR1qMBEXleZGQo2rzcIGPYcYf1oEXBTXBsUg7D+6CtjZjSFB9fBHdh5I4J3vofgrl7IccVctBnxzxDK3BqjHqrIKczNESFFhoQdDMLVTKjeadkfJ+kU3WFglGS05oDTKlGE1cBTUidetT+rGWaEpD2EjgQsDmnCiLFxquLSxCbE9eO5xl+a5l8UkrAkbKZi/USdtcNJ4yxu6dc/EOZ/CHPgt30ri1gAiaD/lXpDUOkgMmOAH1gJPNX4GRMtkLJYhwPEAZsqob28aDBzaoPvzo3o4yrXCS3lGTTxJaftIipllEUf5O2VQFVMcD8McxhvGOk7R3ip7h+/W9JSNKE3A4SB5yvk+JmhbWcyyTvVCUKlHJO2Njxt7wj9ux1u/xRVlXit2X2qdSzMxKMKEhKc40JZe7igbg28KRBcG/BoPCcICf5VnW53ABgYEP8w0vCWmMh+CBJGO0JoLP0cqaOCRGCOpfEdWmg+EjHHCjvPUL3GaUXfjBUPO/o6nhZjqOP3viQn/voWah66t7RuE0cs16XVXGsYX7orPImjhk5+tr9R0IVL8wmpeFigLNquUu7PrLQZ7nfvi1d4ya9kdgBqM3rIVJZSH/BpjIKqcNrRgua+KQx9frB0FhslB31bupkS7GVBYyn/673zss8j8mwICrrcCIlpc98IMq8mTegRtMOe1UshYgTbgWB+EzCBE0sVxdxS0EZzQqLnf+nTXYYzWpmJsflIHdnBPhp6JkaTUjGC68OoQQQeH4B6WS3zrMZEppGJZdFSZty5m1qiVvmLQkETCiG1AHMrkAaY4ld4LVGnCVbNdPHrPOakK/gSpcVvz/FOg3RbBkZJXTcq+TVCVrAfJKMEhrhCwcvla4q85oF+1ANW1JmIMaakqoNijnO4sbKSEUisSRUrlRmCf6Ka0RQSC0Yj+runW1sKE8JuBCh+94O9TkgVu5UicveoNQhcMl2/0pqKtrIGsvK9EMbUopIZPHMpMISTiCNKuE2Hb3FPARQTUiYIK7HWlJONcwgne8iSxzb2p2LZlVtLNMYNqDfXWYoXdTBEzcWIEV9Qi/YOxl1ZA+VpmaeWY9hgtjDnAwUrx+z+UmRVAjtDr84T9/e0Mt7VmoaDoIzt5VKWHg7DieNwWDOsawpbtjGHyROVKUzjNxSM15PLPmJ1ehUiIgdP/eT3jx2igcsVzXIv72xhOlWBeaerbCpq9l/6vVYb50+WkVdHNxu0094MpOTpsenM533vUR3u7qMxxvnb3/SBXypvPkpXAF3we7m+pcFWkGjdUy28DI1YwmzGeIgAEc3I+gzAKnlNs4U7FNADdMjxgFn6n8M+/6iG1OASzoVD1/EzE+BrWD9LEhoXPivaRSa95Q4FbR7XWN4DPuI3JrU5cWo4+RU7MKvjT+s0UVq/nCCMZ4bNrYmIxWDwJywF0P7hgCI3j+r/OeuzOhWNv1xOKmFmaO6ER5yo7ZHG+t30LDcb1rrXlCGa1WQNTL734asUUnONOYk0xImpGYF8G61K5/3mYvqb02IuAkvhn9I43LeX5/+W325yWNyeUXaiFfQ8OxPsYlXrSUPUvbZrXbYkCVdTo2uUDDsqqR9vPjtMPTC1+aQsnWP+Ci6zZ7oVD1K5rFpX0/E1Aw+/XhuXioxVZZ19clKPaBgXbbvM5ULcRZJjzuxLPzxwTzpOIBKxhyyge1nQJJczxN6rhpmT/pMEhF7lTPm7aNSWXT7NSW8gfavBGf3wde1PXHg0P8QjkFI4FMpadmrkg5o76aE+hpK8TkRwnRBxbEA7x5Pv3PPP4F1bYsw3YDVjBydL1L6rjpi0rGCm2X23bb5F5xnryqn2GUjtzQLIvvPYTA9sEozLR6ECswXILfp0kra9Cy9uaKg821K0Sy8h18tqPjVrZmyBnBeaAZdtpCU6fDG2D4egyPs44zZi6ruqJR3EEjKxgBVI7lIcvkCLrIKg8zqge5y441+mOTA+iura2PgAHaxhmWBGdKNUMw5KXMXDQirSHYbPHFgesgz07mVA/iub1lPDeKvB1h5G0vhvhzG0wwYQt4UBx7m4eC3KyhrWZJFOVIZf3BR2OCBaA+UP3LfA6AF7PNMm2WqRnT+EXOZFNfLYK4kex7vXlDzEwxoMYE0KA9IHCmvp/nec7/GELY5BXyxiD593rjxzZDi2dqBLLHxYX+sa7KtyKQCVWkAYMOt6rSsEy+RYLkblzmBTST8gwk1wjtCYQMnkvR2XVtzazXhCrwS+VbJEjWGl8/FFLTlJvlK3GxMjjzo7P9uOi/kTaMA/Wh8pqETYPCtREEiusnW/jCBykcVigGUBLUGrRqrSAgipqExGX4E7FBCv693tggs6hsMzQSDmq+DAEMJheWHUAF7JpGUGZiKYe7CT4tIUWgq95uNjqACpDPYTROfc6rovfnitic7PfI1wihAEgtqwmVEJwplbTj5xpMEwVTChYF+gRfOvp77hSJrzoLPo8MKPpX52aXi0C6KM4QwkDBhb7PXb9L0Gue7Ec9uDTnq8ATtKUzzabkZPvIMjX9cvH1a2vIRpOWLW9eaq6Sqn3VaOeGZlhcpFtUyjJllAp7rn2oiNNyrygNflFJdLYphaCCoAgWAJ0j7QlS9fyoIIq7+pGgVk+cWkxMHnBL9n2uQTMPmmElzuJ1zUKp86V6BVrTiXL+K9Wm0PZoh1X2EaxCqsQ2Ar8oMp84vqONndEWDjv2Cj/vgpHGFvzLB7jaMQDGRlxu9qG4/EFotirVLKyNr841mvizAptarSAQKNftfIyhXF+anlmTO039EphZqGCkqTCzOkGgAiNTJD/82PAOEiHiTBQacBEwQJocb59xf1dpwbAm6BRfydb2396mbEqHxvFX+gmn1s4tGJNYNY4CEst1EHEvaepFbSbdnmbKbJWMArHsEYyQcAJCVX+FM2fNQAUTPPjlzz55lRaMFWFDJuGdc7Ol9KbrYB4BNatLam+SlkbC+EqnVEb7pbPYtpoh8wcs7Rq9ZWGFMAAAAABJRU5ErkJggg==",
-              tech: ["D3.js", "TypeScript", "Node.js"],
-              type: "Team",
-              link: "https://github.com/yourusername/data-viz-tool",
-            },
-            {
-              title: "WallGo",
-              description: "Mobile Strategy Board Game",
-              image:
-                "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/79/9b/ba/799bba5e-f1d3-4514-2268-1d9c75688ead/Placeholder.mill/400x400bb-75.webp",
-              tech: ["Flutter", "Reinforcement learning"],
-              type: "Solo",
-              link: "https://apps.apple.com/kr/app/wall%EB%B0%94%EB%91%91/id6747090524",
-            },
-            {
-              title: "Mote",
-              description:
-                "AI-based voice meeting transcription app",
-              image:
-                "https://drive.google.com/file/d/1MUO-nm35zmELc1TwNyVjmgfng_3FxrdR/view?usp=sharing",
-              tech: ["Pytorch", "Swift", "Flask", "STT"],
-              type: "Team",
-              link: "https://github.com/MettingApp",
-            },
-            {
-              title: "Time Auction",
-              description:
-                "Recreated two games inspired by Devils’ Plan Season 2, a popular reality survival show.",
-              image:
-                "https://time-auction-client.onrender.com/img/main_title.png",
-              tech: ["React"],
-              type: "Solo",
-              link: "https://time-auction-client.onrender.com",
-            },
-          ].map((project, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.6,
-                delay: index * 0.1,
-                ease: [0.33, 1, 0.68, 1],
-              }}
-              viewport={{ once: false, margin: "-50px" }}
-              className="group"
-            >
-              <a
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block relative aspect-[16/10] rounded-2xl overflow-hidden mb-6 cursor-pointer"
-              >
-                <ImageWithFallback
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div
-                  className="absolute top-4 right-4 px-4 py-1.5 bg-white/90 backdrop-blur-sm rounded-full text-sm"
-                  style={{ fontWeight: 500 }}
-                >
-                  {project.type}
-                </div>
-              </a>
-              <h3
-                className="text-[1.75rem] mb-3"
-                style={{ fontWeight: 600 }}
-              >
-                {project.title}
-              </h3>
-              <p className="text-neutral-600 mb-4 leading-relaxed">
-                {project.description}
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {project.tech.map((tech, i) => (
-                  <span
-                    key={i}
-                    className="px-4 py-2 bg-neutral-100 rounded-full text-sm text-neutral-700"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
+              {i === 10 ? (
+                <i className="stone black" />
+              ) : i === 38 ? (
+                <i className="stone blue" />
+              ) : i === 31 ? (
+                <i className="possible" />
+              ) : null}
+            </span>
           ))}
         </div>
-      </Section>
-
-      {/* Awards */}
-      <Section id="awards" delay={0.3}>
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: 0.7,
-            ease: [0.33, 1, 0.68, 1],
-          }}
-          viewport={{ once: false, margin: "-100px" }}
-          className="text-[clamp(2.5rem,5vw,4rem)] mb-16"
-          style={{ fontWeight: 600, lineHeight: 1.1 }}
-        >
-          Awards & Recognition
-        </motion.h2>
-
-        <div className="grid md:grid-cols-2 gap-x-16 gap-y-12">
-          {[
-            {
-              title: "Grand Prize",
-              org: "Academic Competitions, Department of IME",
-              year: "2024",
-            },
-            {
-              title: "Grand Prize",
-              org: "16th Annual Creative Design Competition, Sejong Univ",
-              year: "2023",
-            },
-            {
-              title: "Selected",
-              org: "Hanium ICT Mentoring",
-              year: "2023",
-            },
-            {
-              title: "4th Prize",
-              org: "SW Coding Contest, Sejong University",
-              year: "2019",
-            },
-          ].map((award, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.6,
-                delay: index * 0.08,
-                ease: [0.33, 1, 0.68, 1],
-              }}
-              viewport={{ once: false, margin: "-50px" }}
-            >
-              <div className="flex items-start justify-between mb-2">
-                <h3
-                  className="text-[1.25rem] flex-1"
-                  style={{ fontWeight: 600 }}
-                >
-                  {award.title}
-                </h3>
-                <span
-                  className="text-neutral-400 ml-4"
-                  style={{ fontWeight: 500 }}
-                >
-                  {award.year}
-                </span>
-              </div>
-              <p className="text-neutral-600">{award.org}</p>
-            </motion.div>
-          ))}
+        <div className="art-bottom">
+          <span>
+            7 × 7<br />
+            <b>한 수 너머의 전략</b>
+          </span>
+          <span className="art-pill">
+            iOS + Android <ArrowUpRight size={13} />
+          </span>
         </div>
-      </Section>
-
-      {/* Blog */}
-      <Section id="blog" delay={0.4}>
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: 0.7,
-            ease: [0.33, 1, 0.68, 1],
-          }}
-          viewport={{ once: false, margin: "-100px" }}
-          className="text-[clamp(2.5rem,5vw,4rem)] mb-16"
-          style={{ fontWeight: 600, lineHeight: 1.1 }}
-        >
-          Blog
-        </motion.h2>
-
-        {isLoadingBlog ? (
-          <div className="text-center text-neutral-400">
-            Loading blog posts...
+      </div>
+    );
+  if (id === "mote")
+    return (
+      <div
+        className="project-art audio-art"
+        aria-label="Mote의 음성 입력, 화자 분리, 전사 과정을 설명하는 도식"
+      >
+        <span className="art-caption">MOTE / VOICE → INFORMATION</span>
+        <div className="audio-window">
+          <div className="window-heading">
+            <span className="record-dot" />
+            회의를 기록하는 중<span>한국어</span>
           </div>
-        ) : (
-          <div className="space-y-8">
-            {blogPosts.map((post, index) => (
-              <motion.a
-                key={index}
-                href={post.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{
-                  duration: 0.6,
-                  delay: index * 0.1,
-                  ease: [0.33, 1, 0.68, 1],
+          <div className="waveform" aria-hidden="true">
+            {Array.from({ length: 48 }, (_, i) => (
+              <i
+                key={i}
+                style={{
+                  height: `${10 + Math.abs(Math.sin(i * 1.7) * Math.cos(i * 0.31)) * 65}px`,
                 }}
-                viewport={{ once: false, margin: "-50px" }}
-                className="block group pb-8 border-b border-neutral-200 last:border-0"
-              >
-                <div className="flex items-start justify-between gap-8">
-                  <div className="flex-1">
-                    <h3
-                      className="text-[1.75rem] mb-3 group-hover:text-neutral-600 transition-colors"
-                      style={{ fontWeight: 600 }}
-                    >
-                      {post.title}
-                    </h3>
-                    <p className="text-neutral-600 mb-2">
-                      {post.excerpt}
-                    </p>
-                    <p className="text-neutral-400 text-sm">
-                      {post.date}
-                    </p>
-                  </div>
-                  <ExternalLink className="w-6 h-6 text-neutral-400 group-hover:text-neutral-900 transition-colors flex-shrink-0" />
-                </div>
-              </motion.a>
+              />
             ))}
           </div>
-        )}
-      </Section>
-
-      {/* Contact */}
-      <Section id="contact" delay={0.5}>
-        <div className="max-w-3xl mx-auto text-center">
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.7,
-              ease: [0.33, 1, 0.68, 1],
-            }}
-            viewport={{ once: false, margin: "-100px" }}
-            className="text-[clamp(2.5rem,5vw,4rem)] mb-8"
-            style={{ fontWeight: 600, lineHeight: 1.1 }}
-          >
-            Let's Connect
-          </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.7,
-              delay: 0.1,
-              ease: [0.33, 1, 0.68, 1],
-            }}
-            viewport={{ once: false, margin: "-100px" }}
-            className="text-[1.25rem] text-neutral-600 mb-12 leading-relaxed"
-          >
-            I'm always interested in hearing about new
-            opportunities, collaborations, or just having a
-            conversation about technology.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.7,
-              delay: 0.2,
-              ease: [0.33, 1, 0.68, 1],
-            }}
-            viewport={{ once: false, margin: "-100px" }}
-            className="flex justify-center gap-8"
-          >
-            <a
-              href="mailto:gthahn@korea.ac.kr"
-              className="flex items-center gap-3 px-8 py-4 bg-neutral-900 text-white rounded-full hover:bg-neutral-700 transition-colors"
-              style={{ fontWeight: 500 }}
-            >
-              <Mail className="w-5 h-5" />
-              Email
-            </a>
-            <a
-              href="https://github.com/HahnGyuTak"
-              className="flex items-center gap-3 px-8 py-4 border-2 border-neutral-900 text-neutral-900 rounded-full hover:bg-neutral-900 hover:text-white transition-colors"
-              style={{ fontWeight: 500 }}
-            >
-              <Github className="w-5 h-5" />
-              GitHub
-            </a>
-            <a
-              href="https://www.linkedin.com/in/gyutakhahn/"
-              className="flex items-center gap-3 px-8 py-4 border-2 border-neutral-900 text-neutral-900 rounded-full hover:bg-neutral-900 hover:text-white transition-colors"
-              style={{ fontWeight: 500 }}
-            >
-              <Linkedin className="w-5 h-5" />
-              LinkedIn
-            </a>
-          </motion.div>
+          <div className="transcript">
+            <span>화자 01</span>
+            <div>
+              <i />
+              <i />
+            </div>
+          </div>
+          <div className="transcript second">
+            <span>화자 02</span>
+            <div>
+              <i />
+              <i />
+            </div>
+          </div>
+          <div className="audio-chips">
+            <span>Whisper</span>
+            <ArrowRight size={13} />
+            <span>화자 분리</span>
+            <ArrowRight size={13} />
+            <span>요약</span>
+          </div>
         </div>
-      </Section>
-
-      {/* Footer */}
-      <footer className="py-12 px-6 border-t border-neutral-200">
-        <div className="max-w-7xl mx-auto text-center text-neutral-500 text-sm">
-          © 2026 Your Name. All rights reserved.
+        <div className="art-bottom">
+          <span>
+            MODEL SIZE
+            <br />
+            <b>
+              3.2 GB <span className="muted-arrow">→</span> 820 MB
+            </b>
+          </span>
+          <span className="art-note">양자화 적용</span>
         </div>
-      </footer>
+      </div>
+    );
+  return (
+    <div
+      className="project-art clip-art"
+      aria-label="PromptStyler 스타일 토큰 학습과 도메인 일반화 구조도"
+    >
+      <span className="art-caption">PROMPTSTYLER / STYLE GENERALIZATION</span>
+      <div className="style-stack" aria-hidden="true">
+        <div className="style-sheet sheet-a">
+          A<span>PHOTO</span>
+        </div>
+        <div className="style-sheet sheet-b">
+          A<span>SKETCH</span>
+        </div>
+        <div className="style-sheet sheet-c">
+          A<span>STYLE</span>
+        </div>
+      </div>
+      <div className="clip-flow">
+        <span>Learnable style</span>
+        <span className="flow-line" />
+        <b>CLIP</b>
+        <span className="flow-line" />
+        <span>Shared meaning</span>
+      </div>
+      <div className="art-bottom">
+        <span>
+          LEARN THE STYLE.
+          <br />
+          <b>Preserve the meaning.</b>
+        </span>
+        <span className="art-pill">
+          Paper → Code <ArrowUpRight size={13} />
+        </span>
+      </div>
     </div>
   );
 }
 
-function Section({
-  id,
-  children,
-  delay,
+function ProjectDialog({
+  project,
+  onClose,
 }: {
-  id: string;
-  children: React.ReactNode;
-  delay: number;
+  project: Project | null;
+  onClose: () => void;
 }) {
+  const ref = useRef<HTMLDialogElement>(null);
+  useEffect(() => {
+    const dialog = ref.current;
+    if (!project || !dialog) return;
+    const focused = document.activeElement as HTMLElement | null;
+    dialog.showModal();
+    const prior = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      dialog.close();
+      document.body.style.overflow = prior;
+      focused?.focus();
+    };
+  }, [project]);
+  if (!project) return null;
   return (
-    <section
-      id={id}
-      className="min-h-screen flex items-center py-32 px-6 relative bg-white"
+    <dialog
+      ref={ref}
+      className="project-dialog"
+      aria-labelledby="dialog-title"
+      onCancel={onClose}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
     >
-      <div className="max-w-7xl mx-auto w-full">{children}</div>
-    </section>
+      <div className="dialog-inner">
+        <div className="dialog-top">
+          <span className="eyebrow">
+            {project.category === "research" ? "RESEARCH" : "PROJECT"} /{" "}
+            {project.period}
+          </span>
+          <button
+            className="icon-button"
+            onClick={onClose}
+            aria-label="프로젝트 상세 닫기"
+          >
+            <X size={22} />
+          </button>
+        </div>
+        <h2 id="dialog-title">{project.name}</h2>
+        <p className="dialog-subtitle">{project.subtitle}</p>
+        <div className="dialog-role">
+          <span>MY ROLE</span>
+          <p>{project.role}</p>
+        </div>
+        <div className="detail-block">
+          <h3>해결하려던 문제</h3>
+          <p>{project.problem}</p>
+        </div>
+        <div className="detail-block">
+          <h3>직접 한 일</h3>
+          <ol>
+            {project.contributions.map((s, i) => (
+              <li key={i}>
+                <span>{String(i + 1).padStart(2, "0")}</span>
+                <p>{s}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <div className="detail-result">
+          <span>OUTCOME</span>
+          <p>{project.outcome}</p>
+        </div>
+        <div className="tag-list">
+          {project.tags.map((t) => (
+            <span key={t}>{t}</span>
+          ))}
+        </div>
+        {project.links.length > 0 && (
+          <div className="dialog-links">
+            {project.links.map((l) => (
+              <a key={l.url} href={l.url} {...external}>
+                {l.label}
+                <ArrowUpRight size={16} />
+              </a>
+            ))}
+          </div>
+        )}
+        {project.id === "mote" && (
+          <figure className="project-screens">
+            <div>
+              <img
+                src="./images/mote-recording.jpg"
+                alt="Mote 앱의 회의 녹음 화면"
+                loading="lazy"
+              />
+              <img
+                src="./images/mote-summary.jpg"
+                alt="Mote 앱의 AI 회의 요약 결과 화면"
+                loading="lazy"
+              />
+            </div>
+            <figcaption>실제 앱 화면 · 녹음 및 회의 요약</figcaption>
+          </figure>
+        )}
+        {project.id === "wallbaduk" && (
+          <figure className="project-screens">
+            <div>
+              <img
+                src="./images/wallbaduk-game.png"
+                alt="벽바둑 개발 버전의 7×7 게임판과 2인 대결 화면"
+                loading="lazy"
+              />
+            </div>
+            <figcaption>개발 버전의 실제 대전 화면</figcaption>
+          </figure>
+        )}
+      </div>
+    </dialog>
+  );
+}
+
+export default function App() {
+  const [active, setActive] = useState("about");
+  const [filter, setFilter] = useState("all");
+  const [selected, setSelected] = useState<Project | null>(null);
+  const [copied, setCopied] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
+  const [indicator, setIndicator] = useState({ left: 0, width: 0 });
+  const copyTimer = useRef<ReturnType<typeof setTimeout>>();
+  useEffect(() => {
+    const update = () => {
+      let current = "about";
+      for (const section of sections) {
+        const el = document.getElementById(section.id);
+        if (el && el.getBoundingClientRect().top <= window.innerHeight * 0.38)
+          current = section.id;
+      }
+      if (
+        window.scrollY + window.innerHeight >=
+        document.documentElement.scrollHeight - 8
+      )
+        current = "contact";
+      setActive(current);
+    };
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+  useEffect(() => {
+    const update = () => {
+      const a = navRef.current?.querySelector<HTMLAnchorElement>(
+        `[href="#${active}"]`,
+      );
+      if (a) setIndicator({ left: a.offsetLeft, width: a.offsetWidth });
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, [active]);
+  useEffect(() => {
+    const sync = () => {
+      const id = new URLSearchParams(location.search).get("project");
+      setSelected(projects.find((p) => p.id === id) || null);
+    };
+    sync();
+    window.addEventListener("popstate", sync);
+    return () => {
+      window.removeEventListener("popstate", sync);
+      clearTimeout(copyTimer.current);
+    };
+  }, []);
+  const openProject = (p: Project) => {
+    const u = new URL(location.href);
+    u.searchParams.set("project", p.id);
+    history.replaceState(null, "", u);
+    setSelected(p);
+  };
+  const closeProject = () => {
+    const u = new URL(location.href);
+    u.searchParams.delete("project");
+    history.replaceState(null, "", u);
+    setSelected(null);
+  };
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(data.person.email);
+      setCopied(true);
+      clearTimeout(copyTimer.current);
+      copyTimer.current = setTimeout(() => setCopied(false), 2500);
+    } catch {
+      location.href = `mailto:${data.person.email}`;
+    }
+  };
+  const sorted = projectOrder
+    .map((id) => projects.find((p) => p.id === id)!)
+    .filter(Boolean);
+  const visible = sorted.filter(
+    (p) => filter === "all" || p.category === filter,
+  );
+  return (
+    <>
+      <a className="skip-link" href="#about">
+        본문으로 건너뛰기
+      </a>
+      <header className="hero" id="top">
+        <div className="topbar">
+          <a className="wordmark" href="#top" aria-label="한규탁 홈">
+            GH<span>.</span>
+          </a>
+          <span className="topbar-title">
+            GYUTAK HAHN
+            <br />
+            <span>AI RESEARCH & ENGINEERING</span>
+          </span>
+          <a className="topbar-link" href="./resume.html" {...external}>
+            이력서 <ArrowUpRight size={16} />
+          </a>
+          <a
+            className="icon-button github-top"
+            href={data.person.github}
+            {...external}
+            aria-label="GitHub 프로필"
+          >
+            <Github size={21} />
+          </a>
+        </div>
+        <div className="hero-content">
+          <p className="eyebrow">
+            <span className="live-dot" /> AI RESEARCHER & DEVELOPER
+          </p>
+          <h1>
+            Learn. Connect.
+            <br />
+            <span>Build.</span>
+          </h1>
+          <div className="hero-bottom">
+            <div>
+              <p className="hero-korean">
+                낯선 기술을 배우고, 경험을 연결해,
+                <br />쓸 수 있는 결과물로 만듭니다.
+              </p>
+              <p className="hero-description">
+                이미지·텍스트·음성 AI부터 앱 개발과 서비스 운영까지.
+                <br className="desktop-break" /> 기술과 사용자 사이를 연결하는
+                개발자, 한규탁입니다.
+              </p>
+            </div>
+            <a
+              className="round-link"
+              href="#work"
+              aria-label="대표 프로젝트 살펴보기"
+            >
+              <ArrowDown size={26} />
+              <span>
+                EXPLORE
+                <br />
+                MY WORK
+              </span>
+            </a>
+          </div>
+        </div>
+        <div className="hero-meta">
+          <span>BASED IN SEOUL, KR</span>
+          <span>RESEARCH ↔ PRODUCT</span>
+          <span>
+            SCROLL TO EXPLORE <ArrowDown size={12} />
+          </span>
+        </div>
+        <div className="hero-orbit" aria-hidden="true">
+          <i />
+          <i />
+          <i />
+          <span className="orbit-label l1">VISION</span>
+          <span className="orbit-label l2">LANGUAGE</span>
+          <span className="orbit-label l3">AUDIO</span>
+        </div>
+      </header>
+      <nav className="sticky-nav" aria-label="주요 메뉴">
+        <div ref={navRef} className="nav-inner">
+          {sections.map((s, i) => (
+            <a
+              key={s.id}
+              href={`#${s.id}`}
+              aria-current={active === s.id ? "location" : undefined}
+            >
+              <small>0{i + 1}</small>
+              {s.label}
+            </a>
+          ))}
+          <span
+            className="nav-indicator"
+            style={{ left: indicator.left, width: indicator.width }}
+          />
+        </div>
+      </nav>
+      <main>
+        <section id="about" className="section about-section">
+          <div className="section-label">
+            <span>01 / ABOUT</span>
+            <span>서로 다른 경험, 하나의 방향</span>
+          </div>
+          <div className="about-grid">
+            <h2>
+              모델을 이해하고,
+              <br />
+              제품으로 연결합니다<span className="blue">.</span>
+            </h2>
+            <div className="about-copy">
+              {data.about.paragraphs.map((p) => (
+                <p key={p}>{p}</p>
+              ))}
+              <a className="text-link" href="#journey">
+                지나온 과정 보기 <ArrowDown size={15} />
+              </a>
+            </div>
+          </div>
+          <div className="principles">
+            {data.about.principles.map((p, i) => (
+              <div key={p.label}>
+                <span className="principle-number">0{i + 1}</span>
+                <h3>
+                  {p.label}
+                  <span>↗</span>
+                </h3>
+                <p>{p.description}</p>
+              </div>
+            ))}
+          </div>
+          <div className="expertise-line">
+            <span>WORKING ACROSS</span>
+            <p>
+              Computer Vision <i>·</i> Language <i>·</i> Audio <i>·</i> Product
+              Engineering
+            </p>
+          </div>
+        </section>
+        <section id="work" className="section work-section">
+          <div className="section-label">
+            <span>02 / SELECTED WORK</span>
+            <span>연구에서 실제 사용까지</span>
+          </div>
+          <div className="section-heading">
+            <h2>
+              생각을 코드로.
+              <br />
+              코드를 경험으로.
+            </h2>
+            <p>
+              서로 다른 문제에 필요한 기술을 익히고,
+              <br />
+              직접 구현하며 완성한 세 가지 경험입니다.
+            </p>
+          </div>
+          <div className="featured-list">
+            {data.featuredIds.map((id, i) => {
+              const p = projects.find((v) => v.id === id)!;
+              return (
+                <article className={`featured-project feature-${id}`} key={id}>
+                  <button
+                    className="visual-button"
+                    onClick={() => openProject(p)}
+                    aria-label={`${p.name} 상세 보기`}
+                  >
+                    <ProjectVisual id={id} />
+                    <span className="visual-open">
+                      <Plus size={22} />
+                    </span>
+                  </button>
+                  <div className="feature-copy">
+                    <span className="eyebrow">
+                      0{i + 1} / {p.kicker.split(" · ")[0]}
+                    </span>
+                    <h3>
+                      {p.name}
+                      <span>{p.subtitle}</span>
+                    </h3>
+                    <p>{p.summary}</p>
+                    <div className="feature-result">
+                      {id === "promptstyler"
+                        ? "논문 재현 · 학습 · 평가 · 시각화"
+                        : id === "mote"
+                          ? "모델 학습 → 경량화 → API·앱 연동"
+                          : "3주 내 양대 마켓 출시 · PPO는 베타 적용"}
+                    </div>
+                    <div className="tag-list">
+                      {p.tags.slice(0, 3).map((t) => (
+                        <span key={t}>{t}</span>
+                      ))}
+                    </div>
+                    <button
+                      className="text-link"
+                      onClick={() => openProject(p)}
+                    >
+                      내가 해결한 문제와 기여 <ArrowUpRight size={17} />
+                    </button>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+        <section id="archive" className="archive-section">
+          <div className="section">
+            <div className="section-label">
+              <span>03 / EXPERIENCE ARCHIVE</span>
+              <span>각 경험을 열어 기여와 결과를 확인하세요</span>
+            </div>
+            <div className="archive-heading">
+              <h2>
+                경험의 넓이,
+                <br />
+                문제 해결의 깊이.
+              </h2>
+              <div className="filters" role="group" aria-label="경험 분류">
+                {data.filters.map((f) => (
+                  <button
+                    key={f.id}
+                    aria-pressed={filter === f.id}
+                    className={filter === f.id ? "selected" : ""}
+                    onClick={() => setFilter(f.id)}
+                  >
+                    {f.label}
+                    <span>
+                      {f.id === "all"
+                        ? projects.length
+                        : projects.filter((p) => p.category === f.id).length}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+            <p className="sr-only" aria-live="polite">
+              {visible.length}개 경험 표시 중
+            </p>
+            <div className="archive-table">
+              <div className="archive-table-head" aria-hidden="true">
+                <span>PERIOD</span>
+                <span>PROJECT / RESEARCH</span>
+                <span>FOCUS</span>
+                <span />
+              </div>
+              {visible.map((p) => (
+                <button
+                  className="archive-row"
+                  key={p.id}
+                  onClick={() => openProject(p)}
+                >
+                  <span className="archive-date">{p.period}</span>
+                  <span className="archive-name">
+                    <b>{p.name}</b>
+                    <span>{p.subtitle}</span>
+                  </span>
+                  <span className="archive-tags">
+                    {p.tags.slice(0, 2).map((t) => (
+                      <span key={t}>{t}</span>
+                    ))}
+                  </span>
+                  <span className="archive-arrow">
+                    <ArrowUpRight size={21} />
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+        <section id="journey" className="section journey-section">
+          <div className="section-label">
+            <span>04 / JOURNEY</span>
+            <span>배움과 실험이 쌓인 시간</span>
+          </div>
+          <h2>
+            한 걸음씩,
+            <br />
+            새로운 영역으로.
+          </h2>
+          <div className="journey-grid">
+            <div className="journey-column">
+              <h3 className="column-title">RESEARCH & EDUCATION</h3>
+              <div className="timeline">
+                {data.researchHistory.map((r, i) => (
+                  <div className="timeline-item" key={r.organization}>
+                    <span className="timeline-dot" />
+                    <time>{i === 0 ? "2025.09 시작" : r.period}</time>
+                    <h4>{r.organization}</h4>
+                    <span className="timeline-role">{r.role}</span>
+                    <p>{r.topic}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="education-list">
+                {data.education.map((e) => (
+                  <div key={e.school}>
+                    <span>{e.period}</span>
+                    <h4>{e.school}</h4>
+                    <p>{e.program}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="journey-column">
+              <h3 className="column-title">PUBLICATION</h3>
+              <a
+                className="publication"
+                href={data.publication.url}
+                {...external}
+              >
+                <span className="publication-venue">
+                  ICROS 2023 <ArrowUpRight size={20} />
+                </span>
+                <h4>{data.publication.title}</h4>
+                <p>{data.publication.authors}</p>
+                <span>제38회 제어로봇시스템학회 학술대회 · pp. 924–925</span>
+              </a>
+              <h3 className="column-title awards-heading">RECOGNITION</h3>
+              <div className="awards-list">
+                {data.awards.map((a) => (
+                  <div key={a.year}>
+                    <span>{a.year}</span>
+                    <div>
+                      <h4>{a.title}</h4>
+                      <p>{a.organization}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <a className="text-link" href="./resume.html" {...external}>
+                전체 이력 보기 <FileText size={16} />
+              </a>
+            </div>
+          </div>
+          <div className="skills-list">
+            {data.skills.map((s) => (
+              <div key={s.label}>
+                <h3>{s.label}</h3>
+                <p>{s.items.join(" · ")}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+        <section id="contact" className="contact-section">
+          <div className="section">
+            <div className="section-label">
+              <span>05 / WHAT'S NEXT?</span>
+              <span>함께 풀어갈 다음 문제</span>
+            </div>
+            <h2>
+              Let’s connect<span>.</span>
+            </h2>
+            <p>
+              새로운 문제를 함께 풀어보고 싶습니다.
+              <br />
+              AI 연구와 개발, 기술을 제품으로 연결하는 기회를 기다립니다.
+            </p>
+            <div className="email-line">
+              <a href={`mailto:${data.person.email}`}>
+                {data.person.email}
+                <ArrowUpRight />
+              </a>
+              <button
+                className="icon-button"
+                onClick={copyEmail}
+                aria-label="이메일 주소 복사"
+              >
+                {copied ? <Check size={20} /> : <Copy size={20} />}
+              </button>
+              <span className="copy-status" role="status">
+                {copied ? "복사했습니다" : ""}
+              </span>
+            </div>
+            <div className="social-links">
+              <a href={data.person.github} {...external}>
+                <Github size={17} />
+                GitHub
+                <ArrowUpRight size={15} />
+              </a>
+              <a href={data.person.blog} {...external}>
+                기술 블로그
+                <ArrowUpRight size={15} />
+              </a>
+              <a href={data.person.linkedin} {...external}>
+                LinkedIn
+                <ArrowUpRight size={15} />
+              </a>
+              <a href="./resume.html" {...external}>
+                이력서
+                <ArrowUpRight size={15} />
+              </a>
+            </div>
+            <footer>
+              <a className="wordmark" href="#top" aria-label="맨 위로">
+                GH<span>.</span>
+              </a>
+              <span>© {new Date().getFullYear()} GYUTAK HAHN</span>
+              <a href="#top">BACK TO TOP ↑</a>
+            </footer>
+          </div>
+        </section>
+      </main>
+      <ProjectDialog project={selected} onClose={closeProject} />
+    </>
   );
 }
