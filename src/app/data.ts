@@ -22,7 +22,6 @@ export const projectOrder = [
   "wallbaduk",
   "souf",
   "mote",
-  "promptstyler",
   "writenow",
   "rested",
   "diff-svc",

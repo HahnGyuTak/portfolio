@@ -13,35 +13,6 @@
   },
   "projects": [
     {
-      "id": "promptstyler",
-      "name": "PromptStyler",
-      "category": "research",
-      "kicker": "VISION–LANGUAGE · PAPER REPRODUCTION",
-      "subtitle": "CLIP 기반 도메인 일반화 논문 재현",
-      "period": "2024.07–08",
-      "role": "논문 재현 · 학습·평가 구현 · 실험 도구 확장",
-      "organization": "고려대학교 UTL 연구실",
-      "summary": "CLIP의 스타일 프롬프트 학습부터 분류기 평가, 생성 이미지 시각화까지 재현하고 확장했습니다.",
-      "problem": "스타일 변화에도 클래스 의미를 유지하는 표현을 학습하고, 그 표현이 실제 이미지 분류에 어떻게 쓰이는지 확인하고자 했습니다.",
-      "contributions": [
-        "CLIP 파라미터를 고정하고 스타일 토큰만 학습하도록 구성했습니다. 스타일 다양성 손실과 콘텐츠 일관성 손실을 함께 구현했습니다.",
-        "학습한 텍스트 특징으로 ArcFace 분류기를 학습하고 PACS·VLCS·OfficeHome 이미지 특징으로 평가하는 코드를 작성했습니다.",
-        "OpenCLIP ViT-H 학습 경로를 추가하고, 스타일·콘텐츠 임베딩을 Stable Diffusion으로 시각화했습니다. 생성 이미지의 클래스 일치 여부와 오분류 목록을 CSV로 저장했습니다."
-      ],
-      "outcome": "논문 재현 코드와 학습·평가·시각화 도구를 공개했습니다.",
-      "tags": ["PyTorch", "CLIP", "Domain Generalization", "Stable Diffusion"],
-      "links": [
-        {
-          "label": "구현 코드",
-          "url": "https://github.com/HahnGyuTak/PromptStyler"
-        },
-        {
-          "label": "원논문 프로젝트",
-          "url": "https://promptstyler.github.io/"
-        }
-      ]
-    },
-    {
       "id": "mote",
       "name": "Mote",
       "category": "product",
