@@ -222,6 +222,7 @@ svg {
 }
 .filters {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 28px;
   margin: -21px auto 36px;
@@ -300,6 +301,19 @@ svg {
   line-height: 1.75;
   margin-top: 10px;
   word-break: keep-all;
+}
+.project-status {
+  display: inline-flex;
+  align-self: flex-start;
+  max-width: 100%;
+  margin-top: 12px;
+  padding: 5px 8px;
+  border: 1px solid rgba(102, 177, 241, 0.35);
+  background: rgba(102, 177, 241, 0.1);
+  color: #27658f;
+  font-size: 10px;
+  line-height: 1.5;
+  letter-spacing: 0.025rem;
 }
 .card-summary {
   color: #555;
@@ -448,6 +462,23 @@ svg {
 .publication {
   display: block;
 }
+.publication + .publication {
+  margin-top: 26px;
+  padding-top: 26px;
+  border-top: 1px solid #ddd;
+}
+.publication-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  color: #777;
+  font-size: 11px;
+  letter-spacing: 0.1rem;
+}
+.publication-meta .project-status {
+  margin-top: 0;
+}
 .publication > span {
   display: flex;
   align-items: center;
@@ -463,7 +494,7 @@ svg {
   margin: 16px 0 12px;
   word-break: keep-all;
 }
-.publication:hover h4 {
+a.publication:hover h4 {
   color: #398ecf;
 }
 .publication p {
@@ -629,6 +660,9 @@ footer {
   color: #777;
   line-height: 1.7;
   margin: 12px 0 24px;
+}
+.dialog-status {
+  margin: -10px 0 24px;
 }
 .dialog-role {
   display: flex;
@@ -859,7 +893,7 @@ footer {
     font-size: 13px;
   }
   .filters {
-    gap: 24px;
+    gap: 16px;
   }
   .experience-grid {
     grid-template-columns: 1fr;

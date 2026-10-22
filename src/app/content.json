@@ -13,9 +13,34 @@
   },
   "projects": [
     {
+      "id": "stable",
+      "name": "STABLE",
+      "category": "research",
+      "kicker": "MULTIMODAL LLM · ATTRIBUTE BINDING",
+      "subtitle": "시각적 근거를 활용한 MLLM 속성 결합 개선",
+      "period": "2026.09.24 제출",
+      "status": "ICASSP 2027 · Under Review",
+      "role": "제1저자 · 아이디어·방법 설계 · 코드 구현·실험 · 논문 작성",
+      "organization": "고려대학교 PRML 연구실",
+      "summary": "모델 내부의 시각적 근거로 속성과 객체의 연결을 판단하고, 가중치 재학습 없이 캡션당 한 번의 순전파에서 추론을 보정하는 방법을 제안했습니다.",
+      "problem": "MLLM이 사물과 속성을 각각 인식해도 둘의 관계를 잘못 연결했습니다. 정답을 지지하는 내부 시각적 근거가 최종 판단에 반영되지 않는 원인을 분석했습니다.",
+      "contributions": [
+        "레이어별 이미지 어텐션과 은닉 표현을 분석해 시각적 근거가 나타나는 레이어와 결합 관계를 구분하는 레이어를 식별했습니다. 속성·객체의 공통 어텐션을 제거하고 양방향 상대 대응 점수(mcBC)로 시각적 연결을 추정했습니다.",
+        "구문과 시각적 연결의 일치 여부를 의사 라벨로 사용해 정답 라벨 없이 보정 방향을 추정했습니다. 모든 결합이 일치하는 캡션에만 후속 레이어의 표현을 보정해, 모델 가중치 갱신이나 보조 비전·추론 모델 없이 캡션당 한 번의 순전파로 동작하도록 구성했습니다.",
+        "Qwen2-VL-7B와 LLaVA-1.5-7B에 적용하고 ARO·ColorSwap·SugarCrepe·Winoground 평가 및 구성 요소 제거 실험을 수행했습니다. 보정용 데이터와 평가 데이터를 분리하고 모델별 어댑터와 벤치마크별 평가 절차를 구현했습니다."
+      ],
+      "outcome": "논문 보고 결과, LLaVA-1.5-7B의 ColorSwap Group 정확도는 VQAScore 대비 67.33% → 73.00%(+5.67%p)였습니다. LLaVA-1.5·ARO 100샘플·TITAN RTX 조건에서 샘플당 0.60초로 CRG 대비 4.1배, COCO-Tree 대비 25.6배 빨랐습니다. ICASSP 2027에 제출했으며 현재 Under Review입니다.",
+      "tags": [
+        "Multimodal LLM",
+        "Activation Steering",
+        "Training-free Inference"
+      ],
+      "links": []
+    },
+    {
       "id": "mote",
       "name": "Mote",
-      "category": "product",
+      "category": "development",
       "kicker": "SPEECH · MODEL TO APPLICATION",
       "subtitle": "한국어 STT·화자 분리·모델 경량화",
       "period": "2024.11",
@@ -52,7 +77,7 @@
       "id": "wallbaduk",
       "name": "벽바둑",
       "nameEn": "WallBaduk",
-      "category": "product",
+      "category": "development",
       "kicker": "GAME AI · SOLO PRODUCT",
       "subtitle": "전략 보드게임 단독 개발·양대 마켓 출시",
       "period": "2025.05–",
@@ -113,7 +138,7 @@
     {
       "id": "lenfit",
       "name": "Lenfit",
-      "category": "product",
+      "category": "development",
       "kicker": "POSE ESTIMATION · REAL-TIME FEEDBACK",
       "subtitle": "실시간 운동 피드백·횟수 카운터",
       "period": "2023.03–11",
@@ -156,7 +181,7 @@
     {
       "id": "rested",
       "name": "RESTED",
-      "category": "product",
+      "category": "development",
       "kicker": "COMPUTER VISION · REHABILITATION",
       "subtitle": "인지 재활 퀴즈·AI 모델 개발",
       "period": "2023.10–12",
@@ -178,7 +203,7 @@
     {
       "id": "writenow",
       "name": "WriteNow",
-      "category": "product",
+      "category": "development",
       "kicker": "LANGUAGE MODEL · DOCUMENT AUTOMATION",
       "subtitle": "GPT 파인튜닝·문서 작성 자동화",
       "period": "2024.06–07",
@@ -205,7 +230,7 @@
     {
       "id": "souf",
       "name": "Souf",
-      "category": "product",
+      "category": "development",
       "kicker": "STARTUP · PRODUCT LEADERSHIP",
       "subtitle": "학생 프리랜서 플랫폼 창업·개발 총괄·운영",
       "period": "2025.02–2026.02",
@@ -261,6 +286,13 @@
       "topic": "GAN 기반 이미지 생성 · 확산 모델 음성 증강·합성"
     }
   ],
+  "submission": {
+    "title": "STABLE: Single-Pass Training-Free Attribute Binding via Layer-Wise Evidence in Multimodal LLMs",
+    "authors": "Gyu-Tak Hahn · Jumin Han · Seong-Whan Lee",
+    "venue": "ICASSP 2027",
+    "status": "Under Review",
+    "submittedAt": "2026.09.24"
+  },
   "publication": {
     "title": "StarGAN-TA: 표정 생성 성능 향상을 위한 전이학습 StarGAN",
     "authors": "박세환 · 한규탁 · 이석 · 김형석",

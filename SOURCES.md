@@ -16,6 +16,7 @@
 
 | 경험 | 확인 자료 / 공개 출처 |
 | --- | --- |
+| STABLE | 본인 제공 `ICASSP2027.pdf`, `STABLE_github` 코드, ICASSP 2027 제출·심사 중 상태 본인 확인 |
 | StarGAN-TA | [연구 저장소](https://github.com/shp216/StarGAN-TA), [ICROS 논문](https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11480637), CV |
 | Lenfit | 본인 제공 `Lenfit_Hanium.pdf`, 역할 설명 |
 | Diff-SVC / DiffWave | 본인 제공 2023-2 창의학기제 최종결과보고서 2~4쪽(전처리·학습·개인 역할·실험 구성), 로컬 연구 디렉터리, CV, 역할 직접 확인 |
@@ -60,3 +61,13 @@ PromptStyler는 본인 요청에 따라 공개 프로젝트 카드·상세와 �
 - 4쪽 최종결과물: 원본만 쓰는 기본 모델과 원본+증강 모델이 같은 목표 목소리를 사용하는 실험 구성. 모델 결과 확인을 기재하되, 수치 평가·개선율은 주장하지 않았습니다.
 - Asyrp 기반 guide 제안은 보고서상 다른 AI 팀원 역할입니다. 서버·API·iOS 구축도 각 담당자의 작업이므로 개인 기여로 귀속하지 않고 최종 프로그램 완성은 팀 성과로 구분했습니다.
 - 전체 활동 기간은 CV의 2023.07–12를 유지합니다. 최종보고서의 창의학기제 학습 기간은 2023.09.01–12.14입니다. 보고서는 본인 제공 비공개 원본으로 검토했으며 사이트에 업로드하지 않았습니다.
+
+## STABLE evidence (2026.10.22)
+
+- 제출 원고 1쪽: 전체 제목, 제1저자 Gyu-Tak Hahn 및 Jumin Han·Seong-Whan Lee 저자 목록. Under Review는 본인의 제출 상태 확인에 근거합니다.
+- 2~3쪽: 레이어별 evidence–decision disconnect 분석, 공통 어텐션 제거와 mcBC, 구문·시각 일치에 따른 의사 라벨, 정답 라벨 없는 사전 calibration, 캡션당 한 번의 순전파에서 선택적 steering.
+- 4쪽 Table 1: LLaVA-1.5-7B / ColorSwap Group / VQAScore 67.33% → STABLE 73.00%, +5.67%p. 모든 비교법·벤치마크에서 최고라는 주장은 하지 않습니다.
+- 4쪽 Table 2: LLaVA-1.5 / ARO 100샘플 / TITAN RTX. VQAScore 0.35초, STABLE 0.60초, CRG 2.43초, COCO-Tree 15.34초. 4.1배·25.6배는 CRG·COCO-Tree 대비이며 기본 VQAScore 대비 가속이 아닙니다.
+- 로컬 코드: `stable/visual_correspondence.py`, `stable/calibration.py`, `stable/steering.py`, `stable/model_adapters/`, `evaluate.py`, `stable/metrics.py`로 방법과 두 모델·네 벤치마크 지원을 확인했습니다.
+- 로컬 최종 평가 요약은 없으며, 제공 artifact의 `reproduction_validated:false` 및 direction 유실 기록이 있어 논문 전체 결과를 재현 검증했다고 표현하지 않습니다. 성능 수치는 제출 원고에서 보고한 값입니다.
+- 본인은 단독 제1저자로 아이디어·방법 설계·코드 구현·실험·논문 작성을 모두 수행했음을 확인했습니다. 제출일은 본인 확인에 따라 2026.09.24로 기재했습니다. 공동저자는 유지하며 단독 저자 논문으로 표시하지 않습니다. 연구 시작 연월은 확정하지 않았고, 논문·로컬 소스 원본은 업로드하지 않았습니다.

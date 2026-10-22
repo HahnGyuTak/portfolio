@@ -12,7 +12,7 @@ import { data, projects, projectOrder, type Project } from "./data";
 
 const sections = [
   { id: "about", label: "About" },
-  { id: "projects", label: "Projects" },
+  { id: "projects", label: "R&D" },
   { id: "experience", label: "Experience" },
   { id: "contact", label: "Contact" },
 ];
@@ -101,7 +101,7 @@ function ProjectDialog({
       <div className="dialog-inner">
         <div className="dialog-top">
           <span className="eyebrow">
-            {project.category === "research" ? "RESEARCH" : "PROJECT"} /{" "}
+            {project.category === "research" ? "RESEARCH" : "DEVELOPMENT"} /{" "}
             {project.period}
           </span>
           <button
@@ -114,6 +114,9 @@ function ProjectDialog({
         </div>
         <h2 id="dialog-title">{project.name}</h2>
         <p className="dialog-subtitle">{project.subtitle}</p>
+        {project.status && (
+          <span className="project-status dialog-status">{project.status}</span>
+        )}
         <div className="dialog-role">
           <span>MY ROLE</span>
           <p>{project.role}</p>
@@ -298,7 +301,7 @@ export default function App() {
   return (
     <>
       <a className="skip-link" href="#projects">
-        Skip to projects
+        Skip to R&amp;D
       </a>
       <header className="hero" id="about">
         <div className="profile">
@@ -371,12 +374,12 @@ export default function App() {
       </nav>
       <main>
         <section id="projects" className="section projects-section">
-          <h2 className="section-title">PROJECTS</h2>
-          <div className="filters" role="group" aria-label="Project category">
+          <h2 className="section-title">R&D</h2>
+          <div className="filters" role="group" aria-label="R&D category">
             {[
               { id: "all", label: "All" },
               { id: "research", label: "Research" },
-              { id: "product", label: "Products" },
+              { id: "development", label: "Development" },
             ].map((f) => (
               <button
                 key={f.id}
@@ -394,14 +397,14 @@ export default function App() {
             ))}
           </div>
           <p className="sr-only" aria-live="polite">
-            {visible.length} projects
+            {visible.length} R&amp;D entries
           </p>
           <div className="project-grid">
             {visible.map((p) => (
               <article className="project-card" key={p.id}>
                 <div className="card-meta">
                   <span>
-                    {p.category === "research" ? "Research" : "Product"}
+                    {p.category === "research" ? "Research" : "Development"}
                   </span>
                   <time>{p.period}</time>
                 </div>
@@ -411,6 +414,7 @@ export default function App() {
                   </button>
                 </h3>
                 <p className="card-subtitle">{p.subtitle}</p>
+                {p.status && <span className="project-status">{p.status}</span>}
                 <p className="card-summary">{p.summary}</p>
                 <div className="card-focus">
                   <span>Focus</span>
@@ -455,7 +459,16 @@ export default function App() {
               </div>
             </div>
             <div>
-              <h3 className="group-title">Publication</h3>
+              <h3 className="group-title">Papers</h3>
+              <article className="publication">
+                <div className="publication-meta">
+                  <span>{data.submission.venue}</span>
+                  <span className="project-status">{data.submission.status}</span>
+                </div>
+                <h4>{data.submission.title}</h4>
+                <p>{data.submission.authors}</p>
+                <small>{data.submission.submittedAt} 제출 · 제1저자</small>
+              </article>
               <a
                 className="publication"
                 href={data.publication.url}

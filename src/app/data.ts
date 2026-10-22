@@ -5,6 +5,7 @@ export type Project = {
   category: string;
   kicker: string;
   subtitle: string;
+  status?: string;
   period: string;
   role: string;
   organization?: string;
@@ -19,6 +20,7 @@ export type Project = {
 export const data = content;
 export const projects = content.projects as Project[];
 export const projectOrder = [
+  "stable",
   "wallbaduk",
   "souf",
   "mote",
