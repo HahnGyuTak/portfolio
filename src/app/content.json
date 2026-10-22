@@ -183,19 +183,22 @@
       "name": "RESTED",
       "category": "product",
       "kicker": "COMPUTER VISION · REHABILITATION",
-      "subtitle": "인지 재활 퀴즈·AI 모델·GUI 개발",
+      "subtitle": "인지 재활 퀴즈·AI 모델 개발",
       "period": "2023.10–12",
-      "role": "인지 재활 퀴즈 기획 · 모델 학습 · GUI 구현",
-      "summary": "객체 탐지와 표정 생성 모델을 물건 찾기·감정 구분 퀴즈에 연결했습니다.",
+      "role": "인지 재활 퀴즈 기획 · 모델 학습 · 팀 협업·서비스 통합",
+      "summary": "객체 탐지·표정 생성 모델로 인지 재활 퀴즈를 개발하고, 팀원들과 AI 자가 재활 치료 도우미 프로그램을 완성해 시연했습니다.",
       "problem": "모델이 탐지하거나 생성한 결과를 사용자가 직접 수행하고 응답할 수 있는 인지 재활 콘텐츠로 만들어야 했습니다.",
       "contributions": [
         "국내 생활환경의 사물을 인식하도록 객체 탐지 모델을 파인튜닝하고, 탐지 결과에서 목표 물건을 선정해 다시 제시한 물건과 비교하는 퀴즈를 구현했습니다.",
         "AI Hub 표정 데이터의 여섯 감정을 전처리해 StarGAN을 파인튜닝했습니다. 익숙한 인물의 사진에서 표정 이미지를 생성하고 감정을 선택하는 퀴즈를 구현했습니다.",
-        "PyQt GUI에 문제 제시, 응답 선택, 성공·실패 판정 흐름을 연결했습니다."
+        "팀원들과 협업해 개발한 인지 재활 퀴즈를 AI 자가 재활 치료 도우미 서비스용 프로그램에 통합하고, 최종 프로그램을 함께 시연했습니다."
       ],
-      "outcome": "물건 찾기와 정서인지 퀴즈를 동작하는 GUI로 구현해 캡스톤 결과물로 완성했습니다.",
-      "tags": ["Object Detection", "StarGAN", "PyQt"],
-      "links": []
+      "outcome": "팀원들과 최종 서비스 프로그램을 완성·시연했으며, RESTED 팀으로 2023 제16회 창의설계경진대회 지능기전공학부 대상을 수상했습니다.",
+      "tags": ["Object Detection", "StarGAN", "Computer Vision"],
+      "links": [
+        {"label": "대상 수상", "url": "https://withus.sejong.ac.kr/non/stuTlnt/view.do?dataSeq=1000040&sstTyCd=ST01&currentPageNo=1"},
+        {"label": "발표자료 (PDF)", "url": "https://withus.sejong.ac.kr/comm/cmfile/download.do?encFileGrpSeq=19b82d7b338cb31f922c99903b99dbe2&encFileSeq=6f0d09eaa7573ee1a905876da477a5f4"}
+      ]
     },
     {
       "id": "writenow",
@@ -297,7 +300,7 @@
     },
     {
       "year": "2023",
-      "title": "제16회 창의설계경진대회 대상",
+      "title": "제16회 창의설계경진대회 지능기전공학부 대상",
       "organization": "세종대학교",
       "sourceTitle": "Grand Prize, 16th Annual Creative Design Competition, Sejong Univ"
     },

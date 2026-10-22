@@ -19,7 +19,7 @@
 | StarGAN-TA | [연구 저장소](https://github.com/shp216/StarGAN-TA), [ICROS 논문](https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11480637), CV |
 | Lenfit | 본인 제공 `Lenfit_Hanium.pdf`, 역할 설명 |
 | Diff-SVC / DiffWave | 본인 제공 로컬 Diff-SVC 연구 디렉터리, CV, 증강·학습·실험 범위 직접 확인 |
-| RESTED | 본인 제공 캡스톤 발표 자료, CV, 역할 설명 |
+| RESTED | [세종대학교 공식 대상 수상 기록](https://withus.sejong.ac.kr/non/stuTlnt/view.do?dataSeq=1000040&sstTyCd=ST01&currentPageNo=1), [공개 발표자료 PDF](https://withus.sejong.ac.kr/comm/cmfile/download.do?encFileGrpSeq=19b82d7b338cb31f922c99903b99dbe2&encFileSeq=6f0d09eaa7573ee1a905876da477a5f4), CV, 역할 설명 |
 | WriteNow | [팀 프로젝트](https://github.com/AcademicFestival/.github/blob/main/profile/README.md), CV |
 | PromptStyler | [본인 재현 코드](https://github.com/HahnGyuTak/PromptStyler), [원논문](https://promptstyler.github.io/) |
 | Mote | [모델 학습](https://github.com/HahnGyuTak/openai-whisper-finetuning), [AI 서비스](https://github.com/MettingApp/AI), [모델·데이터](https://huggingface.co/imTak), 팀 발표 PDF |
@@ -39,3 +39,8 @@
 
 - `public/images/profile.png`: [본인 GitHub 프로필 이미지](https://github.com/HahnGyuTak.png?size=800). 사용자 지정에 따라 임시 프로필로 사용합니다.
 - `public/icons/`: [Simple Icons](https://github.com/simple-icons/simple-icons)의 GitHub, Hugging Face, App Store, Google Play SVG. 사이트별 외부 링크 식별에 사용합니다.
+
+## RESTED correction (2026.10.22)
+
+- 본인 요청에 따라 GUI·PyQt 개발 표현을 제거했습니다. 인지 재활 퀴즈·모델 개발은 개인 기여, 최종 AI 자가 재활 치료 도우미 서비스용 프로그램 완성·시연은 팀 협업 결과로 구분했습니다.
+- 공식 수상 페이지의 행사명은 “2023 제16회 창의설계경진대회 지능기전공학부 대상”이며, 수상팀은 RESTED조입니다. 페이지 등록일 2024.01.25는 행사 일자가 아닙니다.
