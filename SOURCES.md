@@ -20,7 +20,7 @@
 | Lenfit | 본인 제공 `Lenfit_Hanium.pdf`, 역할 설명 |
 | Diff-SVC / DiffWave | 본인 제공 로컬 Diff-SVC 연구 디렉터리, CV, 증강·학습·실험 범위 직접 확인 |
 | RESTED | [세종대학교 공식 대상 수상 기록](https://withus.sejong.ac.kr/non/stuTlnt/view.do?dataSeq=1000040&sstTyCd=ST01&currentPageNo=1), [공개 발표자료 PDF](https://withus.sejong.ac.kr/comm/cmfile/download.do?encFileGrpSeq=19b82d7b338cb31f922c99903b99dbe2&encFileSeq=6f0d09eaa7573ee1a905876da477a5f4), CV, 역할 설명 |
-| WriteNow | [팀 프로젝트](https://github.com/AcademicFestival/.github/blob/main/profile/README.md), CV |
+| WriteNow | [팀 프로젝트](https://github.com/AcademicFestival/.github/blob/main/profile/README.md), CV, 문서 샘플 수집·입출력 학습 데이터 직접 구축·OpenAI API를 통한 GPT 파인튜닝에 대한 본인 확인 (2026.10.22) |
 | PromptStyler | [본인 재현 코드](https://github.com/HahnGyuTak/PromptStyler), [원논문](https://promptstyler.github.io/) |
 | Mote | [모델 학습](https://github.com/HahnGyuTak/openai-whisper-finetuning), [AI 서비스](https://github.com/MettingApp/AI), [모델·데이터](https://huggingface.co/imTak), 팀 발표 PDF |
 | Souf | 본인 제공 2026년 예비창업패키지 사업계획서, 기간·역할 직접 확인 |
@@ -44,3 +44,8 @@
 
 - 본인 요청에 따라 GUI·PyQt 개발 표현을 제거했습니다. 인지 재활 퀴즈·모델 개발은 개인 기여, 최종 AI 자가 재활 치료 도우미 서비스용 프로그램 완성·시연은 팀 협업 결과로 구분했습니다.
 - 공식 수상 페이지의 행사명은 “2023 제16회 창의설계경진대회 지능기전공학부 대상”이며, 수상팀은 RESTED조입니다. 페이지 등록일 2024.01.25는 행사 일자가 아닙니다.
+
+## WriteNow correction (2026.10.22)
+
+- 당시 모델이 원하는 JSON 출력을 충분히 생성하지 못해 여러 문서 샘플을 수집하고 입출력 학습 데이터를 직접 구축한 뒤, OpenAI API로 GPT 모델을 파인튜닝했다는 본인 설명을 핵심 기여로 반영했습니다.
+- 특정 GPT 버전, 데이터 규모, 학습 설정, 출력 성공률이나 성능 개선 수치는 확인되지 않아 기재하지 않았습니다. Focus 태그는 GPT Fine-tuning과 Dataset Curation으로 정리했습니다.
