@@ -3,9 +3,7 @@ export type Project = {
   id: string;
   name: string;
   category: string;
-  featured: boolean;
   kicker: string;
-  title?: string;
   subtitle: string;
   period: string;
   role: string;

@@ -11,66 +11,12 @@
     "blog": "https://hahngyutak.github.io/",
     "linkedin": "https://www.linkedin.com/in/gyutakHahn/"
   },
-  "hero": {
-    "eyebrow": "GYUTAK HAHN · AI RESEARCH & ENGINEERING",
-    "headlineKo": "배우고, 연결하고,\n쓸 수 있는 기술로.",
-    "headlineEn": "Learn. Connect.\nBuild something useful.",
-    "descriptionKo": "이미지·텍스트·음성을 다루는 AI 연구부터 앱 개발과 서비스 운영까지. 새로운 문제에 필요한 기술을 익히고, 서로 다른 경험을 연결해 결과물을 완성합니다.",
-    "descriptionEn": "I connect AI research with product engineering, working across vision, language, and audio to turn new ideas into working experiences.",
-    "primaryAction": "프로젝트 살펴보기",
-    "secondaryAction": "연락하기"
-  },
-  "about": {
-    "headline": "모델과 사용자의 사이를 연결합니다.",
-    "paragraphs": [
-      "문제에 필요한 기술을 익히며 이미지 생성, 음성 인식, 언어 모델, 도메인 일반화로 연구와 개발의 범위를 넓혀 왔습니다. 모델 구조와 손실 함수, 학습·평가를 다루고, 그 결과를 API와 애플리케이션에 연결했습니다.",
-      "개인 게임은 기획과 디자인부터 개발·출시까지 수행했고, 창업에서는 팀의 개발을 조율하고 서비스를 운영했습니다. 모델, 시스템, 사용자 경험을 함께 살피며 직접 구현하거나 동료와 협업해 완성합니다."
-    ],
-    "principles": [
-      {
-        "label": "Learn",
-        "title": "문제에서 출발합니다.",
-        "description": "필요한 모델과 도구를 익히고, 논문과 실험으로 이해를 구체화합니다."
-      },
-      {
-        "label": "Connect",
-        "title": "기술을 연결합니다.",
-        "description": "데이터와 모델의 출력을 API, 화면, 사용자 흐름으로 이어갑니다."
-      },
-      {
-        "label": "Build",
-        "title": "결과물로 남깁니다.",
-        "description": "논문과 재현 코드, 동작하는 기능, 출시와 운영까지 완성합니다."
-      }
-    ]
-  },
-  "filters": [
-    {
-      "id": "all",
-      "label": "전체"
-    },
-    {
-      "id": "research",
-      "label": "연구"
-    },
-    {
-      "id": "product",
-      "label": "제품 · 서비스"
-    }
-  ],
-  "featuredIds": [
-    "promptstyler",
-    "mote",
-    "wallbaduk"
-  ],
   "projects": [
     {
       "id": "promptstyler",
       "name": "PromptStyler",
       "category": "research",
-      "featured": true,
       "kicker": "VISION–LANGUAGE · PAPER REPRODUCTION",
-      "title": "이미지 없이 배우는 스타일,\n실험으로 확인하는 일반화.",
       "subtitle": "CLIP 기반 도메인 일반화 논문 재현",
       "period": "2024.07–08",
       "role": "논문 재현 · 학습·평가 구현 · 실험 도구 확장",
@@ -83,12 +29,7 @@
         "OpenCLIP ViT-H 학습 경로를 추가하고, 스타일·콘텐츠 임베딩을 Stable Diffusion으로 시각화했습니다. 생성 이미지의 클래스 일치 여부와 오분류 목록을 CSV로 저장했습니다."
       ],
       "outcome": "논문 재현 코드와 학습·평가·시각화 도구를 공개했습니다.",
-      "tags": [
-        "PyTorch",
-        "CLIP",
-        "Domain Generalization",
-        "Stable Diffusion"
-      ],
+      "tags": ["PyTorch", "CLIP", "Domain Generalization", "Stable Diffusion"],
       "links": [
         {
           "label": "구현 코드",
@@ -104,9 +45,7 @@
       "id": "mote",
       "name": "Mote",
       "category": "product",
-      "featured": true,
       "kicker": "SPEECH · MODEL TO APPLICATION",
-      "title": "회의의 목소리를,\n다시 쓸 수 있는 정보로.",
       "subtitle": "한국어 STT·화자 분리·모델 경량화",
       "period": "2024.11",
       "role": "AI 개발 · 데이터 구축 · 모델 학습·평가 · API 연동",
@@ -122,12 +61,7 @@
         "value": "3.2GB → 820MB",
         "label": "양자화 후 모델 용량"
       },
-      "tags": [
-        "Whisper",
-        "PyTorch",
-        "Speaker Diarization",
-        "CTranslate2"
-      ],
+      "tags": ["Whisper", "PyTorch", "Speaker Diarization", "CTranslate2"],
       "links": [
         {
           "label": "AI 코드",
@@ -148,9 +82,7 @@
       "name": "벽바둑",
       "nameEn": "WallBaduk",
       "category": "product",
-      "featured": true,
       "kicker": "GAME AI · SOLO PRODUCT",
-      "title": "하나의 게임을,\n아이디어에서 출시까지.",
       "subtitle": "전략 보드게임 단독 개발·양대 마켓 출시",
       "period": "2025.05–",
       "role": "기획 · 디자인 · 게임 AI · 앱·멀티플레이 개발 · 배포",
@@ -166,12 +98,7 @@
         "value": "3주",
         "label": "기획부터 양대 마켓 출시까지"
       },
-      "tags": [
-        "Flutter",
-        "Firebase",
-        "Minimax",
-        "PPO"
-      ],
+      "tags": ["Flutter", "Firebase", "Minimax", "PPO (Beta)"],
       "links": [
         {
           "label": "App Store",
@@ -187,7 +114,6 @@
       "id": "stargan-ta",
       "name": "StarGAN-TA",
       "category": "research",
-      "featured": false,
       "kicker": "GENERATIVE VISION · PUBLICATION",
       "subtitle": "얼굴 표정 생성을 위한 전이학습 연구",
       "period": "2023.01–06",
@@ -201,12 +127,7 @@
         "2024년 후속 코드 개선에서 생성기의 ReLU를 LeakyReLU로 변경하고 학습 코드와 실행 환경을 정리했습니다."
       ],
       "outcome": "「StarGAN-TA: 표정 생성 성능 향상을 위한 전이학습 StarGAN」을 ICROS 2023 학술대회 논문집에 공동 게재했습니다.",
-      "tags": [
-        "PyTorch",
-        "StarGAN",
-        "Transfer Learning",
-        "ICROS 2023"
-      ],
+      "tags": ["PyTorch", "StarGAN", "Transfer Learning", "ICROS 2023"],
       "links": [
         {
           "label": "연구 코드",
@@ -222,7 +143,6 @@
       "id": "lenfit",
       "name": "Lenfit",
       "category": "product",
-      "featured": false,
       "kicker": "POSE ESTIMATION · REAL-TIME FEEDBACK",
       "subtitle": "실시간 운동 피드백·횟수 카운터",
       "period": "2023.03–11",
@@ -235,18 +155,13 @@
         "백엔드 담당 팀원과 기능을 연동하고 앱의 데이터 전달·처리 구조를 함께 정리했습니다."
       ],
       "outcome": "한이음 ICT 멘토링 팀 프로젝트에서 실시간 자세 피드백과 운동 횟수 카운터를 구현했습니다.",
-      "tags": [
-        "Flutter",
-        "Google ML Kit",
-        "Pose Estimation"
-      ],
+      "tags": ["Flutter", "Google ML Kit", "Pose Estimation"],
       "links": []
     },
     {
       "id": "diff-svc",
       "name": "Diff-SVC × DiffWave",
       "category": "research",
-      "featured": false,
       "kicker": "AUDIO · DATA AUGMENTATION",
       "subtitle": "소량 음성 데이터 증강·음성 변환 연구",
       "period": "2023.07–12",
@@ -260,19 +175,13 @@
         "보컬과 반주를 분리해 보컬을 변환한 뒤 다시 합성했습니다. 여러 입력 음원으로 변환 결과를 생성·저장하며 실험했습니다."
       ],
       "outcome": "데이터 준비부터 증강·모델 학습·변환 결과 생성까지 음성 변환 실험 과정을 수행했습니다.",
-      "tags": [
-        "Diff-SVC",
-        "DiffWave",
-        "HuBERT",
-        "Audio"
-      ],
+      "tags": ["Diff-SVC", "DiffWave", "HuBERT", "Audio"],
       "links": []
     },
     {
       "id": "rested",
       "name": "RESTED",
       "category": "product",
-      "featured": false,
       "kicker": "COMPUTER VISION · REHABILITATION",
       "subtitle": "인지 재활 퀴즈·AI 모델·GUI 개발",
       "period": "2023.10–12",
@@ -285,18 +194,13 @@
         "PyQt GUI에 문제 제시, 응답 선택, 성공·실패 판정 흐름을 연결했습니다."
       ],
       "outcome": "물건 찾기와 정서인지 퀴즈를 동작하는 GUI로 구현해 캡스톤 결과물로 완성했습니다.",
-      "tags": [
-        "Object Detection",
-        "StarGAN",
-        "PyQt"
-      ],
+      "tags": ["Object Detection", "StarGAN", "PyQt"],
       "links": []
     },
     {
       "id": "writenow",
       "name": "WriteNow",
       "category": "product",
-      "featured": false,
       "kicker": "LANGUAGE MODEL · DOCUMENT AUTOMATION",
       "subtitle": "LLM 기반 문서 분석·작성 자동화",
       "period": "2024.06–07",
@@ -309,12 +213,7 @@
         "백엔드 담당 팀원과 AI API를 구현하고 프론트엔드까지 연동해 생성된 DOCX 문서를 앱에서 확인할 수 있도록 연결했습니다."
       ],
       "outcome": "양식 업로드 → 질문·답변 → 문서 생성·확인으로 이어지는 AI 문서 작성 기능을 구현했습니다.",
-      "tags": [
-        "LLM",
-        "JSON",
-        "Document Automation",
-        "API"
-      ],
+      "tags": ["LLM", "JSON", "Document Automation", "API"],
       "links": [
         {
           "label": "프로젝트",
@@ -326,7 +225,6 @@
       "id": "souf",
       "name": "Souf",
       "category": "product",
-      "featured": false,
       "kicker": "STARTUP · PRODUCT LEADERSHIP",
       "subtitle": "학생 프리랜서 플랫폼 창업·개발 총괄·운영",
       "period": "2025.02–2026.02",
@@ -448,34 +346,15 @@
   "skills": [
     {
       "label": "Research & Modeling",
-      "items": [
-        "PyTorch",
-        "TensorFlow",
-        "CLIP",
-        "Whisper",
-        "GAN",
-        "Diffusion"
-      ]
+      "items": ["PyTorch", "TensorFlow", "CLIP", "Whisper", "GAN", "Diffusion"]
     },
     {
       "label": "Data & Evaluation",
-      "items": [
-        "Python",
-        "OpenCV",
-        "scikit-learn",
-        "Hugging Face",
-        "WER"
-      ]
+      "items": ["Python", "OpenCV", "scikit-learn", "Hugging Face", "WER"]
     },
     {
       "label": "Product Engineering",
-      "items": [
-        "Flutter",
-        "Firebase",
-        "API Integration",
-        "Git",
-        "C"
-      ]
+      "items": ["Flutter", "Firebase", "API Integration", "Git", "C"]
     }
   ]
 }

@@ -1,152 +1,68 @@
 import { useEffect, useRef, useState } from "react";
 import {
   ArrowUpRight,
-  ArrowDown,
-  ArrowRight,
   Check,
   Copy,
-  Github,
-  Plus,
   X,
   FileText,
+  ExternalLink,
+  Mail,
 } from "lucide-react";
 import { data, projects, projectOrder, type Project } from "./data";
 
 const sections = [
-  { id: "about", label: "소개" },
-  { id: "work", label: "대표 프로젝트" },
-  { id: "archive", label: "전체 경험" },
-  { id: "journey", label: "이력" },
-  { id: "contact", label: "연락" },
+  { id: "about", label: "About" },
+  { id: "projects", label: "Projects" },
+  { id: "experience", label: "Experience" },
+  { id: "contact", label: "Contact" },
 ];
 const external = { target: "_blank", rel: "noopener noreferrer" };
 
-function ProjectVisual({ id }: { id: string }) {
-  if (id === "wallbaduk")
-    return (
-      <div
-        className="project-art board-art"
-        aria-label="벽바둑 7×7 게임판 구조도"
-      >
-        <span className="art-caption">WALLBADUK / STRATEGY BOARD GAME</span>
-        <div className="game-board" aria-hidden="true">
-          {Array.from({ length: 49 }, (_, i) => (
-            <span
-              key={i}
-              className={`board-cell ${[10, 17, 24].includes(i) ? "wall-right" : ""} ${[29, 30, 31].includes(i) ? "wall-bottom" : ""}`}
-            >
-              {i === 10 ? (
-                <i className="stone black" />
-              ) : i === 38 ? (
-                <i className="stone blue" />
-              ) : i === 31 ? (
-                <i className="possible" />
-              ) : null}
-            </span>
-          ))}
-        </div>
-        <div className="art-bottom">
-          <span>
-            7 × 7<br />
-            <b>한 수 너머의 전략</b>
-          </span>
-          <span className="art-pill">
-            iOS + Android <ArrowUpRight size={13} />
-          </span>
-        </div>
-      </div>
-    );
-  if (id === "mote")
-    return (
-      <div
-        className="project-art audio-art"
-        aria-label="Mote의 음성 입력, 화자 분리, 전사 과정을 설명하는 도식"
-      >
-        <span className="art-caption">MOTE / VOICE → INFORMATION</span>
-        <div className="audio-window">
-          <div className="window-heading">
-            <span className="record-dot" />
-            회의를 기록하는 중<span>한국어</span>
-          </div>
-          <div className="waveform" aria-hidden="true">
-            {Array.from({ length: 48 }, (_, i) => (
-              <i
-                key={i}
-                style={{
-                  height: `${10 + Math.abs(Math.sin(i * 1.7) * Math.cos(i * 0.31)) * 65}px`,
-                }}
-              />
-            ))}
-          </div>
-          <div className="transcript">
-            <span>화자 01</span>
-            <div>
-              <i />
-              <i />
-            </div>
-          </div>
-          <div className="transcript second">
-            <span>화자 02</span>
-            <div>
-              <i />
-              <i />
-            </div>
-          </div>
-          <div className="audio-chips">
-            <span>Whisper</span>
-            <ArrowRight size={13} />
-            <span>화자 분리</span>
-            <ArrowRight size={13} />
-            <span>요약</span>
-          </div>
-        </div>
-        <div className="art-bottom">
-          <span>
-            MODEL SIZE
-            <br />
-            <b>
-              3.2 GB <span className="muted-arrow">→</span> 820 MB
-            </b>
-          </span>
-          <span className="art-note">양자화 적용</span>
-        </div>
-      </div>
-    );
+function ResourceLink({
+  link,
+  project,
+}: {
+  link: { label: string; url: string };
+  project: string;
+}) {
+  const host = new URL(link.url).hostname;
+  const brand =
+    host === "github.com"
+      ? "github"
+      : host === "huggingface.co"
+        ? "huggingface"
+        : host === "apps.apple.com"
+          ? "appstore"
+          : host === "play.google.com"
+            ? "googleplay"
+            : null;
+  const names: Record<string, string> = {
+    github: "GitHub",
+    huggingface: "Hugging Face",
+    appstore: "App Store",
+    googleplay: "Google Play",
+  };
+  const label = `${project} · ${link.label}${brand ? ` (${names[brand]})` : ""}`;
   return (
-    <div
-      className="project-art clip-art"
-      aria-label="PromptStyler 스타일 토큰 학습과 도메인 일반화 구조도"
+    <a
+      className="resource-link"
+      href={link.url}
+      {...external}
+      aria-label={label}
+      title={label}
     >
-      <span className="art-caption">PROMPTSTYLER / STYLE GENERALIZATION</span>
-      <div className="style-stack" aria-hidden="true">
-        <div className="style-sheet sheet-a">
-          A<span>PHOTO</span>
-        </div>
-        <div className="style-sheet sheet-b">
-          A<span>SKETCH</span>
-        </div>
-        <div className="style-sheet sheet-c">
-          A<span>STYLE</span>
-        </div>
-      </div>
-      <div className="clip-flow">
-        <span>Learnable style</span>
-        <span className="flow-line" />
-        <b>CLIP</b>
-        <span className="flow-line" />
-        <span>Shared meaning</span>
-      </div>
-      <div className="art-bottom">
-        <span>
-          LEARN THE STYLE.
-          <br />
-          <b>Preserve the meaning.</b>
-        </span>
-        <span className="art-pill">
-          Paper → Code <ArrowUpRight size={13} />
-        </span>
-      </div>
-    </div>
+      {brand ? (
+        <img src={`./icons/${brand}.svg`} alt="" width="20" height="20" />
+      ) : host.includes("dbpia") ? (
+        <FileText size={20} />
+      ) : (
+        <ExternalLink size={19} />
+      )}
+      <span className="link-tooltip">
+        {link.label}
+        {brand ? ` · ${names[brand]}` : ""}
+      </span>
+    </a>
   );
 }
 
@@ -203,11 +119,11 @@ function ProjectDialog({
           <p>{project.role}</p>
         </div>
         <div className="detail-block">
-          <h3>해결하려던 문제</h3>
+          <h3>Problem</h3>
           <p>{project.problem}</p>
         </div>
         <div className="detail-block">
-          <h3>직접 한 일</h3>
+          <h3>Contribution</h3>
           <ol>
             {project.contributions.map((s, i) => (
               <li key={i}>
@@ -271,20 +187,22 @@ function ProjectDialog({
 }
 
 export default function App() {
-  const [active, setActive] = useState("about");
+  const [active, setActive] = useState("");
   const [filter, setFilter] = useState("all");
   const [selected, setSelected] = useState<Project | null>(null);
   const [copied, setCopied] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
   const [indicator, setIndicator] = useState({ left: 0, width: 0 });
   const copyTimer = useRef<ReturnType<typeof setTimeout>>();
+  const scrollFrame = useRef(0);
   useEffect(() => {
     const update = () => {
-      let current = "about";
-      for (const section of sections) {
-        const el = document.getElementById(section.id);
-        if (el && el.getBoundingClientRect().top <= window.innerHeight * 0.38)
-          current = section.id;
+      const hero = document.getElementById("about");
+      let current =
+        window.scrollY >= (hero?.offsetHeight ?? 0) - 1 ? "about" : "";
+      for (const s of sections.slice(1)) {
+        const el = document.getElementById(s.id);
+        if (el && el.getBoundingClientRect().top <= 70) current = s.id;
       }
       if (
         window.scrollY + window.innerHeight >=
@@ -293,9 +211,9 @@ export default function App() {
         current = "contact";
       setActive(current);
     };
+    update();
     window.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", update);
-    update();
     return () => {
       window.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
@@ -306,7 +224,11 @@ export default function App() {
       const a = navRef.current?.querySelector<HTMLAnchorElement>(
         `[href="#${active}"]`,
       );
-      if (a) setIndicator({ left: a.offsetLeft, width: a.offsetWidth });
+      setIndicator(
+        a
+          ? { left: a.offsetLeft, width: a.offsetWidth }
+          : { left: 0, width: 0 },
+      );
     };
     update();
     window.addEventListener("resize", update);
@@ -322,8 +244,29 @@ export default function App() {
     return () => {
       window.removeEventListener("popstate", sync);
       clearTimeout(copyTimer.current);
+      cancelAnimationFrame(scrollFrame.current);
     };
   }, []);
+  const navigateTo = (id: string) => {
+    const element = document.getElementById(id);
+    if (!element) return;
+    cancelAnimationFrame(scrollFrame.current);
+    const from = window.scrollY;
+    const to = Math.max(0, element.getBoundingClientRect().top + from - 69);
+    history.replaceState(null, "", `#${id}`);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      window.scrollTo(0, to);
+      return;
+    }
+    const start = performance.now();
+    const step = (time: number) => {
+      const progress = Math.min((time - start) / 600, 1);
+      const eased = (1 - Math.cos(Math.PI * progress)) / 2;
+      window.scrollTo(0, from + (to - from) * eased);
+      if (progress < 1) scrollFrame.current = requestAnimationFrame(step);
+    };
+    scrollFrame.current = requestAnimationFrame(step);
+  };
   const openProject = (p: Project) => {
     const u = new URL(location.href);
     u.searchParams.set("project", p.id);
@@ -354,91 +297,69 @@ export default function App() {
   );
   return (
     <>
-      <a className="skip-link" href="#about">
-        본문으로 건너뛰기
+      <a className="skip-link" href="#projects">
+        Skip to projects
       </a>
-      <header className="hero" id="top">
-        <div className="topbar">
-          <a className="wordmark" href="#top" aria-label="한규탁 홈">
-            GH<span>.</span>
-          </a>
-          <span className="topbar-title">
-            GYUTAK HAHN
-            <br />
-            <span>AI RESEARCH & ENGINEERING</span>
-          </span>
-          <a className="topbar-link" href="./resume.html" {...external}>
-            이력서 <ArrowUpRight size={16} />
-          </a>
-          <a
-            className="icon-button github-top"
-            href={data.person.github}
-            {...external}
-            aria-label="GitHub 프로필"
-          >
-            <Github size={21} />
-          </a>
-        </div>
-        <div className="hero-content">
-          <p className="eyebrow">
-            <span className="live-dot" /> AI RESEARCHER & DEVELOPER
+      <header className="hero" id="about">
+        <div className="profile">
+          <img
+            className="profile-photo"
+            src="./images/profile.png"
+            alt="한규탁의 GitHub 프로필 이미지"
+            width="136"
+            height="136"
+          />
+          <h1>GYUTAK HAHN</h1>
+          <h3 className="profile-role">AI RESEARCHER &amp; DEVELOPER</h3>
+          <p className="profile-intro">
+            이미지·텍스트·음성 AI를 연구하고, 모델을 서비스에 연결합니다.
+            <br /> 필요한 기술을 배우며 앱 개발과 출시·운영까지 경험했습니다.
           </p>
-          <h1>
-            Learn. Connect.
-            <br />
-            <span>Build.</span>
-          </h1>
-          <div className="hero-bottom">
-            <div>
-              <p className="hero-korean">
-                낯선 기술을 배우고, 경험을 연결해,
-                <br />쓸 수 있는 결과물로 만듭니다.
-              </p>
-              <p className="hero-description">
-                이미지·텍스트·음성 AI부터 앱 개발과 서비스 운영까지.
-                <br className="desktop-break" /> 기술과 사용자 사이를 연결하는
-                개발자, 한규탁입니다.
-              </p>
-            </div>
+          <div className="profile-education">
+            <h2>Education</h2>
+            <p>
+              고려대학교 인공지능학과 석사과정 <span>2025.09 입학</span>
+            </p>
+            <p>
+              세종대학교 지능기전공학 학사 <span>2019.03 – 2025.02</span>
+            </p>
+          </div>
+          <div className="profile-links">
             <a
-              className="round-link"
-              href="#work"
-              aria-label="대표 프로젝트 살펴보기"
+              className="profile-icon"
+              href={data.person.github}
+              {...external}
+              aria-label="GitHub 프로필"
+              title="GitHub"
             >
-              <ArrowDown size={26} />
-              <span>
-                EXPLORE
-                <br />
-                MY WORK
-              </span>
+              <img src="./icons/github.svg" alt="" width="19" height="19" />
+            </a>
+            <a
+              className="profile-icon"
+              href={`mailto:${data.person.email}`}
+              aria-label="이메일 보내기"
+              title="Email"
+            >
+              <Mail size={20} />
+            </a>
+            <a className="resume-link" href="./resume.html" {...external}>
+              CV <ArrowUpRight size={15} />
             </a>
           </div>
         </div>
-        <div className="hero-meta">
-          <span>BASED IN SEOUL, KR</span>
-          <span>RESEARCH ↔ PRODUCT</span>
-          <span>
-            SCROLL TO EXPLORE <ArrowDown size={12} />
-          </span>
-        </div>
-        <div className="hero-orbit" aria-hidden="true">
-          <i />
-          <i />
-          <i />
-          <span className="orbit-label l1">VISION</span>
-          <span className="orbit-label l2">LANGUAGE</span>
-          <span className="orbit-label l3">AUDIO</span>
-        </div>
       </header>
-      <nav className="sticky-nav" aria-label="주요 메뉴">
-        <div ref={navRef} className="nav-inner">
-          {sections.map((s, i) => (
+      <nav className="sticky-nav" aria-label="Main navigation">
+        <div className="nav-inner" ref={navRef}>
+          {sections.map((s) => (
             <a
               key={s.id}
               href={`#${s.id}`}
+              onClick={(event) => {
+                event.preventDefault();
+                navigateTo(s.id);
+              }}
               aria-current={active === s.id ? "location" : undefined}
             >
-              <small>0{i + 1}</small>
               {s.label}
             </a>
           ))}
@@ -449,228 +370,109 @@ export default function App() {
         </div>
       </nav>
       <main>
-        <section id="about" className="section about-section">
-          <div className="section-label">
-            <span>01 / ABOUT</span>
-            <span>서로 다른 경험, 하나의 방향</span>
-          </div>
-          <div className="about-grid">
-            <h2>
-              모델을 이해하고,
-              <br />
-              제품으로 연결합니다<span className="blue">.</span>
-            </h2>
-            <div className="about-copy">
-              {data.about.paragraphs.map((p) => (
-                <p key={p}>{p}</p>
-              ))}
-              <a className="text-link" href="#journey">
-                지나온 과정 보기 <ArrowDown size={15} />
-              </a>
-            </div>
-          </div>
-          <div className="principles">
-            {data.about.principles.map((p, i) => (
-              <div key={p.label}>
-                <span className="principle-number">0{i + 1}</span>
-                <h3>
-                  {p.label}
-                  <span>↗</span>
-                </h3>
-                <p>{p.description}</p>
-              </div>
+        <section id="projects" className="section projects-section">
+          <h2 className="section-title">PROJECTS</h2>
+          <div className="filters" role="group" aria-label="Project category">
+            {[
+              { id: "all", label: "All" },
+              { id: "research", label: "Research" },
+              { id: "product", label: "Products" },
+            ].map((f) => (
+              <button
+                key={f.id}
+                className={filter === f.id ? "selected" : ""}
+                aria-pressed={filter === f.id}
+                onClick={() => setFilter(f.id)}
+              >
+                {f.label}
+                <span>
+                  {f.id === "all"
+                    ? projects.length
+                    : projects.filter((p) => p.category === f.id).length}
+                </span>
+              </button>
             ))}
           </div>
-          <div className="expertise-line">
-            <span>WORKING ACROSS</span>
-            <p>
-              Computer Vision <i>·</i> Language <i>·</i> Audio <i>·</i> Product
-              Engineering
-            </p>
-          </div>
-        </section>
-        <section id="work" className="section work-section">
-          <div className="section-label">
-            <span>02 / SELECTED WORK</span>
-            <span>연구에서 실제 사용까지</span>
-          </div>
-          <div className="section-heading">
-            <h2>
-              생각을 코드로.
-              <br />
-              코드를 경험으로.
-            </h2>
-            <p>
-              서로 다른 문제에 필요한 기술을 익히고,
-              <br />
-              직접 구현하며 완성한 세 가지 경험입니다.
-            </p>
-          </div>
-          <div className="featured-list">
-            {data.featuredIds.map((id, i) => {
-              const p = projects.find((v) => v.id === id)!;
-              return (
-                <article className={`featured-project feature-${id}`} key={id}>
+          <p className="sr-only" aria-live="polite">
+            {visible.length} projects
+          </p>
+          <div className="project-grid">
+            {visible.map((p) => (
+              <article className="project-card" key={p.id}>
+                <div className="card-meta">
+                  <span>
+                    {p.category === "research" ? "Research" : "Product"}
+                  </span>
+                  <time>{p.period}</time>
+                </div>
+                <h3>
+                  <button className="card-title" onClick={() => openProject(p)}>
+                    {p.name}
+                  </button>
+                </h3>
+                <p className="card-subtitle">{p.subtitle}</p>
+                <p className="card-summary">{p.summary}</p>
+                <div className="card-focus">
+                  <span>Focus</span>
+                  <div className="tag-list">
+                    {p.tags.map((t) => (
+                      <span key={t}>{t}</span>
+                    ))}
+                  </div>
+                </div>
+                <div className="card-footer">
+                  <div className="resource-links">
+                    {p.links.map((l) => (
+                      <ResourceLink key={l.url} link={l} project={p.name} />
+                    ))}
+                  </div>
                   <button
-                    className="visual-button"
+                    className="details-button"
                     onClick={() => openProject(p)}
                     aria-label={`${p.name} 상세 보기`}
                   >
-                    <ProjectVisual id={id} />
-                    <span className="visual-open">
-                      <Plus size={22} />
-                    </span>
+                    Details <ArrowUpRight size={16} />
                   </button>
-                  <div className="feature-copy">
-                    <span className="eyebrow">
-                      0{i + 1} / {p.kicker.split(" · ")[0]}
-                    </span>
-                    <h3>
-                      {p.name}
-                      <span>{p.subtitle}</span>
-                    </h3>
-                    <p>{p.summary}</p>
-                    <div className="feature-result">
-                      {id === "promptstyler"
-                        ? "논문 재현 · 학습 · 평가 · 시각화"
-                        : id === "mote"
-                          ? "모델 학습 → 경량화 → API·앱 연동"
-                          : "3주 내 양대 마켓 출시 · PPO는 베타 적용"}
-                    </div>
-                    <div className="tag-list">
-                      {p.tags.slice(0, 3).map((t) => (
-                        <span key={t}>{t}</span>
-                      ))}
-                    </div>
-                    <button
-                      className="text-link"
-                      onClick={() => openProject(p)}
-                    >
-                      내가 해결한 문제와 기여 <ArrowUpRight size={17} />
-                    </button>
-                  </div>
-                </article>
-              );
-            })}
+                </div>
+              </article>
+            ))}
           </div>
         </section>
-        <section id="archive" className="archive-section">
-          <div className="section">
-            <div className="section-label">
-              <span>03 / EXPERIENCE ARCHIVE</span>
-              <span>각 경험을 열어 기여와 결과를 확인하세요</span>
-            </div>
-            <div className="archive-heading">
-              <h2>
-                경험의 넓이,
-                <br />
-                문제 해결의 깊이.
-              </h2>
-              <div className="filters" role="group" aria-label="경험 분류">
-                {data.filters.map((f) => (
-                  <button
-                    key={f.id}
-                    aria-pressed={filter === f.id}
-                    className={filter === f.id ? "selected" : ""}
-                    onClick={() => setFilter(f.id)}
-                  >
-                    {f.label}
-                    <span>
-                      {f.id === "all"
-                        ? projects.length
-                        : projects.filter((p) => p.category === f.id).length}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-            <p className="sr-only" aria-live="polite">
-              {visible.length}개 경험 표시 중
-            </p>
-            <div className="archive-table">
-              <div className="archive-table-head" aria-hidden="true">
-                <span>PERIOD</span>
-                <span>PROJECT / RESEARCH</span>
-                <span>FOCUS</span>
-                <span />
-              </div>
-              {visible.map((p) => (
-                <button
-                  className="archive-row"
-                  key={p.id}
-                  onClick={() => openProject(p)}
-                >
-                  <span className="archive-date">{p.period}</span>
-                  <span className="archive-name">
-                    <b>{p.name}</b>
-                    <span>{p.subtitle}</span>
-                  </span>
-                  <span className="archive-tags">
-                    {p.tags.slice(0, 2).map((t) => (
-                      <span key={t}>{t}</span>
-                    ))}
-                  </span>
-                  <span className="archive-arrow">
-                    <ArrowUpRight size={21} />
-                  </span>
-                </button>
-              ))}
-            </div>
-          </div>
-        </section>
-        <section id="journey" className="section journey-section">
-          <div className="section-label">
-            <span>04 / JOURNEY</span>
-            <span>배움과 실험이 쌓인 시간</span>
-          </div>
-          <h2>
-            한 걸음씩,
-            <br />
-            새로운 영역으로.
-          </h2>
-          <div className="journey-grid">
-            <div className="journey-column">
-              <h3 className="column-title">RESEARCH & EDUCATION</h3>
-              <div className="timeline">
+        <section id="experience" className="section experience-section">
+          <h2 className="section-title">EXPERIENCE</h2>
+          <div className="experience-grid">
+            <div>
+              <h3 className="group-title">Research</h3>
+              <div className="research-list">
                 {data.researchHistory.map((r, i) => (
-                  <div className="timeline-item" key={r.organization}>
-                    <span className="timeline-dot" />
+                  <article key={r.organization}>
                     <time>{i === 0 ? "2025.09 시작" : r.period}</time>
                     <h4>{r.organization}</h4>
-                    <span className="timeline-role">{r.role}</span>
+                    <span className="research-role">{r.role}</span>
                     <p>{r.topic}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="education-list">
-                {data.education.map((e) => (
-                  <div key={e.school}>
-                    <span>{e.period}</span>
-                    <h4>{e.school}</h4>
-                    <p>{e.program}</p>
-                  </div>
+                  </article>
                 ))}
               </div>
             </div>
-            <div className="journey-column">
-              <h3 className="column-title">PUBLICATION</h3>
+            <div>
+              <h3 className="group-title">Publication</h3>
               <a
                 className="publication"
                 href={data.publication.url}
                 {...external}
               >
-                <span className="publication-venue">
-                  ICROS 2023 <ArrowUpRight size={20} />
+                <span>
+                  ICROS 2023 <ArrowUpRight size={17} />
                 </span>
                 <h4>{data.publication.title}</h4>
                 <p>{data.publication.authors}</p>
-                <span>제38회 제어로봇시스템학회 학술대회 · pp. 924–925</span>
+                <small>제38회 제어로봇시스템학회 학술대회 · pp. 924–925</small>
               </a>
-              <h3 className="column-title awards-heading">RECOGNITION</h3>
+              <h3 className="group-title awards-title">Awards</h3>
               <div className="awards-list">
                 {data.awards.map((a) => (
                   <div key={a.year}>
-                    <span>{a.year}</span>
+                    <time>{a.year}</time>
                     <div>
                       <h4>{a.title}</h4>
                       <p>{a.organization}</p>
@@ -678,9 +480,6 @@ export default function App() {
                   </div>
                 ))}
               </div>
-              <a className="text-link" href="./resume.html" {...external}>
-                전체 이력 보기 <FileText size={16} />
-              </a>
             </div>
           </div>
           <div className="skills-list">
@@ -692,65 +491,50 @@ export default function App() {
             ))}
           </div>
         </section>
-        <section id="contact" className="contact-section">
-          <div className="section">
-            <div className="section-label">
-              <span>05 / WHAT'S NEXT?</span>
-              <span>함께 풀어갈 다음 문제</span>
-            </div>
-            <h2>
-              Let’s connect<span>.</span>
-            </h2>
-            <p>
-              새로운 문제를 함께 풀어보고 싶습니다.
-              <br />
-              AI 연구와 개발, 기술을 제품으로 연결하는 기회를 기다립니다.
-            </p>
-            <div className="email-line">
-              <a href={`mailto:${data.person.email}`}>
-                {data.person.email}
-                <ArrowUpRight />
-              </a>
-              <button
-                className="icon-button"
-                onClick={copyEmail}
-                aria-label="이메일 주소 복사"
-              >
-                {copied ? <Check size={20} /> : <Copy size={20} />}
-              </button>
-              <span className="copy-status" role="status">
-                {copied ? "복사했습니다" : ""}
-              </span>
-            </div>
-            <div className="social-links">
-              <a href={data.person.github} {...external}>
-                <Github size={17} />
-                GitHub
-                <ArrowUpRight size={15} />
-              </a>
-              <a href={data.person.blog} {...external}>
-                기술 블로그
-                <ArrowUpRight size={15} />
-              </a>
-              <a href={data.person.linkedin} {...external}>
-                LinkedIn
-                <ArrowUpRight size={15} />
-              </a>
-              <a href="./resume.html" {...external}>
-                이력서
-                <ArrowUpRight size={15} />
-              </a>
-            </div>
-            <footer>
-              <a className="wordmark" href="#top" aria-label="맨 위로">
-                GH<span>.</span>
-              </a>
-              <span>© {new Date().getFullYear()} GYUTAK HAHN</span>
-              <a href="#top">BACK TO TOP ↑</a>
-            </footer>
+        <section id="contact" className="section contact-section">
+          <h2 className="section-title">CONTACT</h2>
+          <div className="email-line">
+            <a href={`mailto:${data.person.email}`}>{data.person.email}</a>
+            <button
+              className="icon-button"
+              onClick={copyEmail}
+              aria-label="이메일 주소 복사"
+              title="Copy email"
+            >
+              {copied ? <Check size={18} /> : <Copy size={18} />}
+            </button>
+          </div>
+          <p className="copy-status" role="status">
+            {copied ? "Copied" : ""}
+          </p>
+          <div className="contact-links">
+            <a href={data.person.github} {...external}>
+              GitHub <ArrowUpRight size={15} />
+            </a>
+            <a href={data.person.blog} {...external}>
+              Blog <ArrowUpRight size={15} />
+            </a>
+            <a href={data.person.linkedin} {...external}>
+              LinkedIn <ArrowUpRight size={15} />
+            </a>
+            <a href="./resume.html" {...external}>
+              CV <ArrowUpRight size={15} />
+            </a>
           </div>
         </section>
       </main>
+      <footer>
+        © {new Date().getFullYear()} Gyutak Hahn{" "}
+        <a
+          href="#about"
+          onClick={(event) => {
+            event.preventDefault();
+            navigateTo("about");
+          }}
+        >
+          Back to top ↑
+        </a>
+      </footer>
       <ProjectDialog project={selected} onClose={closeProject} />
     </>
   );

@@ -8,7 +8,7 @@
 - [Andrej Karpathy](https://karpathy.ai/): 연구·개발 이력을 구체적 결과와 연결하는 방식 참고.
 - [Lilian Weng](https://lilianweng.github.io/): 주제·시간을 기준으로 쌓이는 아카이브 구성 참고.
 
-다른 사람의 프로젝트·경력·사진·문안은 사용하지 않았습니다. 프로젝트 대표 그림은 기술 흐름을 설명하기 위해 이 사이트에서 작성한 CSS 도식입니다. 실제 앱 이미지는 프로젝트 상세에서 따로 제시합니다.
+다른 사람의 프로젝트·경력·사진·문안은 사용하지 않았습니다. 프로젝트는 Focus 태그와 자료 링크 아이콘이 있는 카드로 배치했습니다. 실제 앱 이미지는 프로젝트 상세에서 따로 제시합니다.
 
 ## Content
 
@@ -33,4 +33,9 @@
 
 ## Original template & libraries
 
-기존 저장소는 [Figma Make 프로젝트](https://www.figma.com/design/OxTELRwvXiXS3rXwEpdviP/Personal-Portfolio-Website)에서 시작했습니다. 미사용 shadcn/ui 원본 파일의 라이선스 안내는 `ATTRIBUTIONS.md`에 보존했습니다. 새 화면은 React, Vite, Lucide를 사용합니다. 글꼴은 Google Fonts의 Space Grotesk와 DM Sans이며 시스템 폰트 대체값을 제공합니다.
+기존 저장소는 [Figma Make 프로젝트](https://www.figma.com/design/OxTELRwvXiXS3rXwEpdviP/Personal-Portfolio-Website)에서 시작했습니다. 미사용 shadcn/ui 원본 파일의 라이선스 안내는 `ATTRIBUTIONS.md`에 보존했습니다. 새 화면은 React, Vite, Lucide를 사용합니다. 글꼴은 원본 CodePen과 같은 `Century Gothic`, Google Fonts의 `Lato` 400/700, sans-serif 순서입니다. 원본의 #eee 배경, 제목 자간, 70px 메뉴·6px 밑줄과 hover 색상을 적용했습니다.
+
+## Profile & link icons (2026.10 update)
+
+- `public/images/profile.png`: [본인 GitHub 프로필 이미지](https://github.com/HahnGyuTak.png?size=800). 사용자 지정에 따라 임시 프로필로 사용합니다.
+- `public/icons/`: [Simple Icons](https://github.com/simple-icons/simple-icons)의 GitHub, Hugging Face, App Store, Google Play SVG. 사이트별 외부 링크 식별에 사용합니다.

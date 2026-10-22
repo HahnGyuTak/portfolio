@@ -1,6 +1,6 @@
 # Gyutak Hahn · Personal Portfolio
 
-한규탁의 AI 연구·개발 포트폴리오입니다. 기존 React/Vite 프로젝트를 바탕으로 소개, 대표 프로젝트, 9개 경험 아카이브, 연구·학력·논문·수상, 연락처를 구성했습니다.
+한규탁의 AI 연구·개발 포트폴리오입니다. 기존 React/Vite 프로젝트를 바탕으로 프로필, 9개 프로젝트 카드, 연구·학력·논문·수상, 연락처를 구성했습니다.
 
 ## 실행
 
@@ -24,9 +24,9 @@ pnpm preview     # dist/ 결과 확인
 - `src/app/content.json`: 프로젝트 설명, 날짜, 역할, 결과, 링크, 이력, 연락처
 - `src/app/data.ts`: 프로젝트 타입과 아카이브 최신순 정렬
 - `src/app/App.tsx`: 섹션, 고정 메뉴, 필터, 프로젝트 상세, 이메일 복사
-- `src/styles/index.css`: 반응형 화면, 프로젝트 도식, 접근성 스타일
+- `src/styles/index.css`: 반응형 화면, 프로젝트 카드, 접근성 스타일
 - `public/resume.html`: 브라우저에서 인쇄/PDF 저장 가능한 이력서. 사이트 콘텐츠 수정 시 함께 갱신합니다.
-- `public/images/`: 본인 프로젝트의 실제 앱 화면
+- `public/images/`: GitHub 프로필 이미지와 본인 프로젝트의 실제 앱 화면
 
 프로젝트 링크는 `?project=mote`, `?project=promptstyler`, `?project=wallbaduk`처럼 공유할 수 있습니다. 상세는 Escape, 닫기 버튼, 배경 클릭으로 닫을 수 있고 열었던 버튼으로 포커스가 돌아옵니다. 모션 줄이기 설정을 지원합니다.
 
@@ -45,9 +45,9 @@ pnpm preview     # dist/ 결과 확인
 ## 구조와 동작
 
 - CodePen의 하단 시작 → 상단 고정 내비게이션, 현재 섹션 밑줄 이동
-- 대표 프로젝트 3개와 연구/제품·서비스 필터를 제공하는 전체 9개 아카이브
+- 전체 9개 프로젝트 카드, 연구/제품·서비스 필터, Focus 태그와 사이트별 링크 아이콘
 - 네이티브 `<dialog>` 기반 상세, 키보드 포커스 관리, 딥 링크
 - 외부 서비스 키·로그인·추적 스크립트 없는 정적 사이트
-- 기본 글꼴은 시스템 폰트, 영어 제목은 Google Fonts 로드 시 적용
+- CodePen과 같은 `Century Gothic, Lato, sans-serif` 폰트 스택, 회색 배경, 넓은 제목 자간, 70px 메뉴·6px 파란 밑줄
 
 원본 저장소의 미사용 Figma 컴포넌트는 보존하지만 배포 번들에는 포함되지 않습니다.
