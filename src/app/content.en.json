@@ -1,0 +1,421 @@
+{
+  "person": {
+    "nameKo": "한규탁",
+    "nameEn": "Gyutak Hahn",
+    "role": "AI Research & Engineering",
+    "email": "gthahn@korea.ac.kr",
+    "github": "https://github.com/HahnGyuTak",
+    "location": "Seoul, South Korea",
+    "contactHeading": "Let’s work on the next problem.",
+    "contactDescription": "I’m interested in AI research, development, and bringing technology into real products.",
+    "blog": "https://hahngyutak.github.io/",
+    "linkedin": "https://www.linkedin.com/in/gyutakHahn/"
+  },
+  "projects": [
+    {
+      "id": "stable",
+      "name": "STABLE",
+      "category": "research",
+      "kicker": "MULTIMODAL LLM · ATTRIBUTE BINDING",
+      "subtitle": "Improving attribute binding with visual evidence",
+      "period": "Submitted 2026.09.24",
+      "status": "ICASSP 2027 · Under Review",
+      "role": "First author · Method design · Implementation & experiments · Writing",
+      "organization": "PRML Lab, Korea University",
+      "summary": "I proposed a method that uses internal visual evidence to assess attribute–object associations and steer inference in a single forward pass per caption, without updating model weights.",
+      "problem": "MLLMs could recognize objects and attributes separately yet associate them incorrectly. I investigated why internal visual evidence supporting the correct answer was not reflected in the final prediction.",
+      "contributions": [
+        "Analyzed image attention and hidden states across layers to identify where visual evidence emerges and where binding relations become distinguishable. I removed shared attention components and estimated visual associations with bidirectional relative correspondence scores (mcBC).",
+        "Used agreement between syntactic and visual associations as pseudo-labels to estimate a steering direction without ground-truth labels. After this calibration, steering is applied at later layers only to captions where all bindings agree, requiring one forward pass per caption, no weight updates, and no auxiliary vision or reasoning models.",
+        "Implemented model-specific adapters and benchmark evaluation pipelines for Qwen2-VL-7B and LLaVA-1.5-7B. I evaluated on ARO, ColorSwap, SugarCrepe, and Winoground, ran ablations, and kept calibration and evaluation data separate."
+      ],
+      "outcome": "The paper reports LLaVA-1.5-7B ColorSwap Group accuracy of 73.00%, up from VQAScore’s 67.33% (+5.67 percentage points). On 100 ARO samples with LLaVA-1.5 and a TITAN RTX, inference took 0.60 seconds per sample: 4.1× faster than CRG and 25.6× faster than COCO-Tree. Submitted to ICASSP 2027; currently under review.",
+      "tags": [
+        "Multimodal LLM",
+        "Activation Steering",
+        "Training-free Inference"
+      ],
+      "links": []
+    },
+    {
+      "id": "mote",
+      "name": "Mote",
+      "category": "development",
+      "kicker": "SPEECH · MODEL TO APPLICATION",
+      "subtitle": "Korean speech recognition, diarization & compression",
+      "period": "2024.11",
+      "role": "AI development · Dataset curation · Training & evaluation · API integration",
+      "summary": "I curated Korean speech data and fine-tuned Whisper, then connected speaker-labeled transcripts and meeting summaries to the app.",
+      "problem": "The service needed to transcribe Korean meetings and domain-specific terminology, distinguish speakers, and run speech models in a deployment environment.",
+      "contributions": [
+        "Collected audio and Korean subtitles from videos, split them into aligned segments, resampled audio to 16 kHz, and filtered out short samples to build training and evaluation datasets. I followed Korean fine-tuning with additional training on software development and economics content.",
+        "Applied FP16 and gradient checkpointing, and configured WER evaluation and checkpoint selection in Seq2SeqTrainer. I used x-vectors and spectral clustering to separate speakers’ utterances.",
+        "Reduced model size from 3.2 GB to 820 MB through CTranslate2 quantization and configured CPU inference with faster-whisper. I implemented summarization LLM calls and AI APIs, then worked with the backend developer to integrate them into the app."
+      ],
+      "outcome": "Published models and datasets on Hugging Face and integrated speaker-labeled transcription and summarization into the app.",
+      "metric": {
+        "value": "3.2GB → 820MB",
+        "label": "Model size after quantization"
+      },
+      "tags": [
+        "Whisper",
+        "PyTorch",
+        "Speaker Diarization",
+        "CTranslate2"
+      ],
+      "links": [
+        {
+          "label": "AI code",
+          "url": "https://github.com/MettingApp/AI"
+        },
+        {
+          "label": "Training code",
+          "url": "https://github.com/HahnGyuTak/openai-whisper-finetuning"
+        },
+        {
+          "label": "Public model",
+          "url": "https://huggingface.co/imTak/whisper_large_v3_turbo_korean_Develop"
+        }
+      ]
+    },
+    {
+      "id": "wallbaduk",
+      "name": "WallBaduk",
+      "nameEn": "WallBaduk",
+      "category": "development",
+      "kicker": "GAME AI · SOLO PRODUCT",
+      "subtitle": "Solo-developed strategy game released on both stores",
+      "period": "2025.05–",
+      "role": "Planning · Design · Game AI · App & multiplayer development · Release",
+      "summary": "I designed a 7×7 strategy board game, built it with Flutter and Firebase, and released it on both mobile app stores in three weeks.",
+      "problem": "I needed to turn strategic game rules, AI opponents, and real-time online matches into a complete mobile game.",
+      "contributions": [
+        "Implemented move and wall-placement validation, territory separation, and win/loss detection. I also built the game screens and customization features.",
+        "Built the intermediate AI with minimax and alpha–beta pruning, evaluating territory control and mobility while running search in a separate isolate. I also trained a PPO agent through self-play and integrated it into the beta version.",
+        "Implemented room-code entry and automatic matchmaking, with Firestore synchronizing game state. I checked edge cases and match progression through room entry limits, expired-room cleanup, and bot simulations."
+      ],
+      "outcome": "Handled planning, design, development, and release independently, launching on the iOS App Store and Google Play in three weeks. I continued improving the AI and online multiplayer afterward.",
+      "metric": {
+        "value": "3 weeks",
+        "label": "From planning to release on both stores"
+      },
+      "tags": [
+        "Flutter",
+        "Firebase",
+        "Minimax",
+        "PPO (Beta)"
+      ],
+      "links": [
+        {
+          "label": "App Store",
+          "url": "https://apps.apple.com/kr/app/wall%EB%B0%94%EB%91%91/id6747090524"
+        },
+        {
+          "label": "Google Play",
+          "url": "https://play.google.com/store/apps/details?id=com.imtak.wall_baduk_app"
+        }
+      ]
+    },
+    {
+      "id": "stargan-ta",
+      "name": "StarGAN-TA",
+      "category": "research",
+      "kicker": "GENERATIVE VISION · PUBLICATION",
+      "subtitle": "Transfer learning for facial expression generation",
+      "period": "2023.01–06",
+      "role": "Preprocessing · Model adaptation · Experiments · Co-authored paper",
+      "organization": "MINES Lab, Sejong University",
+      "summary": "We adapted a pretrained model with five attributes to generate six facial expressions and co-authored a paper at ICROS 2023.",
+      "problem": "The pretrained StarGAN used five facial attributes, while our task required six expressions. The dimensional mismatch prevented us from loading the weights directly.",
+      "contributions": [
+        "Worked jointly with teammates on face detection, cropping, resizing, model changes, experiments, and paper writing.",
+        "Changed the generator input to nine channels for RGB plus six conditions and rebuilt the discriminator’s classification layer. We retained existing weights and initialized the added channel from the mean of the pretrained attribute channels.",
+        "In a 2024 follow-up code update, I replaced the generator’s ReLU activations with LeakyReLU and organized the training code and runtime environment."
+      ],
+      "outcome": "Co-authored “StarGAN-TA: Transfer Learning with StarGAN for Improved Facial Expression Generation,” published in the ICROS 2023 conference proceedings.",
+      "tags": [
+        "PyTorch",
+        "StarGAN",
+        "Transfer Learning",
+        "ICROS 2023"
+      ],
+      "links": [
+        {
+          "label": "Research code",
+          "url": "https://github.com/shp216/StarGAN-TA"
+        },
+        {
+          "label": "Paper",
+          "url": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11480637"
+        }
+      ]
+    },
+    {
+      "id": "lenfit",
+      "name": "Lenfit",
+      "category": "development",
+      "kicker": "POSE ESTIMATION · REAL-TIME FEEDBACK",
+      "subtitle": "Real-time exercise feedback & repetition counting",
+      "period": "2023.03–11",
+      "role": "Pose assessment · Repetition counting · Backend integration",
+      "summary": "I combined joint angles, positions, and movement directions from pose estimates to assess exercise form and count valid repetitions.",
+      "problem": "Noisy pose estimates and incomplete movements made it difficult to count repetitions using a single angle threshold.",
+      "contributions": [
+        "Converted Google ML Kit joint coordinates into angles and implemented exercise-specific rules combining position, direction, and angle conditions.",
+        "Detected squats where the user stood up before reaching sufficient depth, provided corrective feedback, and counted only movements that met the required range of motion.",
+        "Worked with the backend developer to integrate these features and coordinate the app’s data transfer and processing flow."
+      ],
+      "outcome": "Implemented real-time exercise feedback and repetition counting for the Lenfit app in the Hanium ICT Mentoring team project.",
+      "tags": [
+        "Flutter",
+        "Google ML Kit",
+        "Pose Estimation"
+      ],
+      "links": []
+    },
+    {
+      "id": "diff-svc",
+      "name": "Diff-SVC × DiffWave",
+      "category": "research",
+      "kicker": "AUDIO · DATA AUGMENTATION",
+      "subtitle": "Singing voice conversion with limited-data augmentation",
+      "period": "2023.07–12",
+      "role": "Audio preprocessing & augmentation · Diff-SVC training & experiments",
+      "organization": "MINES Lab, Sejong University",
+      "summary": "I trained Diff-SVC models for multiple singers and used DiffWave to augment limited voice samples, combining generated and original audio for further training.",
+      "problem": "Some target singers had too few available voice samples. I needed to supplement the training data to support conversion into those voices.",
+      "contributions": [
+        "Converted audio formats, split recordings into segments, and prepared training data to build Diff-SVC voice conversion models for multiple singers.",
+        "Investigated diffusion models for audio generation and used DiffWave to generate augmented audio conditioned on mel spectrograms from the original recordings. I combined the generated and original audio to train Diff-SVC models.",
+        "Worked with another AI developer to prepare an original-data-only baseline and a model trained with both original and augmented data, then examined conversion outputs for the same target voice."
+      ],
+      "outcome": "Built voice conversion models for multiple singers and completed training with augmented data. The team integrated the AI models, iOS app, and server into a personalized voice conversion program.",
+      "tags": [
+        "Diff-SVC",
+        "DiffWave",
+        "Data Augmentation"
+      ],
+      "links": []
+    },
+    {
+      "id": "rested",
+      "name": "RESTED",
+      "category": "development",
+      "kicker": "COMPUTER VISION · REHABILITATION",
+      "subtitle": "Cognitive rehabilitation quizzes & AI models",
+      "period": "2023.10–12",
+      "role": "Quiz design · Model training · Team collaboration & service integration",
+      "summary": "I built cognitive rehabilitation quizzes using object detection and expression generation, then worked with teammates to complete and demonstrate an AI-assisted self-rehabilitation program.",
+      "problem": "Model detections and generated images needed to become interactive cognitive rehabilitation activities that users could complete and respond to.",
+      "contributions": [
+        "Fine-tuned an object detection model for everyday objects found in Korean living environments. I built a quiz that selects a target from detected objects and compares it with the object the user presents again.",
+        "Preprocessed six emotion classes from AI Hub facial expression data and fine-tuned StarGAN. I built an emotion recognition quiz that generates expressions from a familiar person’s photo and asks users to identify the emotion.",
+        "Collaborated with teammates to integrate the cognitive quizzes into the AI-assisted self-rehabilitation service program and jointly demonstrated the completed system."
+      ],
+      "outcome": "Completed and demonstrated the program with the team. RESTED received the Grand Prize in the Intelligent Mechatronics Engineering division at Sejong University’s 16th Creative Design Competition in 2023.",
+      "tags": [
+        "Object Detection",
+        "StarGAN",
+        "Computer Vision"
+      ],
+      "links": [
+        {
+          "label": "Grand Prize award",
+          "url": "https://withus.sejong.ac.kr/non/stuTlnt/view.do?dataSeq=1000040&sstTyCd=ST01&currentPageNo=1"
+        },
+        {
+          "label": "Presentation (PDF)",
+          "url": "https://withus.sejong.ac.kr/comm/cmfile/download.do?encFileGrpSeq=19b82d7b338cb31f922c99903b99dbe2&encFileSeq=6f0d09eaa7573ee1a905876da477a5f4"
+        }
+      ]
+    },
+    {
+      "id": "writenow",
+      "name": "WriteNow",
+      "category": "development",
+      "kicker": "LANGUAGE MODEL · DOCUMENT AUTOMATION",
+      "subtitle": "GPT fine-tuning & document automation",
+      "period": "2024.06–07",
+      "role": "Document sample collection · Input/output dataset curation · GPT fine-tuning",
+      "summary": "To obtain the required JSON outputs, I collected document samples, built input/output training pairs, and fine-tuned GPT through the OpenAI API.",
+      "problem": "The model at the time did not reliably produce document analysis results in the required JSON structure. It needed to output text-entry and choice fields that the app could use.",
+      "contributions": [
+        "Collected document samples and personally built input/output training pairs: text extracted from Word tables as input, and JSON describing text-entry and choice fields as the target output.",
+        "Fine-tuned GPT for document analysis through the OpenAI API using the curated data. I implemented logic that turns the model’s output fields into app questions and maps users’ answers back into document content.",
+        "Worked with the backend developer on AI APIs and connected the backend and frontend so users could view generated DOCX documents in the app."
+      ],
+      "outcome": "Handled sample collection, training-data construction, and GPT fine-tuning, and implemented the workflow from template upload through questions and answers to DOCX generation and viewing.",
+      "tags": [
+        "GPT Fine-tuning",
+        "Dataset Curation"
+      ],
+      "links": [
+        {
+          "label": "Project",
+          "url": "https://github.com/AcademicFestival/.github/blob/main/profile/README.md"
+        }
+      ]
+    },
+    {
+      "id": "souf",
+      "name": "Souf",
+      "category": "development",
+      "kicker": "STARTUP · PRODUCT LEADERSHIP",
+      "subtitle": "Student freelancer platform: founding, development & operations",
+      "period": "2025.02–2026.02",
+      "role": "Founder & CEO · Product planning · Development leadership · Operations",
+      "summary": "I planned a freelancer platform connecting portfolio sharing, client communication, and contracts, and led the team’s development and operations.",
+      "problem": "Students needed a service that connected their work samples to client inquiries and contracts through a coherent user flow.",
+      "contributions": [
+        "Defined portfolio feed uploads, real-time chat, and contract drafting as core features, then managed the scope and progress of each feature.",
+        "Coordinated development around the flow from sharing work to discussing project terms and drafting a contract. With support from Sejong University’s Campus Town program, I registered the business and launched the service.",
+        "Operated the launched service and planned an AI portfolio generation feature, progressing through data preparation for its future introduction."
+      ],
+      "outcome": "Launched and operated the student freelancer platform. AI portfolio generation remained a planned follow-up feature supported by data preparation.",
+      "tags": [
+        "Product Planning",
+        "Project Management",
+        "Startup",
+        "Operations"
+      ],
+      "links": []
+    }
+  ],
+  "education": [
+    {
+      "school": "Korea University",
+      "schoolEn": "Korea University",
+      "program": "M.S. student in Artificial Intelligence",
+      "period": "Enrolled 2025.09"
+    },
+    {
+      "school": "Sejong University",
+      "schoolEn": "Sejong University",
+      "program": "B.S. in Intelligent Mechatronics Engineering",
+      "period": "2019.03–2025.02"
+    }
+  ],
+  "researchHistory": [
+    {
+      "organization": "PRML Lab, Korea University",
+      "role": "Graduate Researcher",
+      "period": "2025.09–",
+      "topic": "Visual reasoning in vision-language models"
+    },
+    {
+      "organization": "UTL Lab, Korea University",
+      "role": "Undergraduate Researcher",
+      "period": "2024.05–2025.01",
+      "topic": "VLM domain generalization · Diffusion-based style transfer & synthetic data"
+    },
+    {
+      "organization": "MINES Lab, Sejong University",
+      "role": "Undergraduate Researcher",
+      "period": "2023.01–12",
+      "topic": "GAN-based image generation · Diffusion-based audio augmentation & synthesis"
+    }
+  ],
+  "submission": {
+    "title": "STABLE: Single-Pass Training-Free Attribute Binding via Layer-Wise Evidence in Multimodal LLMs",
+    "authors": "Gyu-Tak Hahn · Jumin Han · Seong-Whan Lee",
+    "venue": "ICASSP 2027",
+    "status": "Under Review",
+    "submittedAt": "2026.09.24"
+  },
+  "publication": {
+    "title": "StarGAN-TA: Transfer Learning with StarGAN for Improved Facial Expression Generation",
+    "authors": "박세환 · 한규탁 · 이석 · 김형석",
+    "venue": "38th ICROS Annual Conference (ICROS 2023)",
+    "date": "2023.06",
+    "pages": "924–925",
+    "url": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11480637"
+  },
+  "awards": [
+    {
+      "year": "2024",
+      "title": "Grand Prize, Intelligent Mechatronics Engineering Academic Competition",
+      "organization": "Sejong University",
+      "sourceTitle": "Grand Prize, 2024 Academic competitions, Department of IME"
+    },
+    {
+      "year": "2023",
+      "title": "Grand Prize, Intelligent Mechatronics Engineering Division, 16th Creative Design Competition",
+      "organization": "Sejong University",
+      "sourceTitle": "Grand Prize, 16th Annual Creative Design Competition, Sejong Univ"
+    },
+    {
+      "year": "2022",
+      "title": "Grand Prize, Algorithm Competition",
+      "organization": "Smarcle"
+    },
+    {
+      "year": "2019",
+      "title": "4th Place, Software Coding Competition",
+      "organization": "Sejong University"
+    }
+  ],
+  "teaching": [
+    {
+      "title": "Teaching Assistant",
+      "organization": "Sejong University",
+      "details": "C Programming (2022–2024) · Data Structures (2023) · Algorithms (2023)"
+    },
+    {
+      "title": "Mentor",
+      "details": "C Programming (2022) · Machine Learning (2024)"
+    }
+  ],
+  "programs": [
+    {
+      "title": "NAVER AI RUSH",
+      "period": "2023.08–11",
+      "description": "Project using HyperCLOVA X"
+    },
+    {
+      "title": "LG Aimers",
+      "period": "2023.07–08"
+    },
+    {
+      "title": "42 Seoul",
+      "period": "2022.07–2023.03",
+      "description": "C, C++ & Shell programming"
+    },
+    {
+      "title": "Selected for Hanium ICT Mentoring",
+      "period": "2023"
+    }
+  ],
+  "skills": [
+    {
+      "label": "Research & Modeling",
+      "items": [
+        "PyTorch",
+        "TensorFlow",
+        "CLIP",
+        "Whisper",
+        "GAN",
+        "Diffusion"
+      ]
+    },
+    {
+      "label": "Data & Evaluation",
+      "items": [
+        "Python",
+        "OpenCV",
+        "scikit-learn",
+        "Hugging Face",
+        "WER"
+      ]
+    },
+    {
+      "label": "Product Engineering",
+      "items": [
+        "Flutter",
+        "Firebase",
+        "API Integration",
+        "Git",
+        "C"
+      ]
+    }
+  ]
+}

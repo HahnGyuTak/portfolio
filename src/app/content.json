@@ -1,0 +1,373 @@
+{
+  "person": {
+    "nameKo": "한규탁",
+    "nameEn": "Gyutak Hahn",
+    "role": "AI Research & Engineering",
+    "email": "gthahn@korea.ac.kr",
+    "github": "https://github.com/HahnGyuTak",
+    "location": "Seoul, South Korea",
+    "contactHeading": "새로운 문제를 함께 풀어보고 싶습니다.",
+    "contactDescription": "AI 연구와 개발, 기술을 실제 제품으로 연결하는 기회에 관심이 있습니다.",
+    "blog": "https://hahngyutak.github.io/",
+    "linkedin": "https://www.linkedin.com/in/gyutakHahn/"
+  },
+  "projects": [
+    {
+      "id": "stable",
+      "name": "STABLE",
+      "category": "research",
+      "kicker": "MULTIMODAL LLM · ATTRIBUTE BINDING",
+      "subtitle": "시각적 근거를 활용한 MLLM 속성 결합 개선",
+      "period": "2026.09.24 제출",
+      "status": "ICASSP 2027 · Under Review",
+      "role": "제1저자 · 아이디어·방법 설계 · 코드 구현·실험 · 논문 작성",
+      "organization": "고려대학교 PRML 연구실",
+      "summary": "모델 내부의 시각적 근거로 속성과 객체의 연결을 판단하고, 가중치 재학습 없이 캡션당 한 번의 순전파에서 추론을 보정하는 방법을 제안했습니다.",
+      "problem": "MLLM이 사물과 속성을 각각 인식해도 둘의 관계를 잘못 연결했습니다. 정답을 지지하는 내부 시각적 근거가 최종 판단에 반영되지 않는 원인을 분석했습니다.",
+      "contributions": [
+        "레이어별 이미지 어텐션과 은닉 표현을 분석해 시각적 근거가 나타나는 레이어와 결합 관계를 구분하는 레이어를 식별했습니다. 속성·객체의 공통 어텐션을 제거하고 양방향 상대 대응 점수(mcBC)로 시각적 연결을 추정했습니다.",
+        "구문과 시각적 연결의 일치 여부를 의사 라벨로 사용해 정답 라벨 없이 보정 방향을 추정했습니다. 모든 결합이 일치하는 캡션에만 후속 레이어의 표현을 보정해, 모델 가중치 갱신이나 보조 비전·추론 모델 없이 캡션당 한 번의 순전파로 동작하도록 구성했습니다.",
+        "Qwen2-VL-7B와 LLaVA-1.5-7B에 적용하고 ARO·ColorSwap·SugarCrepe·Winoground 평가 및 구성 요소 제거 실험을 수행했습니다. 보정용 데이터와 평가 데이터를 분리하고 모델별 어댑터와 벤치마크별 평가 절차를 구현했습니다."
+      ],
+      "outcome": "논문 보고 결과, LLaVA-1.5-7B의 ColorSwap Group 정확도는 VQAScore 대비 67.33% → 73.00%(+5.67%p)였습니다. LLaVA-1.5·ARO 100샘플·TITAN RTX 조건에서 샘플당 0.60초로 CRG 대비 4.1배, COCO-Tree 대비 25.6배 빨랐습니다. ICASSP 2027에 제출했으며 현재 Under Review입니다.",
+      "tags": [
+        "Multimodal LLM",
+        "Activation Steering",
+        "Training-free Inference"
+      ],
+      "links": []
+    },
+    {
+      "id": "mote",
+      "name": "Mote",
+      "category": "development",
+      "kicker": "SPEECH · MODEL TO APPLICATION",
+      "subtitle": "한국어 STT·화자 분리·모델 경량화",
+      "period": "2024.11",
+      "role": "AI 개발 · 데이터 구축 · 모델 학습·평가 · API 연동",
+      "summary": "한국어 음성 데이터를 구축하고 Whisper를 학습해 화자별 전사와 회의 요약을 앱에 연결했습니다.",
+      "problem": "한국어 회의와 분야별 표현을 전사하고, 참여자의 발화를 구분하면서 모델을 서비스 환경에서 실행해야 했습니다.",
+      "contributions": [
+        "영상의 음성과 한국어 자막을 수집해 구간별로 분할하고, 16kHz 변환과 짧은 샘플 제외로 학습·평가 데이터를 구성했습니다. 한국어 학습 후 개발·경제 분야를 추가 학습했습니다.",
+        "FP16과 gradient checkpointing을 적용하고, Seq2SeqTrainer에 WER 평가와 체크포인트 선택을 연결했습니다. x-vector와 스펙트럴 클러스터링으로 화자별 발화를 분리했습니다.",
+        "CTranslate2 양자화로 모델을 3.2GB에서 820MB로 줄이고 faster-whisper로 CPU 추론을 구성했습니다. 요약 LLM 호출과 AI API를 구현하고 백엔드 담당 팀원과 앱 연동을 완료했습니다."
+      ],
+      "outcome": "모델·데이터셋을 Hugging Face에 공개하고, 화자별 전사와 요약을 앱에서 활용할 수 있도록 연결했습니다.",
+      "metric": {
+        "value": "3.2GB → 820MB",
+        "label": "양자화 후 모델 용량"
+      },
+      "tags": ["Whisper", "PyTorch", "Speaker Diarization", "CTranslate2"],
+      "links": [
+        {
+          "label": "AI 코드",
+          "url": "https://github.com/MettingApp/AI"
+        },
+        {
+          "label": "모델 학습 코드",
+          "url": "https://github.com/HahnGyuTak/openai-whisper-finetuning"
+        },
+        {
+          "label": "공개 모델",
+          "url": "https://huggingface.co/imTak/whisper_large_v3_turbo_korean_Develop"
+        }
+      ]
+    },
+    {
+      "id": "wallbaduk",
+      "name": "벽바둑",
+      "nameEn": "WallBaduk",
+      "category": "development",
+      "kicker": "GAME AI · SOLO PRODUCT",
+      "subtitle": "전략 보드게임 단독 개발·양대 마켓 출시",
+      "period": "2025.05–",
+      "role": "기획 · 디자인 · 게임 AI · 앱·멀티플레이 개발 · 배포",
+      "summary": "7×7 보드게임을 직접 기획하고 Flutter·Firebase로 구현해 3주 만에 양대 앱 마켓에 출시했습니다.",
+      "problem": "전략적인 게임 규칙과 AI 대전, 실시간 온라인 대전을 하나의 모바일 게임으로 완성해야 했습니다.",
+      "contributions": [
+        "말 이동과 벽 설치의 유효성, 영역 분리, 승패 판정을 구현하고 게임 화면과 커스터마이징 기능을 개발했습니다.",
+        "중급 AI에 미니맥스·알파베타 가지치기를 적용했습니다. 확보 영역과 이동 가능성을 평가하고 탐색은 별도 isolate에서 실행했습니다. PPO 에이전트는 셀프플레이로 학습해 베타 버전에 적용했습니다.",
+        "방 코드 접속과 자동 매칭을 구현하고 Firestore로 게임 상태를 동기화했습니다. 입장 제한·만료 방 정리와 봇 시뮬레이션으로 예외 상황과 게임 진행을 점검했습니다."
+      ],
+      "outcome": "기획·디자인·개발·배포를 단독 수행해 3주 만에 iOS App Store와 Google Play에 출시했습니다. 이후 AI와 온라인 대전을 개선했습니다.",
+      "metric": {
+        "value": "3주",
+        "label": "기획부터 양대 마켓 출시까지"
+      },
+      "tags": ["Flutter", "Firebase", "Minimax", "PPO (Beta)"],
+      "links": [
+        {
+          "label": "App Store",
+          "url": "https://apps.apple.com/kr/app/wall%EB%B0%94%EB%91%91/id6747090524"
+        },
+        {
+          "label": "Google Play",
+          "url": "https://play.google.com/store/apps/details?id=com.imtak.wall_baduk_app"
+        }
+      ]
+    },
+    {
+      "id": "stargan-ta",
+      "name": "StarGAN-TA",
+      "category": "research",
+      "kicker": "GENERATIVE VISION · PUBLICATION",
+      "subtitle": "얼굴 표정 생성을 위한 전이학습 연구",
+      "period": "2023.01–06",
+      "role": "전처리 · 모델 변경 · 실험 · 논문 공동 작성",
+      "organization": "세종대학교 MINES 연구실",
+      "summary": "5개 속성을 다루는 사전학습 모델을 6개 표정으로 확장하고 연구 결과를 ICROS 2023 논문으로 공동 작성했습니다.",
+      "problem": "사전학습된 StarGAN의 5개 얼굴 속성과 목표인 6개 표정 사이의 차원 차이로 가중치를 그대로 사용할 수 없었습니다.",
+      "contributions": [
+        "얼굴 탐지·크롭·리사이즈로 데이터를 준비하고 전처리, 모델 수정, 실험, 논문 작성을 팀원과 공동 수행했습니다.",
+        "생성기 입력을 RGB와 6개 조건을 받는 9채널로 바꾸고 판별기 분류 계층을 재구성했습니다. 기존 가중치를 유지하며 추가 채널을 기존 속성 채널 평균으로 초기화했습니다.",
+        "2024년 후속 코드 개선에서 생성기의 ReLU를 LeakyReLU로 변경하고 학습 코드와 실행 환경을 정리했습니다."
+      ],
+      "outcome": "「StarGAN-TA: 표정 생성 성능 향상을 위한 전이학습 StarGAN」을 ICROS 2023 학술대회 논문집에 공동 게재했습니다.",
+      "tags": ["PyTorch", "StarGAN", "Transfer Learning", "ICROS 2023"],
+      "links": [
+        {
+          "label": "연구 코드",
+          "url": "https://github.com/shp216/StarGAN-TA"
+        },
+        {
+          "label": "논문",
+          "url": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11480637"
+        }
+      ]
+    },
+    {
+      "id": "lenfit",
+      "name": "Lenfit",
+      "category": "development",
+      "kicker": "POSE ESTIMATION · REAL-TIME FEEDBACK",
+      "subtitle": "실시간 운동 피드백·횟수 카운터",
+      "period": "2023.03–11",
+      "role": "자세 판정 · 운동 카운터 · 백엔드 연동",
+      "summary": "자세 추정 결과의 각도·위치·이동 방향을 조합해 운동 자세와 유효한 반복 횟수를 판정했습니다.",
+      "problem": "자세 추정 데이터의 노이즈와 불완전한 동작 때문에 단일 각도 기준만으로 운동 횟수를 판정하기 어려웠습니다.",
+      "contributions": [
+        "Google ML Kit 관절 좌표를 각도로 변환하고 운동별 위치·방향·각도 조건을 조합한 규칙 기반 로직을 구현했습니다.",
+        "스쿼트에서 충분히 내려가지 않고 일어나는 동작을 구분해 교정 피드백을 제공하고, 가동 범위를 충족한 동작만 횟수에 반영했습니다.",
+        "백엔드 담당 팀원과 기능을 연동하고 앱의 데이터 전달·처리 구조를 함께 정리했습니다."
+      ],
+      "outcome": "한이음 ICT 멘토링 팀 프로젝트에서 실시간 자세 피드백과 운동 횟수 카운터를 구현했습니다.",
+      "tags": ["Flutter", "Google ML Kit", "Pose Estimation"],
+      "links": []
+    },
+    {
+      "id": "diff-svc",
+      "name": "Diff-SVC × DiffWave",
+      "category": "research",
+      "kicker": "AUDIO · DATA AUGMENTATION",
+      "subtitle": "소량 데이터 증강을 통한 가창 음성 변환",
+      "period": "2023.07–12",
+      "role": "음성 전처리·증강 · Diff-SVC 모델 학습·실험",
+      "organization": "세종대학교 MINES 연구실",
+      "summary": "여러 가수의 Diff-SVC 모델을 학습하고, 부족한 음성 데이터를 DiffWave로 증강해 원본 데이터와 함께 추가 학습에 활용했습니다.",
+      "problem": "가수별 음성 변환 모델을 학습하는 과정에서, 확보한 음성이 적은 대상도 원하는 목소리로 변환할 수 있도록 학습 데이터를 보완해야 했습니다.",
+      "contributions": [
+        "음성 파일의 확장자 변환, 길이 분할, 학습용 데이터 변환 등 전처리를 수행하고 Diff-SVC로 여러 가수의 음성 변환 모델을 구축했습니다.",
+        "음성 생성용 확산 모델을 검토하고, DiffWave로 원본 음성의 멜스펙트로그램을 조건으로 한 증강 데이터를 생성했습니다. 생성한 음성을 원본 데이터와 합쳐 Diff-SVC 모델을 학습했습니다.",
+        "AI 담당 팀원과 원본만 사용한 기본 모델, 원본·증강 데이터를 함께 사용한 모델을 구성하고 같은 목표 목소리에 대한 변환 결과를 확인했습니다."
+      ],
+      "outcome": "여러 가수의 음성 변환 모델을 구축하고 증강 데이터를 활용한 학습을 완료했습니다. 팀은 AI 모델·iOS 앱·서버를 결합해 개인화 음성 변환 프로그램을 완성했습니다.",
+      "tags": [
+        "Diff-SVC",
+        "DiffWave",
+        "Data Augmentation"
+      ],
+      "links": []
+    },
+    {
+      "id": "rested",
+      "name": "RESTED",
+      "category": "development",
+      "kicker": "COMPUTER VISION · REHABILITATION",
+      "subtitle": "인지 재활 퀴즈·AI 모델 개발",
+      "period": "2023.10–12",
+      "role": "인지 재활 퀴즈 기획 · 모델 학습 · 팀 협업·서비스 통합",
+      "summary": "객체 탐지·표정 생성 모델로 인지 재활 퀴즈를 개발하고, 팀원들과 AI 자가 재활 치료 도우미 프로그램을 완성해 시연했습니다.",
+      "problem": "모델이 탐지하거나 생성한 결과를 사용자가 직접 수행하고 응답할 수 있는 인지 재활 콘텐츠로 만들어야 했습니다.",
+      "contributions": [
+        "국내 생활환경의 사물을 인식하도록 객체 탐지 모델을 파인튜닝하고, 탐지 결과에서 목표 물건을 선정해 다시 제시한 물건과 비교하는 퀴즈를 구현했습니다.",
+        "AI Hub 표정 데이터의 여섯 감정을 전처리해 StarGAN을 파인튜닝했습니다. 익숙한 인물의 사진에서 표정 이미지를 생성하고 감정을 선택하는 퀴즈를 구현했습니다.",
+        "팀원들과 협업해 개발한 인지 재활 퀴즈를 AI 자가 재활 치료 도우미 서비스용 프로그램에 통합하고, 최종 프로그램을 함께 시연했습니다."
+      ],
+      "outcome": "팀원들과 최종 서비스 프로그램을 완성·시연했으며, RESTED 팀으로 2023 제16회 창의설계경진대회 지능기전공학부 대상을 수상했습니다.",
+      "tags": ["Object Detection", "StarGAN", "Computer Vision"],
+      "links": [
+        {"label": "대상 수상", "url": "https://withus.sejong.ac.kr/non/stuTlnt/view.do?dataSeq=1000040&sstTyCd=ST01&currentPageNo=1"},
+        {"label": "발표자료 (PDF)", "url": "https://withus.sejong.ac.kr/comm/cmfile/download.do?encFileGrpSeq=19b82d7b338cb31f922c99903b99dbe2&encFileSeq=6f0d09eaa7573ee1a905876da477a5f4"}
+      ]
+    },
+    {
+      "id": "writenow",
+      "name": "WriteNow",
+      "category": "development",
+      "kicker": "LANGUAGE MODEL · DOCUMENT AUTOMATION",
+      "subtitle": "GPT 파인튜닝·문서 작성 자동화",
+      "period": "2024.06–07",
+      "role": "문서 샘플 수집 · 입출력 학습 데이터 구축 · GPT 파인튜닝",
+      "summary": "원하는 JSON 출력을 얻기 위해 문서 샘플을 수집하고 입출력 학습 데이터를 직접 구축해, OpenAI API로 GPT 모델을 파인튜닝했습니다.",
+      "problem": "당시 모델이 문서 분석 결과를 원하는 JSON 구조로 충분히 생성하지 못해, 앱에서 활용할 작성·선택 항목을 출력하도록 학습시켜야 했습니다.",
+      "contributions": [
+        "여러 문서 샘플을 수집하고, Word 표에서 추출한 텍스트를 입력으로, 작성·선택 항목을 정리한 JSON을 목표 출력으로 하는 입출력 학습 데이터를 직접 구축했습니다.",
+        "구축한 데이터로 OpenAI API의 파인튜닝을 수행해 GPT 모델을 문서 분석 용도에 맞췄습니다. 모델의 출력 항목을 앱의 질문으로 활용하고 사용자 답변을 문서 내용에 연결하는 알고리즘을 구현했습니다.",
+        "백엔드 담당 팀원과 AI 기능 제공용 API를 구현하고 백엔드·프론트엔드를 연동해, 생성된 DOCX 문서를 앱에서 확인할 수 있도록 연결했습니다."
+      ],
+      "outcome": "문서 샘플 수집부터 학습 데이터 구축·GPT 파인튜닝을 담당하고, 양식 업로드 → 질문·답변 → DOCX 생성·확인으로 이어지는 기능을 구현했습니다.",
+      "tags": [
+        "GPT Fine-tuning",
+        "Dataset Curation"
+      ],
+      "links": [
+        {
+          "label": "프로젝트",
+          "url": "https://github.com/AcademicFestival/.github/blob/main/profile/README.md"
+        }
+      ]
+    },
+    {
+      "id": "souf",
+      "name": "Souf",
+      "category": "development",
+      "kicker": "STARTUP · PRODUCT LEADERSHIP",
+      "subtitle": "학생 프리랜서 플랫폼 창업·개발 총괄·운영",
+      "period": "2025.02–2026.02",
+      "role": "창업자 · 대표 · 서비스 기획 · 개발 총괄 · 운영",
+      "summary": "작업물 공개부터 소통·계약까지 이어지는 프리랜서 플랫폼을 기획하고 팀의 개발과 운영을 총괄했습니다.",
+      "problem": "학생의 작업물을 실제 의뢰와 계약으로 연결하는 이용 흐름과 서비스를 만들어야 했습니다.",
+      "contributions": [
+        "피드 업로드·실시간 채팅·계약서 작성을 핵심 기능으로 정의하고 기능별 개발 범위와 진행 상황을 관리했습니다.",
+        "작업물 공개 → 의뢰 조건 협의 → 계약 작성 흐름을 기준으로 팀의 개발 업무를 조율했습니다. 세종대학교 캠퍼스타운 지원으로 사업자등록과 서비스 출시를 진행했습니다.",
+        "출시 후 서비스를 운영하고, 후속 AI 포트폴리오 기능은 기획과 도입을 위한 데이터 구축 단계까지 수행했습니다."
+      ],
+      "outcome": "학생 프리랜서 플랫폼을 출시·운영했습니다. AI 포트폴리오 생성은 후속 도입을 준비한 기능입니다.",
+      "tags": [
+        "Product Planning",
+        "Project Management",
+        "Startup",
+        "Operations"
+      ],
+      "links": []
+    }
+  ],
+  "education": [
+    {
+      "school": "고려대학교",
+      "schoolEn": "Korea University",
+      "program": "인공지능학과 석사과정",
+      "period": "2025.09 입학"
+    },
+    {
+      "school": "세종대학교",
+      "schoolEn": "Sejong University",
+      "program": "지능기전공학 학사",
+      "period": "2019.03–2025.02"
+    }
+  ],
+  "researchHistory": [
+    {
+      "organization": "고려대학교 PRML Lab",
+      "role": "석사 연구",
+      "period": "2025.09–",
+      "topic": "Vision-Language Model의 Visual Reasoning"
+    },
+    {
+      "organization": "고려대학교 UTL Lab",
+      "role": "학부연구생",
+      "period": "2024.05–2025.01",
+      "topic": "VLM 도메인 일반화 · 확산 모델 스타일 전이·합성 데이터"
+    },
+    {
+      "organization": "세종대학교 MINES Lab",
+      "role": "학부연구생",
+      "period": "2023.01–12",
+      "topic": "GAN 기반 이미지 생성 · 확산 모델 음성 증강·합성"
+    }
+  ],
+  "submission": {
+    "title": "STABLE: Single-Pass Training-Free Attribute Binding via Layer-Wise Evidence in Multimodal LLMs",
+    "authors": "Gyu-Tak Hahn · Jumin Han · Seong-Whan Lee",
+    "venue": "ICASSP 2027",
+    "status": "Under Review",
+    "submittedAt": "2026.09.24"
+  },
+  "publication": {
+    "title": "StarGAN-TA: 표정 생성 성능 향상을 위한 전이학습 StarGAN",
+    "authors": "박세환 · 한규탁 · 이석 · 김형석",
+    "venue": "제38회 제어로봇시스템학회 학술대회 (ICROS 2023)",
+    "date": "2023.06",
+    "pages": "924–925",
+    "url": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11480637"
+  },
+  "awards": [
+    {
+      "year": "2024",
+      "title": "지능기전공학과 학술경진대회 대상",
+      "organization": "세종대학교",
+      "sourceTitle": "Grand Prize, 2024 Academic competitions, Department of IME"
+    },
+    {
+      "year": "2023",
+      "title": "제16회 창의설계경진대회 지능기전공학부 대상",
+      "organization": "세종대학교",
+      "sourceTitle": "Grand Prize, 16th Annual Creative Design Competition, Sejong Univ"
+    },
+    {
+      "year": "2022",
+      "title": "알고리즘 대회 대상",
+      "organization": "Smarcle"
+    },
+    {
+      "year": "2019",
+      "title": "SW 코딩 경시대회 4위",
+      "organization": "세종대학교"
+    }
+  ],
+  "teaching": [
+    {
+      "title": "강의 조교",
+      "organization": "세종대학교",
+      "details": "C 프로그래밍 (2022–2024) · 자료구조 (2023) · 알고리즘 (2023)"
+    },
+    {
+      "title": "멘토링",
+      "details": "C 프로그래밍 (2022) · 머신러닝 (2024)"
+    }
+  ],
+  "programs": [
+    {
+      "title": "NAVER AI RUSH",
+      "period": "2023.08–11",
+      "description": "HyperCLOVA X 활용 프로젝트"
+    },
+    {
+      "title": "LG Aimers",
+      "period": "2023.07–08"
+    },
+    {
+      "title": "42 Seoul",
+      "period": "2022.07–2023.03",
+      "description": "C·C++·Shell 기반 학습"
+    },
+    {
+      "title": "한이음 ICT 멘토링 선정",
+      "period": "2023"
+    }
+  ],
+  "skills": [
+    {
+      "label": "Research & Modeling",
+      "items": ["PyTorch", "TensorFlow", "CLIP", "Whisper", "GAN", "Diffusion"]
+    },
+    {
+      "label": "Data & Evaluation",
+      "items": ["Python", "OpenCV", "scikit-learn", "Hugging Face", "WER"]
+    },
+    {
+      "label": "Product Engineering",
+      "items": ["Flutter", "Firebase", "API Integration", "Git", "C"]
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+# Sources & design references
+
+## Design
+
+- [Ettrics — Sticky Slider Navigation](https://codepen.io/ettrics/pen/WRbGRN): 히어로 하단 메뉴가 스크롤 후 상단에 고정되고 현재 섹션에 밑줄이 이동하는 인터랙션 참고. React/CSS로 새로 구현했습니다.
+- [Brittany Chiang](https://brittanychiang.com/): 소개 → 선별 프로젝트 → 경험 전체 → 연락의 방문 흐름 참고.
+- [Jon Barron](https://jonbarron.info/): 연구 결과와 코드·논문 링크를 함께 제시하는 구성 참고.
+- [Andrej Karpathy](https://karpathy.ai/): 연구·개발 이력을 구체적 결과와 연결하는 방식 참고.
+- [Lilian Weng](https://lilianweng.github.io/): 주제·시간을 기준으로 쌓이는 아카이브 구성 참고.
+
+다른 사람의 프로젝트·경력·사진·문안은 사용하지 않았습니다. 프로젝트는 Focus 태그와 자료 링크 아이콘이 있는 카드로 배치했습니다. 실제 앱 이미지는 프로젝트 상세에서 따로 제시합니다.
+
+## Content
+
+기준 문서는 본인의 `2602_CV_Gyutak_Hahn.pdf`와 `AI_프로젝트_연구경험_정리.md`입니다. 사용자 확인 사항(PPO 베타 적용, 공동연구 기여, DiffWave 증강, Souf 활동 기간)을 반영했습니다.
+
+| 경험 | 확인 자료 / 공개 출처 |
+| --- | --- |
+| STABLE | 본인 제공 `ICASSP2027.pdf`, `STABLE_github` 코드, ICASSP 2027 제출·심사 중 상태 본인 확인 |
+| StarGAN-TA | [연구 저장소](https://github.com/shp216/StarGAN-TA), [ICROS 논문](https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11480637), CV |
+| Lenfit | 본인 제공 `Lenfit_Hanium.pdf`, 역할 설명 |
+| Diff-SVC / DiffWave | 본인 제공 2023-2 창의학기제 최종결과보고서 2~4쪽(전처리·학습·개인 역할·실험 구성), 로컬 연구 디렉터리, CV, 역할 직접 확인 |
+| RESTED | [세종대학교 공식 대상 수상 기록](https://withus.sejong.ac.kr/non/stuTlnt/view.do?dataSeq=1000040&sstTyCd=ST01&currentPageNo=1), [공개 발표자료 PDF](https://withus.sejong.ac.kr/comm/cmfile/download.do?encFileGrpSeq=19b82d7b338cb31f922c99903b99dbe2&encFileSeq=6f0d09eaa7573ee1a905876da477a5f4), CV, 역할 설명 |
+| WriteNow | [팀 프로젝트](https://github.com/AcademicFestival/.github/blob/main/profile/README.md), CV, 문서 샘플 수집·입출력 학습 데이터 직접 구축·OpenAI API를 통한 GPT 파인튜닝에 대한 본인 확인 (2026.10.22) |
+| Mote | [모델 학습](https://github.com/HahnGyuTak/openai-whisper-finetuning), [AI 서비스](https://github.com/MettingApp/AI), [모델·데이터](https://huggingface.co/imTak), 팀 발표 PDF |
+| Souf | 본인 제공 2026년 예비창업패키지 사업계획서, 기간·역할 직접 확인 |
+| 벽바둑 | 본인 제공 WallBaduk 소스, [App Store](https://apps.apple.com/kr/app/wall%EB%B0%94%EB%91%91/id6747090524), [Google Play](https://play.google.com/store/apps/details?id=com.imtak.wall_baduk_app) |
+
+## App screenshots
+
+- `public/images/wallbaduk-game.png`: 본인 WallBadukApp 프로젝트의 `assets/screenshot/6.png`. 개발 버전 화면이며 원본 DEBUG 표시를 유지했습니다.
+- `public/images/mote-recording.jpg`, `mote-summary.jpg`: Mote 발표 PDF 4쪽에 포함된 실제 앱 화면 원본 JPEG를 추출했습니다.
+
+## Original template & libraries
+
+기존 저장소는 [Figma Make 프로젝트](https://www.figma.com/design/OxTELRwvXiXS3rXwEpdviP/Personal-Portfolio-Website)에서 시작했습니다. 미사용 shadcn/ui 원본 파일의 라이선스 안내는 `ATTRIBUTIONS.md`에 보존했습니다. 새 화면은 React, Vite, Lucide를 사용합니다. 글꼴은 원본 CodePen과 같은 `Century Gothic`, Google Fonts의 `Lato` 400/700, sans-serif 순서입니다. 원본의 #eee 배경, 제목 자간, 70px 메뉴·6px 밑줄과 hover 색상을 적용했습니다.
+
+## Profile & link icons (2026.10 update)
+
+- `public/images/profile.png`: [본인 GitHub 프로필 이미지](https://github.com/HahnGyuTak.png?size=800). 사용자 지정에 따라 임시 프로필로 사용합니다.
+- `public/icons/`: [Simple Icons](https://github.com/simple-icons/simple-icons)의 GitHub, Hugging Face, App Store, Google Play SVG. 사이트별 외부 링크 식별에 사용합니다.
+
+## RESTED correction (2026.10.22)
+
+- 본인 요청에 따라 GUI·PyQt 개발 표현을 제거했습니다. 인지 재활 퀴즈·모델 개발은 개인 기여, 최종 AI 자가 재활 치료 도우미 서비스용 프로그램 완성·시연은 팀 협업 결과로 구분했습니다.
+- 공식 수상 페이지의 행사명은 “2023 제16회 창의설계경진대회 지능기전공학부 대상”이며, 수상팀은 RESTED조입니다. 페이지 등록일 2024.01.25는 행사 일자가 아닙니다.
+
+## WriteNow correction (2026.10.22)
+
+- 당시 모델이 원하는 JSON 출력을 충분히 생성하지 못해 여러 문서 샘플을 수집하고 입출력 학습 데이터를 직접 구축한 뒤, OpenAI API로 GPT 모델을 파인튜닝했다는 본인 설명을 핵심 기여로 반영했습니다.
+- 특정 GPT 버전, 데이터 규모, 학습 설정, 출력 성공률이나 성능 개선 수치는 확인되지 않아 기재하지 않았습니다. Focus 태그는 GPT Fine-tuning과 Dataset Curation으로 정리했습니다.
+
+## Reserved research references (2026.10.22)
+
+PromptStyler는 본인 요청에 따라 공개 프로젝트 카드·상세와 이력서의 개별 프로젝트 항목에서 제외했습니다. 추후 학부연구생 경험을 설명할 때 활용하도록 [본인 재현 코드](https://github.com/HahnGyuTak/PromptStyler), [원논문](https://promptstyler.github.io/) 및 로컬 경험 원문을 보존합니다.
+
+## Diff-SVC / DiffWave final report (2026.10.22)
+
+- 최종보고서 2쪽: 확장자 변환·길이 분할·binarize 전처리, Diff-SVC 학습, DiffWave 증강, 원본+증강 데이터 학습, 클라이언트·서버·AI 결합 완료.
+- 3쪽 한규탁 개인 성과: 여러 가수의 Diff-SVC 모델 구축, 데이터 부족에 대응한 DiffWave 증강, 증강 데이터로 Diff-SVC 학습.
+- 4쪽 최종결과물: 원본만 쓰는 기본 모델과 원본+증강 모델이 같은 목표 목소리를 사용하는 실험 구성. 모델 결과 확인을 기재하되, 수치 평가·개선율은 주장하지 않았습니다.
+- Asyrp 기반 guide 제안은 보고서상 다른 AI 팀원 역할입니다. 서버·API·iOS 구축도 각 담당자의 작업이므로 개인 기여로 귀속하지 않고 최종 프로그램 완성은 팀 성과로 구분했습니다.
+- 전체 활동 기간은 CV의 2023.07–12를 유지합니다. 최종보고서의 창의학기제 학습 기간은 2023.09.01–12.14입니다. 보고서는 본인 제공 비공개 원본으로 검토했으며 사이트에 업로드하지 않았습니다.
+
+## STABLE evidence (2026.10.22)
+
+- 제출 원고 1쪽: 전체 제목, 제1저자 Gyu-Tak Hahn 및 Jumin Han·Seong-Whan Lee 저자 목록. Under Review는 본인의 제출 상태 확인에 근거합니다.
+- 2~3쪽: 레이어별 evidence–decision disconnect 분석, 공통 어텐션 제거와 mcBC, 구문·시각 일치에 따른 의사 라벨, 정답 라벨 없는 사전 calibration, 캡션당 한 번의 순전파에서 선택적 steering.
+- 4쪽 Table 1: LLaVA-1.5-7B / ColorSwap Group / VQAScore 67.33% → STABLE 73.00%, +5.67%p. 모든 비교법·벤치마크에서 최고라는 주장은 하지 않습니다.
+- 4쪽 Table 2: LLaVA-1.5 / ARO 100샘플 / TITAN RTX. VQAScore 0.35초, STABLE 0.60초, CRG 2.43초, COCO-Tree 15.34초. 4.1배·25.6배는 CRG·COCO-Tree 대비이며 기본 VQAScore 대비 가속이 아닙니다.
+- 로컬 코드: `stable/visual_correspondence.py`, `stable/calibration.py`, `stable/steering.py`, `stable/model_adapters/`, `evaluate.py`, `stable/metrics.py`로 방법과 두 모델·네 벤치마크 지원을 확인했습니다.
+- 로컬 최종 평가 요약은 없으며, 제공 artifact의 `reproduction_validated:false` 및 direction 유실 기록이 있어 논문 전체 결과를 재현 검증했다고 표현하지 않습니다. 성능 수치는 제출 원고에서 보고한 값입니다.
+- 본인은 단독 제1저자로 아이디어·방법 설계·코드 구현·실험·논문 작성을 모두 수행했음을 확인했습니다. 제출일은 본인 확인에 따라 2026.09.24로 기재했습니다. 공동저자는 유지하며 단독 저자 논문으로 표시하지 않습니다. 연구 시작 연월은 확정하지 않았고, 논문·로컬 소스 원본은 업로드하지 않았습니다.
