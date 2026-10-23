@@ -2,15 +2,15 @@
 
 한규탁의 AI 연구·개발 포트폴리오입니다. 기존 React/Vite 프로젝트를 바탕으로 프로필, 9개 R&D 카드, 연구·학력·논문·수상, 연락처를 구성했습니다.
 
-- 포트폴리오: https://hahngyutak.github.io/Personalportfoliowebsite/
-- English: https://hahngyutak.github.io/Personalportfoliowebsite/?lang=en
+- 포트폴리오: https://hahngyutak.github.io/portfolio/
+- English: https://hahngyutak.github.io/portfolio/?lang=en
 - 논문 블로그: https://hahngyutak.github.io/ (별도 저장소로 운영)
 
 ## 배포
 
-`Personalportfoliowebsite` 저장소의 GitHub Pages에 배포합니다. Pages의 Build and deployment Source는 **GitHub Actions**입니다. `main` 브랜치에 반영하면 `.github/workflows/ci.yml`에서 설치·타입 검사·빌드 후 `dist/`만 자동 게시합니다. PR과 작업 브랜치에서는 빌드만 검사합니다.
+`portfolio` 저장소의 GitHub Pages에 배포합니다. Pages의 Build and deployment Source는 **GitHub Actions**입니다. `main` 브랜치에 반영하면 `.github/workflows/ci.yml`에서 설치·타입 검사·빌드 후 `dist/`만 자동 게시합니다. PR과 작업 브랜치에서는 빌드만 검사합니다.
 
-Vite의 `base: './'`와 상대 경로를 유지해 `/Personalportfoliowebsite/`에서 이미지, CV, EN/KO 전환, 프로젝트 상세 링크가 동작합니다. 논문 블로그의 `HahnGyuTak.github.io` 저장소·Pages 설정·루트 주소는 수정하지 않습니다.
+Vite의 `base: './'`와 상대 경로를 유지해 `/portfolio/`에서 이미지, CV, EN/KO 전환, 프로젝트 상세 링크가 동작합니다. 논문 블로그의 `HahnGyuTak.github.io` 저장소·Pages 설정·루트 주소는 수정하지 않습니다.
 
 ## 실행
 
