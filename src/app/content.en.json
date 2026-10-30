@@ -84,26 +84,27 @@
       "nameEn": "WallBaduk",
       "category": "development",
       "kicker": "GAME AI · SOLO PRODUCT",
-      "subtitle": "Solo-developed strategy game released on both stores",
+      "subtitle": "Strategy game combining imitation learning, PPO, and search",
       "period": "2025.05–",
-      "role": "Planning · Design · Game AI · App & multiplayer development · Release",
-      "summary": "I designed a 7×7 strategy board game, built it with Flutter and Firebase, and released it on both mobile app stores in three weeks.",
-      "problem": "I needed to turn strategic game rules, AI opponents, and real-time online matches into a complete mobile game.",
+      "role": "Planning · Design · Model training & game AI · App & multiplayer development · Release",
+      "summary": "Independently built a 7×7 game, trained a policy–value network with imitation learning and PPO, and shipped its search integration on both app stores.",
+      "problem": "I needed to combine learned decisions with rule-based search under mobile compute limits and provide distinct difficulty levels.",
       "contributions": [
-        "Implemented move and wall-placement validation, territory separation, and win/loss detection. I also built the game screens and customization features.",
-        "Built the intermediate AI with minimax and alpha–beta pruning, evaluating territory control and mobility while running search in a separate isolate. I also trained a PPO agent through self-play and integrated it into the beta version.",
-        "Implemented room-code entry and automatic matchmaking, with Firestore synchronizing game state. I checked edge cases and match progression through room entry limits, expired-room cleanup, and bot simulations."
+        "Implemented move and wall-placement validation, territory separation, win detection, screens, and customization with Flutter and Firebase. Built real-time multiplayer using room codes, automatic matchmaking, and Firestore synchronization.",
+        "Trained a 3,554-parameter residual CNN with policy and value heads on 6,782 actions from 160 completed games. Then ran PPO against search bots, frozen past policies, and the current policy, completing 131,072 learner decisions and 512 updates. Used value bootstrapping for truncated games and auxiliary imitation updates.",
+        "Implemented inference in Dart to run the trained model inside the app. The policy guides candidate selection and ordering; the value head contributes 15% to search scores when neural evaluations are available. Terminal outcomes retain the rule-based result.",
+        "Built Easy, Normal, Expert, and Sedol tiers. Expert and Sedol share weights but use different candidate breadth and time budgets of 0.5 s and up to 15 s. Added tactical and endgame forced-win proofs and repetition avoidance for Sedol."
       ],
-      "outcome": "Handled planning, design, development, and release independently, launching on the iOS App Store and Google Play in three weeks. I continued improving the AI and online multiplayer afterward.",
+      "outcome": "Handled planning, design, development, and release independently, launching the first version on both stores in three weeks. Subsequently shipped the policy–value/search AI update in the production iOS and Android apps.",
       "metric": {
         "value": "3 weeks",
         "label": "From planning to release on both stores"
       },
       "tags": [
+        "PPO",
+        "Policy–Value Network",
         "Flutter",
-        "Firebase",
-        "Minimax",
-        "PPO (Beta)"
+        "Firebase"
       ],
       "links": [
         {

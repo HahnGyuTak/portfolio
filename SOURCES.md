@@ -12,7 +12,7 @@
 
 ## Content
 
-기준 문서는 본인의 `2602_CV_Gyutak_Hahn.pdf`와 `AI_프로젝트_연구경험_정리.md`입니다. 사용자 확인 사항(PPO 베타 적용, 공동연구 기여, DiffWave 증강, Souf 활동 기간)을 반영했습니다.
+기준 문서는 본인의 `2602_CV_Gyutak_Hahn.pdf`와 `AI_프로젝트_연구경험_정리.md`입니다. 사용자 확인 사항(벽바둑 AI 정식 앱 적용, 공동연구 기여, DiffWave 증강, Souf 활동 기간)을 반영했습니다.
 
 | 경험 | 확인 자료 / 공개 출처 |
 | --- | --- |
@@ -71,3 +71,12 @@ PromptStyler는 본인 요청에 따라 공개 프로젝트 카드·상세와 �
 - 로컬 코드: `stable/visual_correspondence.py`, `stable/calibration.py`, `stable/steering.py`, `stable/model_adapters/`, `evaluate.py`, `stable/metrics.py`로 방법과 두 모델·네 벤치마크 지원을 확인했습니다.
 - 로컬 최종 평가 요약은 없으며, 제공 artifact의 `reproduction_validated:false` 및 direction 유실 기록이 있어 논문 전체 결과를 재현 검증했다고 표현하지 않습니다. 성능 수치는 제출 원고에서 보고한 값입니다.
 - 본인은 단독 제1저자로 아이디어·방법 설계·코드 구현·실험·논문 작성을 모두 수행했음을 확인했습니다. 제출일은 본인 확인에 따라 2026.09.24로 기재했습니다. 공동저자는 유지하며 단독 저자 논문으로 표시하지 않습니다. 연구 시작 연월은 확정하지 않았고, 논문·로컬 소스 원본은 업로드하지 않았습니다.
+
+## WallBaduk AI update (2026.10.30)
+
+- 본인 제공 최신 구현 설명과 로컬 앱 코드·내장 모델·학습 상태를 대조했습니다. 3,554개 파라미터, 131,072회 학습자 결정, 512회 PPO 업데이트, Expert·Sedol 공통 모델과 기본 활성화를 확인했습니다.
+- `lib/ai/bot_neural_model.dart`: 앱 내 Dart 추론. `lib/ai/bot_neural_value.dart`: 탐색 85%·가치 15% 결합과 실제 종국 결과 보존. `lib/game/bot/bot_profiles.dart`: Expert 500ms, Sedol 최대 15초.
+- `lib/ai/bot_sedol_endgame.dart`: 조건부 종반 강제 승리 증명. 신경망 평가를 승리 증명이나 보정된 승률로 표현하지 않습니다.
+- 기보 160판·6,782개 행동, 모방학습·PPO 구성과 중단 시 가치 추정 처리는 본인의 최신 설명에 근거합니다. 로컬 학습·연결 기록에서도 6,782개 관측과 다양한 상대 구성을 확인했습니다.
+- 본인은 이번 Expert·Sedol 업데이트도 iOS·Android 정식 버전에 출시했음을 확인했습니다. 기존 베타 적용 문구를 갱신하고, 최초 3주 출시와 후속 AI 고도화를 구분했습니다.
+- 원본 코드·가중치·QA 파일은 사이트에 업로드하지 않았습니다. 소규모 QA 승률, 인간 상대 Elo, 추론 속도 개선율은 추가하지 않았습니다.
