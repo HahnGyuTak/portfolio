@@ -48,6 +48,11 @@
         {
           "label": "Google Play",
           "url": "https://play.google.com/store/apps/details?id=com.imtak.wall_baduk_app"
+        },
+        {
+          "label": "AI 개발기",
+          "url": "https://hahngyutak.github.io/posts/wallbaduk-bot-04/",
+          "showLabel": true
         }
       ]
     },

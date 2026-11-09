@@ -420,6 +420,13 @@ svg {
   border: 1px solid #e8e8e8;
   transition: background 0.2s;
 }
+.resource-link--labeled {
+  width: auto;
+  gap: 5px;
+  padding-inline: 8px;
+  font-size: 12px;
+  white-space: nowrap;
+}
 .resource-link:hover,
 .resource-link:focus-visible {
   background: #e7f3fd;

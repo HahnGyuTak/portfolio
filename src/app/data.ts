@@ -16,7 +16,7 @@ export type Project = {
   contributions: string[];
   outcome: string;
   tags: string[];
-  links: { label: string; url: string }[];
+  links: { label: string; url: string; showLabel?: boolean }[];
   metric?: { value: string; label: string };
 };
 export const getContent = (language: Language) =>

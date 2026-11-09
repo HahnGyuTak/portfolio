@@ -23,7 +23,7 @@ function ResourceLink({
   link,
   project,
 }: {
-  link: { label: string; url: string };
+  link: Project["links"][number];
   project: string;
 }) {
   const host = new URL(link.url).hostname;
@@ -46,7 +46,7 @@ function ResourceLink({
   const label = `${project} · ${link.label}${brand ? ` (${names[brand]})` : ""}`;
   return (
     <a
-      className="resource-link"
+      className={link.showLabel ? "resource-link resource-link--labeled" : "resource-link"}
       href={link.url}
       {...external}
       aria-label={label}
@@ -57,9 +57,9 @@ function ResourceLink({
       ) : host.includes("dbpia") ? (
         <FileText size={20} />
       ) : (
-        <ExternalLink size={19} />
+        <ExternalLink size={link.showLabel ? 14 : 19} aria-hidden="true" />
       )}
-      <span className="link-tooltip">
+      <span className={link.showLabel ? undefined : "link-tooltip"}>
         {link.label}
         {brand ? ` · ${names[brand]}` : ""}
       </span>
