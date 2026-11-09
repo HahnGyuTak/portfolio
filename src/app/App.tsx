@@ -450,10 +450,15 @@ export default function App() {
           </p>
           <div className="project-grid">
             {visible.map((p) => (
-              <article className="project-card" key={p.id}>
+              <article
+                className={p.id === "wallbaduk" ? "project-card project-card--featured" : "project-card"}
+                key={p.id}
+              >
                 <div className="card-meta">
-                  <span>
-                    {p.category === "research" ? "Research" : "Development"}
+                  <span className={p.id === "wallbaduk" ? "card-featured-label" : undefined}>
+                    {p.id === "wallbaduk"
+                      ? t.featuredProject
+                      : p.category === "research" ? "Research" : "Development"}
                   </span>
                   <time>{p.period}</time>
                 </div>

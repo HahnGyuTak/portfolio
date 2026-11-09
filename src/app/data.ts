@@ -22,8 +22,8 @@ export type Project = {
 export const getContent = (language: Language) =>
   language === "en" ? englishContent : content;
 export const projectOrder = [
-  "stable",
   "wallbaduk",
+  "stable",
   "souf",
   "mote",
   "writenow",

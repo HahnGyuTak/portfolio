@@ -13,6 +13,45 @@
   },
   "projects": [
     {
+      "id": "wallbaduk",
+      "name": "WallBaduk",
+      "nameEn": "WallBaduk",
+      "category": "development",
+      "kicker": "GAME AI · SOLO PRODUCT",
+      "subtitle": "From a solo mobile launch to a stronger game AI",
+      "period": "2025.05–",
+      "role": "Planning · Design · Model training & game AI · App & multiplayer development · Release",
+      "summary": "I designed and shipped a 7×7 strategy game on both app stores in three weeks. I then trained a game AI, ran it inside the mobile app, and used real match losses to improve the engine.",
+      "problem": "The bot had to choose a legal move and wall placement together within a mobile search budget. In real matches, the evaluator rewarded getting boxed into a single square, and the search sometimes discarded the opponent’s critical blocking reply.",
+      "contributions": [
+        "Built the Flutter game and its rule engine, including move and wall validation, territory separation, and win detection. Used Firestore to synchronize games joined by room code or automatic matchmaking.",
+        "Encoded the board as seven channels and checked for action-index collisions across 3,185 move-and-wall combinations. Trained a 3,554-parameter policy–value CNN from completed game records, then refined it with PPO against search bots and earlier policies.",
+        "Implemented on-device inference in Dart and used model scores to guide candidate ordering and evaluation. Expert and Sedol share weights and use different search breadth and time budgets. I kept the game’s rules authoritative for terminal outcomes.",
+        "Reproduced losses from real matches and revised the evaluator to account for each cell’s accessibility. I kept tactical blocking replies in the candidate set and re-searched positions where a critical reply could have been omitted."
+      ],
+      "outcome": "Shipped the first app on iOS and Android in three weeks and later released the Expert and Sedol neural search update on both stores. In a separate 192-game follow-up benchmark on unseen starting layouts, with model weights held constant, Expert won 46 of 48 and Sedol won 44 of 48 against their previous versions.",
+      "metric": {
+        "value": "3 weeks",
+        "label": "From planning to release on both stores"
+      },
+      "tags": [
+        "PPO",
+        "Policy–Value Network",
+        "Flutter",
+        "Firebase"
+      ],
+      "links": [
+        {
+          "label": "App Store",
+          "url": "https://apps.apple.com/kr/app/wall%EB%B0%94%EB%91%91/id6747090524"
+        },
+        {
+          "label": "Google Play",
+          "url": "https://play.google.com/store/apps/details?id=com.imtak.wall_baduk_app"
+        }
+      ]
+    },
+    {
       "id": "stable",
       "name": "STABLE",
       "category": "research",
@@ -22,14 +61,14 @@
       "status": "ICASSP 2027 · Under Review",
       "role": "First author · Method design · Implementation & experiments · Writing",
       "organization": "PRML Lab, Korea University",
-      "summary": "I proposed a method that uses internal visual evidence to assess attribute–object associations and steer inference in a single forward pass per caption, without updating model weights.",
-      "problem": "MLLMs could recognize objects and attributes separately yet associate them incorrectly. I investigated why internal visual evidence supporting the correct answer was not reflected in the final prediction.",
+      "summary": "As first author, I designed and implemented an inference-time intervention that uses a multimodal model’s internal visual evidence to improve how it pairs attributes with objects.",
+      "problem": "A model can recognize both a black plate and an orange napkin yet swap their colors in its answer. I examined attention and hidden states across layers to locate visual evidence for the correct pairings.",
       "contributions": [
-        "Analyzed image attention and hidden states across layers to identify where visual evidence emerges and where binding relations become distinguishable. I removed shared attention components and estimated visual associations with bidirectional relative correspondence scores (mcBC).",
-        "Used agreement between syntactic and visual associations as pseudo-labels to estimate a steering direction without ground-truth labels. After this calibration, steering is applied at later layers only to captions where all bindings agree, requiring one forward pass per caption, no weight updates, and no auxiliary vision or reasoning models.",
-        "Implemented model-specific adapters and benchmark evaluation pipelines for Qwen2-VL-7B and LLaVA-1.5-7B. I evaluated on ARO, ColorSwap, SugarCrepe, and Winoground, ran ablations, and kept calibration and evaluation data separate."
+        "Analyzed attention and hidden states across layers and estimated relative visual correspondence between attribute and object tokens.",
+        "Used agreement between syntactic and visual associations to calibrate a steering direction, then applied it during a single forward pass per caption with model weights frozen.",
+        "Implemented adapters for Qwen2-VL-7B and LLaVA-1.5-7B, separated calibration and evaluation data, and ran four benchmark suites and ablations to assess the effect of the intervention."
       ],
-      "outcome": "The paper reports LLaVA-1.5-7B ColorSwap Group accuracy of 73.00%, up from VQAScore’s 67.33% (+5.67 percentage points). On 100 ARO samples with LLaVA-1.5 and a TITAN RTX, inference took 0.60 seconds per sample: 4.1× faster than CRG and 25.6× faster than COCO-Tree. Submitted to ICASSP 2027; currently under review.",
+      "outcome": "The submission reports 73.00% ColorSwap Group accuracy on LLaVA-1.5-7B, up from 67.33% with VQAScore. On 100 ARO samples using LLaVA-1.5 on a TITAN RTX, it took 0.60 seconds per sample, 4.1× faster than CRG and 25.6× faster than COCO-Tree. Submitted to ICASSP 2027 and under review.",
       "tags": [
         "Multimodal LLM",
         "Activation Steering",
@@ -45,14 +84,14 @@
       "subtitle": "Korean speech recognition, diarization & compression",
       "period": "2024.11",
       "role": "AI development · Dataset curation · Training & evaluation · API integration",
-      "summary": "I curated Korean speech data and fine-tuned Whisper, then connected speaker-labeled transcripts and meeting summaries to the app.",
-      "problem": "The service needed to transcribe Korean meetings and domain-specific terminology, distinguish speakers, and run speech models in a deployment environment.",
+      "summary": "I fine-tuned Whisper for Korean speech and domain-specific terminology, then built the pipeline that turns a meeting recording into a speaker-labeled transcript and structured summary.",
+      "problem": "Meetings contained technical vocabulary and multiple speakers. The app also needed a speech model that could run on CPU and an API response the backend could consume.",
       "contributions": [
-        "Collected audio and Korean subtitles from videos, split them into aligned segments, resampled audio to 16 kHz, and filtered out short samples to build training and evaluation datasets. I followed Korean fine-tuning with additional training on software development and economics content.",
-        "Applied FP16 and gradient checkpointing, and configured WER evaluation and checkpoint selection in Seq2SeqTrainer. I used x-vectors and spectral clustering to separate speakers’ utterances.",
-        "Reduced model size from 3.2 GB to 820 MB through CTranslate2 quantization and configured CPU inference with faster-whisper. I implemented summarization LLM calls and AI APIs, then worked with the backend developer to integrate them into the app."
+        "Aligned Korean subtitles with audio, resampled the recordings to 16 kHz, and filtered short clips. Built software development and economics datasets for additional fine-tuning, then selected checkpoints by word error rate.",
+        "Combined x-vector embeddings with spectral clustering to identify speaker segments. Transcribed each segment, attached speaker labels, and passed the transcript to an LLM for structured summaries.",
+        "Converted and quantized Whisper with CTranslate2 for faster-whisper CPU inference. Implemented S3 recording input and a JSON result API, then worked with the backend developer to connect it to the app."
       ],
-      "outcome": "Published models and datasets on Hugging Face and integrated speaker-labeled transcription and summarization into the app.",
+      "outcome": "Reduced the model file from 3.2 GB to 820 MB, published models and datasets on Hugging Face, and integrated speaker-labeled transcription and meeting summaries into the app.",
       "metric": {
         "value": "3.2GB → 820MB",
         "label": "Model size after quantization"
@@ -79,45 +118,6 @@
       ]
     },
     {
-      "id": "wallbaduk",
-      "name": "WallBaduk",
-      "nameEn": "WallBaduk",
-      "category": "development",
-      "kicker": "GAME AI · SOLO PRODUCT",
-      "subtitle": "Strategy game combining imitation learning, PPO, and search",
-      "period": "2025.05–",
-      "role": "Planning · Design · Model training & game AI · App & multiplayer development · Release",
-      "summary": "Independently built a 7×7 game, trained a policy–value network with imitation learning and PPO, and shipped its search integration on both app stores.",
-      "problem": "I needed to combine learned decisions with rule-based search under mobile compute limits and provide distinct difficulty levels.",
-      "contributions": [
-        "Implemented move and wall-placement validation, territory separation, win detection, screens, and customization with Flutter and Firebase. Built real-time multiplayer using room codes, automatic matchmaking, and Firestore synchronization.",
-        "Trained a 3,554-parameter residual CNN with policy and value heads on 6,782 actions from 160 completed games. Then ran PPO against search bots, frozen past policies, and the current policy, completing 131,072 learner decisions and 512 updates. Used value bootstrapping for truncated games and auxiliary imitation updates.",
-        "Implemented inference in Dart to run the trained model inside the app. The policy guides candidate selection and ordering; the value head contributes 15% to search scores when neural evaluations are available. Terminal outcomes retain the rule-based result.",
-        "Built Easy, Normal, Expert, and Sedol tiers. Expert and Sedol share weights but use different candidate breadth and time budgets of 0.5 s and up to 15 s. Added tactical and endgame forced-win proofs and repetition avoidance for Sedol."
-      ],
-      "outcome": "Handled planning, design, development, and release independently, launching the first version on both stores in three weeks. Subsequently shipped the policy–value/search AI update in the production iOS and Android apps.",
-      "metric": {
-        "value": "3 weeks",
-        "label": "From planning to release on both stores"
-      },
-      "tags": [
-        "PPO",
-        "Policy–Value Network",
-        "Flutter",
-        "Firebase"
-      ],
-      "links": [
-        {
-          "label": "App Store",
-          "url": "https://apps.apple.com/kr/app/wall%EB%B0%94%EB%91%91/id6747090524"
-        },
-        {
-          "label": "Google Play",
-          "url": "https://play.google.com/store/apps/details?id=com.imtak.wall_baduk_app"
-        }
-      ]
-    },
-    {
       "id": "stargan-ta",
       "name": "StarGAN-TA",
       "category": "research",
@@ -126,12 +126,12 @@
       "period": "2023.01–06",
       "role": "Preprocessing · Model adaptation · Experiments · Co-authored paper",
       "organization": "MINES Lab, Sejong University",
-      "summary": "We adapted a pretrained model with five attributes to generate six facial expressions and co-authored a paper at ICROS 2023.",
-      "problem": "The pretrained StarGAN used five facial attributes, while our task required six expressions. The dimensional mismatch prevented us from loading the weights directly.",
+      "summary": "I worked with my co-authors to transfer pretrained StarGAN weights to a six-expression task, from face preprocessing and model changes through experiments and paper writing.",
+      "problem": "The pretrained generator and discriminator expected five attributes. Adding a sixth expression changed the layer dimensions and prevented the original weights from loading directly.",
       "contributions": [
-        "Worked jointly with teammates on face detection, cropping, resizing, model changes, experiments, and paper writing.",
-        "Changed the generator input to nine channels for RGB plus six conditions and rebuilt the discriminator’s classification layer. We retained existing weights and initialized the added channel from the mean of the pretrained attribute channels.",
-        "In a 2024 follow-up code update, I replaced the generator’s ReLU activations with LeakyReLU and organized the training code and runtime environment."
+        "Worked jointly on face detection, cropping and resizing, model adaptation, experiments, and the paper.",
+        "Expanded the generator input to RGB plus six condition channels and rebuilt the discriminator’s classification layer. We kept compatible pretrained weights and initialized the new input channel with the mean of the original attribute channels.",
+        "In a separate 2024 code update, I changed the generator’s activations from ReLU to LeakyReLU and reorganized the training code and runtime setup."
       ],
       "outcome": "Co-authored “StarGAN-TA: Transfer Learning with StarGAN for Improved Facial Expression Generation,” published in the ICROS 2023 conference proceedings.",
       "tags": [
@@ -159,20 +159,29 @@
       "subtitle": "Real-time exercise feedback & repetition counting",
       "period": "2023.03–11",
       "role": "Pose assessment · Repetition counting · Backend integration",
-      "summary": "I combined joint angles, positions, and movement directions from pose estimates to assess exercise form and count valid repetitions.",
-      "problem": "Noisy pose estimates and incomplete movements made it difficult to count repetitions using a single angle threshold.",
+      "summary": "I built exercise repetition and form-feedback logic that converts pose estimates into valid reps and corrective cues.",
+      "problem": "Pose coordinates fluctuated between frames, and a shallow squat could look like a completed rep. Recording clips also needed to start after the user returned to the starting pose.",
       "contributions": [
-        "Converted Google ML Kit joint coordinates into angles and implemented exercise-specific rules combining position, direction, and angle conditions.",
-        "Detected squats where the user stood up before reaching sufficient depth, provided corrective feedback, and counted only movements that met the required range of motion.",
-        "Worked with the backend developer to integrate these features and coordinate the app’s data transfer and processing flow."
+        "Built a Python prototype on MediaPipe’s pose classification example. Connected squat and push-up samples, widened the gap between entry and exit thresholds, and retained the current count when a pose was missing.",
+        "Used an exponential moving average of classification scores to check for a return to the starting pose before opening the next exercise clip.",
+        "For the app, defined feedback and counting rules using ML Kit joint angles, positions, and movement direction. A squat that reversed upward too soon triggered a correction and was excluded from the rep count. Worked with the backend developer on integration."
       ],
-      "outcome": "Implemented real-time exercise feedback and repetition counting for the Lenfit app in the Hanium ICT Mentoring team project.",
+      "outcome": "Delivered real-time form feedback and valid-rep counting for Lenfit, a team project in Hanium ICT Mentoring.",
       "tags": [
         "Flutter",
         "Google ML Kit",
         "Pose Estimation"
       ],
-      "links": []
+      "links": [
+        {
+          "label": "Python prototype",
+          "url": "https://github.com/Hanium-MIRACLE/Lenfit"
+        },
+        {
+          "label": "Flutter app",
+          "url": "https://github.com/Hanium-MIRACLE/lenfit-app"
+        }
+      ]
     },
     {
       "id": "diff-svc",
@@ -183,14 +192,14 @@
       "period": "2023.07–12",
       "role": "Audio preprocessing & augmentation · Diff-SVC training & experiments",
       "organization": "MINES Lab, Sejong University",
-      "summary": "I trained Diff-SVC models for multiple singers and used DiffWave to augment limited voice samples, combining generated and original audio for further training.",
-      "problem": "Some target singers had too few available voice samples. I needed to supplement the training data to support conversion into those voices.",
+      "summary": "I prepared singing audio, trained voice conversion models for multiple singers, and used DiffWave to supplement recordings for singers with fewer samples.",
+      "problem": "Available recordings varied by singer, and some targets had too little usable audio after segmentation and silence removal.",
       "contributions": [
-        "Converted audio formats, split recordings into segments, and prepared training data to build Diff-SVC voice conversion models for multiple singers.",
-        "Investigated diffusion models for audio generation and used DiffWave to generate augmented audio conditioned on mel spectrograms from the original recordings. I combined the generated and original audio to train Diff-SVC models.",
-        "Worked with another AI developer to prepare an original-data-only baseline and a model trained with both original and augmented data, then examined conversion outputs for the same target voice."
+        "Standardized audio formats, segmented recordings, and removed long silences for Diff-SVC training. Prepared inputs by aligning HuBERT features and F0 with mel frames.",
+        "Conditioned DiffWave on mel spectrograms from the original recordings and combined the generated audio with real samples to train Diff-SVC.",
+        "Worked with the other AI developer to set up an original-only baseline and an augmented-data condition, then compared the resulting conversions for the same target voice."
       ],
-      "outcome": "Built voice conversion models for multiple singers and completed training with augmented data. The team integrated the AI models, iOS app, and server into a personalized voice conversion program.",
+      "outcome": "Completed model training and voice conversion with augmented data for multiple target singers. The team integrated the models, iOS app, and server into a singing voice conversion program.",
       "tags": [
         "Diff-SVC",
         "DiffWave",
@@ -206,14 +215,14 @@
       "subtitle": "Cognitive rehabilitation quizzes & AI models",
       "period": "2023.10–12",
       "role": "Quiz design · Model training · Team collaboration & service integration",
-      "summary": "I built cognitive rehabilitation quizzes using object detection and expression generation, then worked with teammates to complete and demonstrate an AI-assisted self-rehabilitation program.",
-      "problem": "Model detections and generated images needed to become interactive cognitive rehabilitation activities that users could complete and respond to.",
+      "summary": "I built object-finding and emotion-recognition quizzes by connecting an object detector and a facial expression generator to answer checking and session records.",
+      "problem": "The object detector could miss an item during an answer attempt, and generated faces could appear corrupted when handed to the quiz interface.",
       "contributions": [
-        "Fine-tuned an object detection model for everyday objects found in Korean living environments. I built a quiz that selects a target from detected objects and compares it with the object the user presents again.",
-        "Preprocessed six emotion classes from AI Hub facial expression data and fine-tuned StarGAN. I built an emotion recognition quiz that generates expressions from a familiar person’s photo and asks users to identify the emotion.",
-        "Collaborated with teammates to integrate the cognitive quizzes into the AI-assisted self-rehabilitation service program and jointly demonstrated the completed system."
+        "Fine-tuned an object detector for everyday objects in Korean homes. Built a quiz that selects a target from the camera view, checks the item the user presents, and retries up to five times when no item is detected.",
+        "Fine-tuned StarGAN on six emotion classes from AI Hub and generated expressions from photos of familiar people. Fixed corrupted images by rearranging the output tensor into HWC order, converting it to uint8, and correcting how the image buffer was passed.",
+        "Recorded quiz targets, answers, scores, and completion times in date-keyed JSON and worked with teammates to integrate and demonstrate the rehabilitation program."
       ],
-      "outcome": "Completed and demonstrated the program with the team. RESTED received the Grand Prize in the Intelligent Mechatronics Engineering division at Sejong University’s 16th Creative Design Competition in 2023.",
+      "outcome": "The team completed and demonstrated RESTED and won the Grand Prize in the Intelligent Mechatronics Engineering division at Sejong University’s 2023 Creative Design Competition.",
       "tags": [
         "Object Detection",
         "StarGAN",
@@ -238,14 +247,14 @@
       "subtitle": "GPT fine-tuning & document automation",
       "period": "2024.06–07",
       "role": "Document sample collection · Input/output dataset curation · GPT fine-tuning",
-      "summary": "To obtain the required JSON outputs, I collected document samples, built input/output training pairs, and fine-tuned GPT through the OpenAI API.",
-      "problem": "The model at the time did not reliably produce document analysis results in the required JSON structure. It needed to output text-entry and choice fields that the app could use.",
+      "summary": "I fine-tuned GPT to extract fields from Word forms and built the document-processing pipeline that turns app answers into completed forms.",
+      "problem": "The model’s responses did not consistently match the JSON schema the app needed for text fields and choices. The resulting answers also had to land in the right cells and checkboxes in the original template.",
       "contributions": [
-        "Collected document samples and personally built input/output training pairs: text extracted from Word tables as input, and JSON describing text-entry and choice fields as the target output.",
-        "Fine-tuned GPT for document analysis through the OpenAI API using the curated data. I implemented logic that turns the model’s output fields into app questions and maps users’ answers back into document content.",
-        "Worked with the backend developer on AI APIs and connected the backend and frontend so users could view generated DOCX documents in the app."
+        "Collected document samples and built training pairs from Word table text and structured JSON targets. Preserved row and column order in the text and fine-tuned GPT through the OpenAI API.",
+        "Wrote rules that normalize labels such as Name and its equivalents, find the matching cells, and fill in answers or mark selected choices while retaining the template.",
+        "Implemented Flask endpoints for template and signature uploads and document generation. Generated DOCX files, converted them to PDF, and placed signature images at the designated marker. Worked with the backend developer to connect the flow to the app."
       ],
-      "outcome": "Handled sample collection, training-data construction, and GPT fine-tuning, and implemented the workflow from template upload through questions and answers to DOCX generation and viewing.",
+      "outcome": "Completed the team workflow from template upload and in-app questions to completed Word forms and signed PDF output.",
       "tags": [
         "GPT Fine-tuning",
         "Dataset Curation"
@@ -261,18 +270,18 @@
       "id": "souf",
       "name": "Souf",
       "category": "development",
-      "kicker": "STARTUP · PRODUCT LEADERSHIP",
-      "subtitle": "Student freelancer platform: founding, development & operations",
+      "kicker": "STARTUP · FOUNDING & OPERATIONS",
+      "subtitle": "Launched and operated a student freelancer platform",
       "period": "2025.02–2026.02",
       "role": "Founder & CEO · Product planning · Development leadership · Operations",
-      "summary": "I planned a freelancer platform connecting portfolio sharing, client communication, and contracts, and led the team’s development and operations.",
-      "problem": "Students needed a service that connected their work samples to client inquiries and contracts through a coherent user flow.",
+      "summary": "I founded Souf, led its launch, and built tools that the team used to automate recurring work during platform operations.",
+      "problem": "Students needed a way to move from showcasing their work to discussing terms and drafting a contract. Once the platform launched, collecting and posting new opportunities and preparing contracts also took recurring manual effort.",
       "contributions": [
-        "Defined portfolio feed uploads, real-time chat, and contract drafting as core features, then managed the scope and progress of each feature.",
-        "Coordinated development around the flow from sharing work to discussing project terms and drafting a contract. With support from Sejong University’s Campus Town program, I registered the business and launched the service.",
-        "Operated the launched service and planned an AI portfolio generation feature, progressing through data preparation for its future introduction."
+        "As founder and CEO, I defined portfolio posts, real-time chat, and contract drafting as the core product flow. I coordinated the team’s development work and registered the business with support from Sejong University’s Campus Town program.",
+        "Built and used an operations tool that collected opportunities, categorized listings, merged duplicates by title, and separated active from expired posts for publishing.",
+        "Built and used a contract generator that filled paragraphs and tables in Word templates from JSON and exported the resulting documents as PDFs."
       ],
-      "outcome": "Launched and operated the student freelancer platform. AI portfolio generation remained a planned follow-up feature supported by data preparation.",
+      "outcome": "Launched and operated the freelancer platform. Separately planned AI portfolio generation as a follow-up feature and prepared data for its development.",
       "tags": [
         "Product Planning",
         "Project Management",
