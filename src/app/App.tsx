@@ -1,15 +1,16 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
   ArrowUpRight,
   Check,
   Copy,
-  X,
-  FileText,
-  ExternalLink,
   Mail,
 } from "lucide-react";
 import { getContent, projectOrder, type Project } from "./data";
 import { copy, readLanguage, rememberLanguage, type Language } from "./locale";
+import ProjectDialog from "./components/ProjectDialog";
+import { ProjectCard } from "./components/ProjectCard";
+import { spring, quickSpring } from "./motion";
 
 const sections = [
   { id: "about", label: "About" },
@@ -19,63 +20,14 @@ const sections = [
 ];
 const external = { target: "_blank", rel: "noopener noreferrer" };
 
-function ResourceLink({
-  link,
-  project,
-}: {
-  link: Project["links"][number];
-  project: string;
-}) {
-  const host = new URL(link.url).hostname;
-  const brand =
-    host === "github.com"
-      ? "github"
-      : host === "huggingface.co"
-        ? "huggingface"
-        : host === "apps.apple.com"
-          ? "appstore"
-          : host === "play.google.com"
-            ? "googleplay"
-            : null;
-  const names: Record<string, string> = {
-    github: "GitHub",
-    huggingface: "Hugging Face",
-    appstore: "App Store",
-    googleplay: "Google Play",
-  };
-  const label = `${project} · ${link.label}${brand ? ` (${names[brand]})` : ""}`;
-  return (
-    <a
-      className={link.showLabel ? "resource-link resource-link--labeled" : "resource-link"}
-      href={link.url}
-      {...external}
-      aria-label={label}
-      title={label}
-    >
-      {brand ? (
-        <img src={`./icons/${brand}.svg`} alt="" width="20" height="20" />
-      ) : host.includes("dbpia") ? (
-        <FileText size={20} />
-      ) : (
-        <ExternalLink size={link.showLabel ? 14 : 19} aria-hidden="true" />
-      )}
-      <span className={link.showLabel ? undefined : "link-tooltip"}>
-        {link.label}
-        {brand ? ` · ${names[brand]}` : ""}
-      </span>
-    </a>
-  );
-}
-
-function LanguageButton({ language, onToggle, inDialog = false }: {
+function LanguageButton({ language, onToggle }: {
   language: Language;
   onToggle: () => void;
-  inDialog?: boolean;
 }) {
   const label = language === "ko" ? "Switch to English" : "한국어로 보기";
   return (
     <button
-      className={`language-switch${inDialog ? " language-switch--dialog" : ""}`}
+      className="language-switch"
       onClick={onToggle}
       aria-label={label}
       title={label}
@@ -86,138 +38,8 @@ function LanguageButton({ language, onToggle, inDialog = false }: {
   );
 }
 
-function ProjectDialog({
-  project,
-  language,
-  onToggleLanguage,
-  onClose,
-}: {
-  project: Project | null;
-  language: Language;
-  onToggleLanguage: () => void;
-  onClose: () => void;
-}) {
-  const ref = useRef<HTMLDialogElement>(null);
-  const t = copy[language];
-  useEffect(() => {
-    const dialog = ref.current;
-    if (!project || !dialog) return;
-    const focused = document.activeElement as HTMLElement | null;
-    dialog.showModal();
-    const prior = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      dialog.close();
-      document.body.style.overflow = prior;
-      focused?.focus();
-    };
-  }, [project?.id]);
-  if (!project) return null;
-  return (
-    <dialog
-      ref={ref}
-      className="project-dialog"
-      aria-labelledby="dialog-title"
-      onCancel={onClose}
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
-    >
-      <div className="dialog-inner">
-        <div className="dialog-top">
-          <span className="eyebrow">
-            {project.category === "research" ? "RESEARCH" : "DEVELOPMENT"} /{" "}
-            {project.period}
-          </span>
-          <div className="dialog-actions">
-            <LanguageButton language={language} onToggle={onToggleLanguage} inDialog />
-            <button
-              className="icon-button"
-              onClick={onClose}
-              aria-label={t.closeDetails}
-            >
-              <X size={22} />
-            </button>
-          </div>
-        </div>
-        <h2 id="dialog-title">{project.name}</h2>
-        <p className="dialog-subtitle">{project.subtitle}</p>
-        {project.status && (
-          <span className="project-status dialog-status">{project.status}</span>
-        )}
-        <div className="dialog-role">
-          <span>MY ROLE</span>
-          <p>{project.role}</p>
-        </div>
-        <div className="detail-block">
-          <h3>Problem</h3>
-          <p>{project.problem}</p>
-        </div>
-        <div className="detail-block">
-          <h3>Contribution</h3>
-          <ol>
-            {project.contributions.map((s, i) => (
-              <li key={i}>
-                <span>{String(i + 1).padStart(2, "0")}</span>
-                <p>{s}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-        <div className="detail-result">
-          <span>OUTCOME</span>
-          <p>{project.outcome}</p>
-        </div>
-        <div className="tag-list">
-          {project.tags.map((t) => (
-            <span key={t}>{t}</span>
-          ))}
-        </div>
-        {project.links.length > 0 && (
-          <div className="dialog-links">
-            {project.links.map((l) => (
-              <a key={l.url} href={l.url} {...external}>
-                {l.label}
-                <ArrowUpRight size={16} />
-              </a>
-            ))}
-          </div>
-        )}
-        {project.id === "mote" && (
-          <figure className="project-screens">
-            <div>
-              <img
-                src="./images/mote-recording.jpg"
-                alt={t.moteRecording}
-                loading="lazy"
-              />
-              <img
-                src="./images/mote-summary.jpg"
-                alt={t.moteSummary}
-                loading="lazy"
-              />
-            </div>
-            <figcaption>{t.moteCaption}</figcaption>
-          </figure>
-        )}
-        {project.id === "wallbaduk" && (
-          <figure className="project-screens">
-            <div>
-              <img
-                src="./images/wallbaduk-game.png"
-                alt={t.wallbadukAlt}
-                loading="lazy"
-              />
-            </div>
-            <figcaption>{t.wallbadukCaption}</figcaption>
-          </figure>
-        )}
-      </div>
-    </dialog>
-  );
-}
-
 export default function App() {
+  const reduceMotion = useReducedMotion();
   const [active, setActive] = useState("");
   const [filter, setFilter] = useState("all");
   const [language, setLanguage] = useState<Language>(readLanguage);
@@ -272,7 +94,7 @@ export default function App() {
       window.removeEventListener("resize", update);
     };
   }, []);
-  useEffect(() => {
+  useLayoutEffect(() => {
     const update = () => {
       const a = navRef.current?.querySelector<HTMLAnchorElement>(
         `[href="#${active}"]`,
@@ -284,8 +106,9 @@ export default function App() {
       );
     };
     update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
+    const observer = new ResizeObserver(update);
+    if (navRef.current) observer.observe(navRef.current);
+    return () => observer.disconnect();
   }, [active]);
   useEffect(() => {
     const sync = () => {
@@ -293,9 +116,21 @@ export default function App() {
       setLanguage(readLanguage());
     };
     sync();
+    const interruptScroll = () => cancelAnimationFrame(scrollFrame.current);
+    const interruptWithKey = (event: KeyboardEvent) => {
+      if (["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "].includes(event.key)) {
+        interruptScroll();
+      }
+    };
     window.addEventListener("popstate", sync);
+    window.addEventListener("wheel", interruptScroll, { passive: true });
+    window.addEventListener("touchstart", interruptScroll, { passive: true });
+    window.addEventListener("keydown", interruptWithKey);
     return () => {
       window.removeEventListener("popstate", sync);
+      window.removeEventListener("wheel", interruptScroll);
+      window.removeEventListener("touchstart", interruptScroll);
+      window.removeEventListener("keydown", interruptWithKey);
       clearTimeout(copyTimer.current);
       cancelAnimationFrame(scrollFrame.current);
     };
@@ -415,9 +250,12 @@ export default function App() {
               {s.label}
             </a>
           ))}
-          <span
+          <motion.span
             className="nav-indicator"
-            style={{ left: indicator.left, width: indicator.width }}
+            aria-hidden="true"
+            initial={false}
+            animate={{ x: indicator.left, width: indicator.width, opacity: indicator.width ? 1 : 0 }}
+            transition={reduceMotion ? { duration: 0 } : spring}
           />
         </div>
       </nav>
@@ -442,6 +280,14 @@ export default function App() {
                     ? projects.length
                     : projects.filter((p) => p.category === f.id).length}
                 </span>
+                {filter === f.id && (
+                  <motion.span
+                    className="filter-indicator"
+                    layoutId="filter-indicator"
+                    aria-hidden="true"
+                    transition={reduceMotion ? { duration: 0 } : quickSpring}
+                  />
+                )}
               </button>
             ))}
           </div>
@@ -449,51 +295,11 @@ export default function App() {
             {visible.length} R&amp;D entries
           </p>
           <div className="project-grid">
-            {visible.map((p) => (
-              <article
-                className={p.id === "wallbaduk" ? "project-card project-card--featured" : "project-card"}
-                key={p.id}
-              >
-                <div className="card-meta">
-                  <span className={p.id === "wallbaduk" ? "card-featured-label" : undefined}>
-                    {p.id === "wallbaduk"
-                      ? t.featuredProject
-                      : p.category === "research" ? "Research" : "Development"}
-                  </span>
-                  <time>{p.period}</time>
-                </div>
-                <h3>
-                  <button className="card-title" onClick={() => openProject(p)}>
-                    {p.name}
-                  </button>
-                </h3>
-                <p className="card-subtitle">{p.subtitle}</p>
-                {p.status && <span className="project-status">{p.status}</span>}
-                <p className="card-summary">{p.summary}</p>
-                <div className="card-focus">
-                  <span>Focus</span>
-                  <div className="tag-list">
-                    {p.tags.map((t) => (
-                      <span key={t}>{t}</span>
-                    ))}
-                  </div>
-                </div>
-                <div className="card-footer">
-                  <div className="resource-links">
-                    {p.links.map((l) => (
-                      <ResourceLink key={l.url} link={l} project={p.name} />
-                    ))}
-                  </div>
-                  <button
-                    className="details-button"
-                    onClick={() => openProject(p)}
-                    aria-label={`${p.name} · ${t.details}`}
-                  >
-                    Details <ArrowUpRight size={16} />
-                  </button>
-                </div>
-              </article>
-            ))}
+            <AnimatePresence initial={false} mode="popLayout">
+              {visible.map((p) => (
+                <ProjectCard key={p.id} project={p} language={language} onOpen={openProject} />
+              ))}
+            </AnimatePresence>
           </div>
         </section>
         <section id="experience" className="section experience-section">
@@ -568,7 +374,18 @@ export default function App() {
               aria-label={t.copyEmail}
               title="Copy email"
             >
-              {copied ? <Check size={18} /> : <Copy size={18} />}
+              <AnimatePresence initial={false} mode="wait">
+                <motion.span
+                  className="copy-icon"
+                  key={copied ? "copied" : "copy"}
+                  initial={reduceMotion ? false : { opacity: 0, y: 4, scale: 0.8 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={reduceMotion ? undefined : { opacity: 0, y: -4, scale: 0.8 }}
+                  transition={reduceMotion ? { duration: 0 } : { ...quickSpring, opacity: { duration: 0.1 } }}
+                >
+                  {copied ? <Check size={18} /> : <Copy size={18} />}
+                </motion.span>
+              </AnimatePresence>
             </button>
           </div>
           <p className="copy-status" role="status">
