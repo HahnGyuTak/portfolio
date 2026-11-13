@@ -8,12 +8,14 @@
   font-synthesis: none;
   --blue: #66b1f1;
   --nav-height: 70px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 html {
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
   scroll-behavior: auto;
   scroll-padding-top: 69px;
+  scrollbar-gutter: stable;
 }
 body {
   margin: 0;
@@ -50,6 +52,25 @@ figure {
 button,
 a {
   -webkit-tap-highlight-color: transparent;
+}
+/* A small, immediate press response; individual scale composes with layout motion. */
+button:not(.dialog-actions button),
+.profile-icon,
+.resume-link,
+.resource-link,
+.contact-links a,
+.dialog-links a {
+  transition: scale 160ms var(--ease-out), color 160ms var(--ease-out),
+    background-color 160ms var(--ease-out), border-color 160ms var(--ease-out);
+}
+button:not(.dialog-actions button):active,
+.profile-icon:active,
+.resume-link:active,
+.resource-link:active,
+.contact-links a:active,
+.dialog-links a:active {
+  scale: 0.97;
+  transition-duration: 100ms;
 }
 button:focus-visible,
 a:focus-visible {
@@ -101,7 +122,6 @@ svg {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.08rem;
-  transition: border-color 0.2s, background 0.2s;
 }
 .language-switch:hover {
   background: #e7f3fd;
@@ -195,7 +215,7 @@ svg {
   width: 28px;
   height: 28px;
   opacity: 0.6;
-  transition: opacity 0.2s;
+  transition: opacity 160ms var(--ease-out), scale 160ms var(--ease-out);
 }
 .profile-icon:hover {
   opacity: 1;
@@ -231,23 +251,18 @@ svg {
   color: #000;
   font-size: 1rem;
   letter-spacing: 0.1rem;
-  transition: all 0.5s ease;
+  transition: color 160ms var(--ease-out), background-color 160ms var(--ease-out);
 }
 .sticky-nav[data-stuck="true"] .nav-inner {
   width: calc(100% - 68px);
-}
-.nav-inner > a:hover {
-  color: #fff;
-  background: rgba(102, 177, 241, 0.8);
-  transition: all 0.5s ease;
 }
 .nav-indicator {
   position: absolute;
   bottom: 0;
   height: 6px;
   width: 0;
+  left: 0;
   background: #66b1f1;
-  transition: left 0.3s ease;
   pointer-events: none;
 }
 .section {
@@ -266,10 +281,10 @@ svg {
   margin: -21px auto 36px;
 }
 .filters button {
+  position: relative;
   font-size: 12px;
   letter-spacing: 0.07rem;
   padding: 10px 3px;
-  border-bottom: 2px solid transparent;
   color: #666;
   display: flex;
   align-items: center;
@@ -280,10 +295,19 @@ svg {
   color: #888;
 }
 .filters .selected {
-  border-color: var(--blue);
   color: #000;
 }
+.filters button .filter-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--blue);
+  pointer-events: none;
+}
 .project-grid {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 24px;
@@ -298,8 +322,9 @@ svg {
   min-width: 0;
   border: 1px solid #e4e4e4;
   transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    border-color 180ms var(--ease-out),
+    box-shadow 180ms var(--ease-out),
+    translate 180ms var(--ease-out);
 }
 .project-card:hover {
   border-color: #badcf7;
@@ -333,6 +358,7 @@ svg {
   letter-spacing: 0;
 }
 .card-title {
+  transform-origin: left center;
   font-size: 23px;
   font-weight: 700;
   letter-spacing: 0.02rem;
@@ -418,7 +444,6 @@ svg {
   height: 32px;
   color: #333;
   border: 1px solid #e8e8e8;
-  transition: background 0.2s;
 }
 .resource-link--labeled {
   width: auto;
@@ -451,11 +476,15 @@ svg {
   visibility: hidden;
   pointer-events: none;
   z-index: 3;
+  transform: translateY(3px);
+  transition: opacity 120ms var(--ease-out), transform 160ms var(--ease-out),
+    visibility 120ms;
 }
 .resource-link:hover .link-tooltip,
 .resource-link:focus-visible .link-tooltip {
   opacity: 1;
   visibility: visible;
+  transform: translateY(0);
 }
 .details-button {
   display: flex;
@@ -640,6 +669,10 @@ a.publication:hover h4 {
   color: #398ecf;
   margin: 9px 0;
 }
+.copy-icon {
+  display: grid;
+  place-items: center;
+}
 .contact-links {
   display: flex;
   align-items: center;
@@ -682,6 +715,39 @@ footer {
 }
 .project-dialog::backdrop {
   background: rgba(0, 0, 0, 0.45);
+  animation: dialog-backdrop-in 180ms ease-out;
+}
+.project-dialog[data-exiting="true"]::backdrop {
+  animation: dialog-backdrop-out 180ms ease-out forwards;
+}
+@keyframes dialog-backdrop-in {
+  from { background: rgba(0, 0, 0, 0); }
+  to { background: rgba(0, 0, 0, 0.45); }
+}
+@keyframes dialog-backdrop-out {
+  from { background: rgba(0, 0, 0, 0.45); }
+  to { background: rgba(0, 0, 0, 0); }
+}
+@media (hover: hover) and (pointer: fine) {
+  .nav-inner > a:hover {
+    color: #fff;
+    background: rgba(102, 177, 241, 0.8);
+  }
+  .project-card:hover {
+    translate: 0 -3px;
+  }
+  .details-button svg,
+  .resume-link svg,
+  .contact-links svg,
+  .dialog-links svg {
+    transition: translate 160ms var(--ease-out);
+  }
+  .details-button:hover svg,
+  .resume-link:hover svg,
+  .contact-links a:hover svg,
+  .dialog-links a:hover svg {
+    translate: 2px -2px;
+  }
 }
 .dialog-inner {
   padding: 25px 42px 36px;
@@ -1042,5 +1108,15 @@ footer {
   *::after {
     transition: none !important;
     animation: none !important;
+  }
+  button:active,
+  a:active,
+  .project-card:hover,
+  .details-button:hover svg,
+  .resume-link:hover svg,
+  .contact-links a:hover svg,
+  .dialog-links a:hover svg {
+    scale: none !important;
+    translate: none !important;
   }
 }
