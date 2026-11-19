@@ -139,13 +139,12 @@ function ResearchCard({
       data-project-id={project.id}
     >
       {wallbaduk && (
-        <div className="v2-card-board">
+        <div className="v2-card-app-icon">
           <img
-            src="./images/wallbaduk-board.webp"
-            width={720}
-            height={720}
-            alt={language === "ko" ? "벽바둑 앱의 실제 7×7 대전판"
-              : "The 7×7 game board from the WallBaduk app"}
+            src="./images/wallbaduk-app-icon.webp"
+            width={640}
+            height={640}
+            alt={language === "ko" ? "벽바둑 앱 아이콘" : "WallBaduk app icon"}
             loading="lazy"
             decoding="async"
           />

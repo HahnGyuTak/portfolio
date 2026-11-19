@@ -208,7 +208,7 @@
   line-height: 1.3;
 }
 
-.portfolio-v2 .v2-card-board {
+.portfolio-v2 .v2-card-app-icon {
   background: #fbf8f1;
   display: grid;
   place-items: center;
@@ -217,12 +217,11 @@
   border-bottom: 1px solid #e2ded3;
 }
 
-.portfolio-v2 .v2-card-board img {
-  width: min(100%, 14.5rem);
+.portfolio-v2 .v2-card-app-icon img {
+  width: min(100%, 11rem);
   aspect-ratio: 1;
   height: auto;
-  object-fit: cover;
-  border-radius: 9px;
+  object-fit: contain;
 }
 
 .portfolio-v2 .v2-card--wallbaduk .v2-card-footer {
@@ -241,15 +240,15 @@
     flex-direction: row;
   }
 
-  .portfolio-v2 .v2-card-board {
+  .portfolio-v2 .v2-card-app-icon {
     width: 39.2%;
     border-radius: 11px 0 0 11px;
     border-right: 1px solid #e2ded3;
     border-bottom: 0;
   }
 
-  .portfolio-v2 .v2-card-board img {
-    width: min(100%, 16rem);
+  .portfolio-v2 .v2-card-app-icon img {
+    width: min(100%, 14.5rem);
   }
 
   .portfolio-v2 .v2-card--wallbaduk .v2-card-body {
