@@ -84,6 +84,7 @@ export const ProjectCard = forwardRef<HTMLElement, ProjectCardProps>(function Pr
   return (
     <motion.article
       ref={setRef}
+      data-project-id={project.id}
       className={project.id === "wallbaduk" ? "project-card project-card--featured" : "project-card"}
       aria-hidden={!isPresent || undefined}
       layout={reduceMotion ? false : "position"}
@@ -101,7 +102,7 @@ export const ProjectCard = forwardRef<HTMLElement, ProjectCardProps>(function Pr
         <time>{project.period}</time>
       </div>
       <h3>
-        <button className="card-title" data-project-id={project.id} onClick={() => onOpen(project)}>
+        <button className="card-title" onClick={() => onOpen(project)}>
           {project.name}
         </button>
       </h3>

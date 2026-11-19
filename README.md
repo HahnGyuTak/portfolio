@@ -4,6 +4,7 @@
 
 - 포트폴리오: https://hahngyutak.github.io/portfolio/
 - English: https://hahngyutak.github.io/portfolio/?lang=en
+- V1: https://hahngyutak.github.io/portfolio/?v=1
 - 논문 블로그: https://hahngyutak.github.io/ (별도 저장소로 운영)
 
 ## 배포
@@ -36,9 +37,11 @@ pnpm preview     # dist/ 결과 확인
 - `src/app/locale.ts`: 소개·학력·접근성 문구 번역과 언어 선택 저장
 - `src/app/data.ts`: 프로젝트 타입과 아카이브 최신순 정렬
 - `src/app/App.tsx`: 섹션, 고정 메뉴, 필터, 프로젝트 상세, 이메일 복사
+- `src/app/PortfolioSections.tsx`, `src/app/PortfolioResearch.tsx`: V2 섹션과 프로젝트 아카이브
 - `src/app/components/ProjectCard.tsx`, `ProjectDialog.tsx`: 카드·상세 모달과 진입·퇴장 모션
 - `src/app/motion.ts`: 메뉴·필터·모달에서 공유하는 스프링 설정
 - `src/styles/index.css`: 반응형 화면, 프로젝트 카드, 접근성 스타일
+- `src/styles/portfolio-*.css`: V2 레이아웃, 서체와 반응형 스타일
 - `public/resume.html`: 브라우저에서 인쇄/PDF 저장 가능한 이력서. 사이트 콘텐츠 수정 시 함께 갱신합니다.
 - `public/resume-en.html`: 영어 이력서. 영어 화면의 CV 버튼에서 연결됩니다.
 - `public/images/`: GitHub 프로필 이미지와 본인 프로젝트의 실제 앱 화면
@@ -60,11 +63,14 @@ pnpm preview     # dist/ 결과 확인
 
 ## 구조와 동작
 
-- CodePen의 하단 시작 → 상단 고정 내비게이션, 현재 섹션 밑줄 이동
+기본 디자인은 V2입니다. 언어 버튼 옆에서 디자인을 바꿀 수 있고 `?v=1`로 V1 주소를 공유할 수 있습니다. 버전을 바꿀 때 언어, 필터, 열린 상세를 유지합니다. 예를 들어 `?v=1&lang=en&project=mote`는 V1 영어 Mote 상세를 엽니다.
+
+- V2는 Figtree와 Noto Sans KR, 원본 앱 캡처, 별도 Publications와 Toolkit 섹션을 사용합니다.
+- V1은 CodePen의 하단 시작 → 상단 고정 내비게이션과 현재 섹션 밑줄 이동을 사용합니다.
 - 전체 9개 R&D 카드, All / Research / Development 필터, Focus 태그와 사이트별 링크 아이콘
 - 네이티브 `<dialog>` 기반 상세, 키보드 포커스 관리, 딥 링크
 - 외부 서비스 키·로그인·추적 스크립트 없는 정적 사이트
-- CodePen과 같은 `Century Gothic, Lato, sans-serif` 폰트 스택, 회색 배경, 넓은 제목 자간, 70px 메뉴·6px 파란 밑줄
+- V1은 `Century Gothic, Lato, sans-serif` 글꼴, 회색 배경, 넓은 제목 자간, 70px 메뉴와 파란 밑줄을 사용합니다.
 
 원본 저장소의 미사용 Figma 컴포넌트는 보존하지만 배포 번들에는 포함되지 않습니다.
 

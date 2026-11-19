@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, type ReactNode } from "react";
 import { AnimatePresence, motion, useIsPresent, useReducedMotion } from "motion/react";
 import { ArrowUpRight, X } from "lucide-react";
 import type { Project } from "../data";
@@ -8,6 +8,8 @@ import { quickSpring, spring } from "../motion";
 type ProjectDialogProps = {
   project: Project | null;
   language: Language;
+  version: 1 | 2;
+  versionControl: ReactNode;
   onToggleLanguage: () => void;
   onClose: () => void;
 };
@@ -15,6 +17,8 @@ type ProjectDialogProps = {
 function DialogContent({
   project,
   language,
+  version,
+  versionControl,
   onToggleLanguage,
   onClose,
 }: ProjectDialogProps & { project: Project }) {
@@ -27,9 +31,7 @@ function DialogContent({
   useLayoutEffect(() => {
     const dialog = ref.current;
     if (!dialog) return;
-    const focused = document.activeElement instanceof HTMLElement && document.activeElement !== document.body
-      ? document.activeElement
-      : document.querySelector<HTMLButtonElement>(`[data-project-id="${project.id}"]`);
+    const focused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     const prior = document.body.style.overflow;
     dialog.showModal();
     document.body.style.overflow = "hidden";
@@ -38,7 +40,13 @@ function DialogContent({
       // the native focus trap and scroll lock active until that moment.
       dialog.close();
       document.body.style.overflow = prior;
-      if (focused?.isConnected) focused.focus({ preventScroll: true });
+      requestAnimationFrame(() => {
+        if (document.querySelector(".project-dialog[open]")) return;
+        const trigger = focused?.isConnected && focused !== document.body
+          ? focused
+          : document.querySelector<HTMLElement>(`[data-project-id="${project.id}"] h3 :is(a, button)`);
+        trigger?.focus({ preventScroll: true });
+      });
     };
   }, []);
 
@@ -83,6 +91,7 @@ function DialogContent({
             >
               {language === "ko" ? "EN" : "KO"}
             </motion.button>
+            {versionControl}
             <motion.button
               className="icon-button"
               onClick={() => { if (isPresent) onClose(); }}
@@ -147,9 +156,13 @@ function DialogContent({
         {project.id === "wallbaduk" && (
           <figure className="project-screens">
             <div>
-              <img src="./images/wallbaduk-game.png" alt={t.wallbadukAlt} loading="lazy" />
+              <img
+                src={version === 2 ? "./images/wallbaduk-release.webp" : "./images/wallbaduk-game.png"}
+                alt={version === 1 ? t.wallbadukAlt : language === "ko" ? "벽바둑의 7×7 게임판과 AI 대전 화면" : "WallBaduk 7×7 board during an AI match"}
+                loading="lazy"
+              />
             </div>
-            <figcaption>{t.wallbadukCaption}</figcaption>
+            <figcaption>{version === 1 ? t.wallbadukCaption : language === "ko" ? "벽바둑 앱의 AI 대전 화면" : "AI match in the WallBaduk app"}</figcaption>
           </figure>
         )}
       </div>

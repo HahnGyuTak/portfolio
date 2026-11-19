@@ -1,16 +1,22 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type MouseEvent } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
   ArrowUpRight,
   Check,
   Copy,
+  Globe2,
   Mail,
+  Menu,
+  X,
 } from "lucide-react";
 import { getContent, projectOrder, type Project } from "./data";
 import { copy, readLanguage, rememberLanguage, type Language } from "./locale";
 import ProjectDialog from "./components/ProjectDialog";
 import { ProjectCard } from "./components/ProjectCard";
 import { spring, quickSpring } from "./motion";
+import { PortfolioResearch } from "./PortfolioResearch";
+import { ProfileV2, PublicationsV2, ToolkitV2, ExperienceV2, ContactV2 } from "./PortfolioSections";
+import "../styles/portfolio-v2.css";
 
 const sections = [
   { id: "about", label: "About" },
@@ -20,19 +26,38 @@ const sections = [
 ];
 const external = { target: "_blank", rel: "noopener noreferrer" };
 
-function LanguageButton({ language, onToggle }: {
+const v2Sections = [
+  { id: "about", label: "Profile" },
+  sections[1],
+  { id: "publications", label: "Publications" },
+  { id: "toolkit", label: "Toolkit" },
+  ...sections.slice(2),
+];
+
+type Version = 1 | 2;
+const readVersion = (): Version => new URLSearchParams(location.search).get("v") === "1" ? 1 : 2;
+
+function projectReturn() {
+  const from = history.state?.portfolioProjectFrom;
+  return typeof from === "string" ? { from, view: new URL(location.href) } : null;
+}
+
+function LanguageButton({ language, onToggle, showIcon }: {
   language: Language;
   onToggle: () => void;
+  showIcon: boolean;
 }) {
   const label = language === "ko" ? "Switch to English" : "한국어로 보기";
   return (
     <button
       className="language-switch"
+      type="button"
       onClick={onToggle}
       aria-label={label}
       title={label}
       lang={language === "ko" ? "en" : "ko"}
     >
+      {showIcon && <Globe2 size={15} aria-hidden="true" />}
       {language === "ko" ? "EN" : "KO"}
     </button>
   );
@@ -40,6 +65,8 @@ function LanguageButton({ language, onToggle }: {
 
 export default function App() {
   const reduceMotion = useReducedMotion();
+  const [version, setVersion] = useState(readVersion);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [active, setActive] = useState("");
   const [filter, setFilter] = useState("all");
   const [language, setLanguage] = useState<Language>(readLanguage);
@@ -49,8 +76,15 @@ export default function App() {
   const data = getContent(language);
   const projects = data.projects as Project[];
   const selected = projects.find((p) => p.id === selectedId) || null;
+  const navigation = version === 1 ? sections : v2Sections;
   const t = copy[language];
   const resumeHref = language === "en" ? "./resume-en.html" : "./resume.html";
+  const dialogReturn = useRef(projectReturn());
+  const closing = useRef(false);
+  const pendingScroll = useRef(location.hash.slice(1));
+  const restoreVersionFocus = useRef(false);
+  const headerRef = useRef<HTMLElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     rememberLanguage(language);
     document.documentElement.lang = language;
@@ -62,9 +96,36 @@ export default function App() {
     const next = language === "ko" ? "en" : "ko";
     const url = new URL(location.href);
     url.searchParams.set("lang", next);
-    history.replaceState(null, "", url);
+    history.replaceState(history.state, "", url);
+    dialogReturn.current = projectReturn();
     setLanguage(next);
   };
+  const nextVersion = version === 2 ? 1 : 2;
+  const toggleVersion = () => {
+    restoreVersionFocus.current = !!document.activeElement?.matches(".version-switch");
+    const url = new URL(location.href);
+    if (nextVersion === 1) url.searchParams.set("v", "1");
+    else url.searchParams.delete("v");
+    history.replaceState(history.state, "", url);
+    dialogReturn.current = projectReturn();
+    pendingScroll.current = active || "about";
+    setMenuOpen(false);
+    setVersion(nextVersion);
+  };
+  const versionLabel = language === "ko"
+    ? `V${nextVersion} 디자인으로 전환`
+    : `Switch to version ${nextVersion}`;
+  const versionControl = (
+    <button type="button" className="version-switch" aria-label={versionLabel} title={versionLabel} onClick={toggleVersion}>
+      V{nextVersion}
+    </button>
+  );
+  const controls = (
+    <div className="view-controls">
+      <LanguageButton language={language} onToggle={toggleLanguage} showIcon={version === 2} />
+      {versionControl}
+    </div>
+  );
   const [copied, setCopied] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
   const [indicator, setIndicator] = useState({ left: 0, width: 0 });
@@ -73,11 +134,11 @@ export default function App() {
   useEffect(() => {
     const update = () => {
       const hero = document.getElementById("about");
-      let current =
-        window.scrollY >= (hero?.offsetHeight ?? 0) - 1 ? "about" : "";
-      for (const s of sections.slice(1)) {
+      let current = version === 2 || window.scrollY >= (hero?.offsetHeight ?? 0) - 1 ? "about" : "";
+      const threshold = (headerRef.current?.offsetHeight ?? 69) + 2;
+      for (const s of navigation.slice(1)) {
         const el = document.getElementById(s.id);
-        if (el && el.getBoundingClientRect().top <= 70) current = s.id;
+        if (el && el.getBoundingClientRect().top <= threshold) current = s.id;
       }
       if (
         window.scrollY + window.innerHeight >=
@@ -93,7 +154,24 @@ export default function App() {
       window.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
     };
-  }, []);
+  }, [navigation, version, filter, language]);
+  useLayoutEffect(() => {
+    if (restoreVersionFocus.current) {
+      restoreVersionFocus.current = false;
+      const control = document.querySelector<HTMLElement>(".project-dialog[open] .version-switch")
+        ?? document.querySelector<HTMLElement>(".view-controls .version-switch");
+      control?.focus({ preventScroll: true });
+    }
+    const id = pendingScroll.current;
+    pendingScroll.current = "";
+    if (!id) return;
+    const target = document.getElementById(id)
+      ?? (version === 1 && ["publications", "toolkit"].includes(id) ? document.getElementById("experience") : null);
+    if (target) {
+      const offset = headerRef.current?.offsetHeight ?? 69;
+      window.scrollTo(0, target.getBoundingClientRect().top + window.scrollY - offset);
+    }
+  }, [version]);
   useLayoutEffect(() => {
     const update = () => {
       const a = navRef.current?.querySelector<HTMLAnchorElement>(
@@ -109,11 +187,24 @@ export default function App() {
     const observer = new ResizeObserver(update);
     if (navRef.current) observer.observe(navRef.current);
     return () => observer.disconnect();
-  }, [active]);
+  }, [active, version]);
   useEffect(() => {
     const sync = () => {
+      const returned = dialogReturn.current;
+      if (returned?.from === location.href) {
+        const url = new URL(location.href);
+        for (const key of ["lang", "v"]) {
+          const value = returned.view.searchParams.get(key);
+          if (value) url.searchParams.set(key, value);
+          else url.searchParams.delete(key);
+        }
+        if (url.href !== location.href) history.replaceState(history.state, "", url);
+      }
+      closing.current = false;
+      dialogReturn.current = projectReturn();
       setSelectedId(new URLSearchParams(location.search).get("project"));
       setLanguage(readLanguage());
+      setVersion(readVersion());
     };
     sync();
     const interruptScroll = () => cancelAnimationFrame(scrollFrame.current);
@@ -140,10 +231,11 @@ export default function App() {
     if (!element) return;
     cancelAnimationFrame(scrollFrame.current);
     const from = window.scrollY;
-    const to = Math.max(0, element.getBoundingClientRect().top + from - 69);
+    const to = Math.max(0, element.getBoundingClientRect().top + from - (headerRef.current?.offsetHeight ?? 69));
     const url = new URL(location.href);
     url.hash = id;
-    history.replaceState(null, "", url);
+    history.replaceState(history.state, "", url);
+    setMenuOpen(false);
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       window.scrollTo(0, to);
       return;
@@ -157,13 +249,31 @@ export default function App() {
     };
     scrollFrame.current = requestAnimationFrame(step);
   };
-  const openProject = (p: Project) => {
-    const u = new URL(location.href);
-    u.searchParams.set("project", p.id);
-    history.replaceState(null, "", u);
-    setSelectedId(p.id);
+  const projectHref = (id: string) => {
+    const url = new URL(location.href);
+    url.searchParams.set("project", id);
+    url.searchParams.set("lang", language);
+    return url.href;
+  };
+  const openProject = (project: Project) => {
+    history.pushState({ portfolioProjectFrom: location.href }, "", projectHref(project.id));
+    dialogReturn.current = projectReturn();
+    setSelectedId(project.id);
+  };
+  const openToolkitProject = (event: MouseEvent<HTMLAnchorElement>, id: string) => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return;
+    const project = projects.find((entry) => entry.id === id);
+    if (!project) return;
+    event.preventDefault();
+    openProject(project);
   };
   const closeProject = () => {
+    if (closing.current) return;
+    if (dialogReturn.current) {
+      closing.current = true;
+      history.back();
+      return;
+    }
     const u = new URL(location.href);
     u.searchParams.delete("project");
     history.replaceState(null, "", u);
@@ -185,12 +295,62 @@ export default function App() {
   const visible = sorted.filter(
     (p) => filter === "all" || p.category === filter,
   );
+  const dialog = (
+    <ProjectDialog key="project-dialog" project={selected} language={language} version={version}
+      versionControl={versionControl} onToggleLanguage={toggleLanguage} onClose={closeProject} />
+  );
+  if (version === 2) {
+    return (
+      <div className="portfolio-v2" lang={language}>
+        <a className="skip-link" href="#projects">{language === "ko" ? "R&D 바로가기" : "Skip to R&D"}</a>
+        <header className="v2-masthead" ref={headerRef} onKeyDown={(event) => {
+          if (event.key === "Escape" && menuOpen) {
+            setMenuOpen(false);
+            menuButtonRef.current?.focus();
+          }
+        }}>
+          <div className="v2-inner v2-masthead-row">
+            <a className="v2-wordmark" href="#about" onClick={(event) => {
+              event.preventDefault();
+              navigateTo("about");
+            }}>Gyutak Hahn</a>
+            <button className="v2-menu-toggle" type="button" ref={menuButtonRef}
+              aria-controls="v2-navigation" aria-expanded={menuOpen}
+              aria-label={language === "ko" ? "섹션 메뉴" : "Section menu"}
+              onClick={() => setMenuOpen(!menuOpen)}>
+              {menuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+            <nav className="v2-navigation" id="v2-navigation" aria-label="Main navigation" data-open={menuOpen}>
+              {navigation.map(({ id, label }) => (
+                <a key={id} href={`#${id}`} aria-current={active === id ? "location" : undefined}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    navigateTo(id);
+                  }}>{label}</a>
+              ))}
+            </nav>
+            {controls}
+          </div>
+        </header>
+        <main>
+          <ProfileV2 data={data} language={language} resumeHref={resumeHref} />
+          <PortfolioResearch language={language} projects={projects} visible={visible} filter={filter}
+            onFilterChange={setFilter} onOpenProject={openProject} />
+          <PublicationsV2 data={data} language={language} />
+          <ToolkitV2 data={data} language={language} projectHref={projectHref} onProjectClick={openToolkitProject} />
+          <ExperienceV2 data={data} language={language} />
+          <ContactV2 data={data} language={language} resumeHref={resumeHref} copied={copied} copyEmail={copyEmail} />
+        </main>
+        {dialog}
+      </div>
+    );
+  }
   return (
-    <>
+    <div className="portfolio-v1">
       <a className="skip-link" href="#projects">
         Skip to R&amp;D
       </a>
-      {!selected && <LanguageButton language={language} onToggle={toggleLanguage} />}
+      {controls}
       <header className="hero" id="about">
         <div className="profile">
           <img
@@ -419,7 +579,7 @@ export default function App() {
           Back to top ↑
         </a>
       </footer>
-      <ProjectDialog project={selected} language={language} onToggleLanguage={toggleLanguage} onClose={closeProject} />
-    </>
+      {dialog}
+    </div>
   );
 }
