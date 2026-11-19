@@ -155,6 +155,13 @@
   font-variant-numeric: tabular-nums;
 }
 
+.portfolio-v2 .v2-section-heading {
+  font-size: clamp(38px, 4.0625vw, 65px);
+  font-weight: 450;
+  line-height: 1.05;
+  letter-spacing: -.06em;
+}
+
 .portfolio-v2 .v2-publications {
   display: grid;
   grid-template-columns: minmax(0, 0.31fr) minmax(0, 1fr);
