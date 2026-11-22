@@ -613,6 +613,17 @@ a.publication:hover h4 {
   color: #888;
   margin-top: 4px;
 }
+.award-project-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  gap: 0.4rem;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.award-project-link:hover {
+  text-decoration-thickness: 2px;
+}
 .skills-list {
   max-width: 1000px;
   width: 100%;

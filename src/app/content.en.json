@@ -378,7 +378,7 @@
         "Used an exponential moving average of classification scores to check for a return to the starting pose before opening the next exercise clip.",
         "For the app, defined feedback and counting rules using ML Kit joint angles, positions, and movement direction. A squat that reversed upward too soon triggered a correction and was excluded from the rep count. Worked with the backend developer on integration."
       ],
-      "outcome": "Delivered real-time form feedback and valid-rep counting for Lenfit, a team project in Hanium ICT Mentoring.",
+      "outcome": "Delivered real-time form feedback and valid-rep counting for Lenfit, a team project in Hanium ICT Mentoring. The Lenfit team received an Honorable Mention at the 2023 Hanium ICT Mentoring Competition.",
       "tags": [
         "Flutter",
         "Google ML Kit",
@@ -434,7 +434,7 @@
         "Fine-tuned StarGAN on six emotion classes from AI Hub and generated expressions from photos of familiar people. Fixed corrupted images by rearranging the output tensor into HWC order, converting it to uint8, and correcting how the image buffer was passed.",
         "Recorded quiz targets, answers, scores, and completion times in date-keyed JSON and worked with teammates to integrate and demonstrate the rehabilitation program."
       ],
-      "outcome": "The team completed and demonstrated RESTED and won the Grand Prize in the Intelligent Mechatronics Engineering division at Sejong University’s 2023 Creative Design Competition.",
+      "outcome": "The team completed and demonstrated RESTED and won the Grand Prize in the Intelligent Mechatronics Engineering division at Sejong University’s 16th Creative Design Competition in 2023.",
       "tags": [
         "Object Detection",
         "StarGAN",
@@ -442,7 +442,7 @@
       ],
       "links": [
         {
-          "label": "Grand Prize award",
+          "label": "Creative Design Competition award record",
           "url": "https://withus.sejong.ac.kr/non/stuTlnt/view.do?dataSeq=1000040&sstTyCd=ST01&currentPageNo=1"
         },
         {
@@ -556,6 +556,7 @@
     {
       "year": "2023",
       "title": "Grand Prize, 16th Sejong University Creative Design Competition",
+      "projectId": "rested",
       "sourceTitle": "Grand Prize, 16th Annual Creative Design Competition, Sejong Univ"
     },
     {

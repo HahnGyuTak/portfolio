@@ -9,6 +9,11 @@ type SectionProps = {
   data: ReturnType<typeof getContent>;
 };
 
+type ProjectNavigationProps = {
+  projectHref: (id: string) => string;
+  onProjectClick: (event: MouseEvent<HTMLAnchorElement>, id: string) => void;
+};
+
 const external = { target: "_blank", rel: "noopener noreferrer" };
 
 function CvLink({ href, language }: { href: string; language: Language }) {
@@ -144,10 +149,7 @@ const toolkitGroups = [
   },
 ];
 
-export function ToolkitV2({ language, data, projectHref, onProjectClick }: SectionProps & {
-  projectHref: (id: string) => string;
-  onProjectClick: (event: MouseEvent<HTMLAnchorElement>, id: string) => void;
-}) {
+export function ToolkitV2({ language, data, projectHref, onProjectClick }: SectionProps & ProjectNavigationProps) {
   return (
     <section className="v2-toolkit" id="toolkit" aria-labelledby="v2-toolkit-title">
       <div className="v2-inner">
@@ -185,7 +187,7 @@ export function ToolkitV2({ language, data, projectHref, onProjectClick }: Secti
   );
 }
 
-export function ExperienceV2({ language, data }: SectionProps) {
+export function ExperienceV2({ language, data, projectHref, onProjectClick }: SectionProps & ProjectNavigationProps) {
   const research = data.researchHistory.map((entry) => {
     const current = entry.period.endsWith("–");
     const period = current
@@ -227,12 +229,20 @@ export function ExperienceV2({ language, data }: SectionProps) {
         </div>
         <div className="v2-awards">
           <h3>Awards</h3>
-          {data.awards.map((award) => (
-            <div className="v2-award" key={award.title}>
-              <time dateTime={award.year}>{award.year}</time>
+          {data.awards.map(({ year, title, organization, projectId }) => (
+            <div className="v2-award" key={title}>
+              <time dateTime={year}>{year}</time>
               <div>
-                <p>{award.title}</p>
-                {award.organization && <small>{award.organization}</small>}
+                <p>
+                  {projectId ? (
+                    <a className="award-project-link" href={projectHref(projectId)}
+                      onClick={(event) => onProjectClick(event, projectId)}>
+                      <span>{title}</span>
+                      <ArrowRight size={15} aria-hidden="true" />
+                    </a>
+                  ) : title}
+                </p>
+                {organization && <small>{organization}</small>}
               </div>
             </div>
           ))}

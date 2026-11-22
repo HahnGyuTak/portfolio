@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState, type MouseEvent } from "r
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
   ArrowUpRight,
+  ArrowRight,
   Check,
   Copy,
   Globe2,
@@ -260,7 +261,7 @@ export default function App() {
     dialogReturn.current = projectReturn();
     setSelectedId(project.id);
   };
-  const openToolkitProject = (event: MouseEvent<HTMLAnchorElement>, id: string) => {
+  const openProjectLink = (event: MouseEvent<HTMLAnchorElement>, id: string) => {
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return;
     const project = projects.find((entry) => entry.id === id);
     if (!project) return;
@@ -337,8 +338,8 @@ export default function App() {
           <PortfolioResearch language={language} projects={projects} visible={visible} filter={filter}
             onFilterChange={setFilter} onOpenProject={openProject} />
           <PublicationsV2 data={data} language={language} />
-          <ToolkitV2 data={data} language={language} projectHref={projectHref} onProjectClick={openToolkitProject} />
-          <ExperienceV2 data={data} language={language} />
+          <ToolkitV2 data={data} language={language} projectHref={projectHref} onProjectClick={openProjectLink} />
+          <ExperienceV2 data={data} language={language} projectHref={projectHref} onProjectClick={openProjectLink} />
           <ContactV2 data={data} language={language} resumeHref={resumeHref} copied={copied} copyEmail={copyEmail} />
         </main>
         {dialog}
@@ -504,12 +505,20 @@ export default function App() {
               </a>
               <h3 className="group-title awards-title">Awards</h3>
               <div className="awards-list">
-                {data.awards.map((a) => (
-                  <div key={a.title}>
-                    <time>{a.year}</time>
+                {data.awards.map(({ year, title, organization, projectId }) => (
+                  <div key={title}>
+                    <time>{year}</time>
                     <div>
-                      <h4>{a.title}</h4>
-                      {a.organization && <p>{a.organization}</p>}
+                      <h4>
+                        {projectId ? (
+                          <a className="award-project-link" href={projectHref(projectId)}
+                            onClick={(event) => openProjectLink(event, projectId)}>
+                            <span>{title}</span>
+                            <ArrowRight size={14} aria-hidden="true" />
+                          </a>
+                        ) : title}
+                      </h4>
+                      {organization && <p>{organization}</p>}
                     </div>
                   </div>
                 ))}
