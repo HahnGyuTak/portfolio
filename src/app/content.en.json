@@ -545,8 +545,8 @@
     "submittedAt": "2026.09.24"
   },
   "publication": {
-    "title": "StarGAN-TA: Transfer Learning with StarGAN for Improved Facial Expression Generation",
-    "authors": "박세환 · 한규탁 · 이석 · 김형석",
+    "title": "StarGAN-TA: StarGAN with Transfer Learning for Improved Facial Expression Generation Performance",
+    "authors": "S. H. Pak · G. T. Hahn · S. Lee · H. S. Kim",
     "venue": "38th ICROS Annual Conference (ICROS 2023)",
     "date": "2023.06",
     "pages": "924–925",

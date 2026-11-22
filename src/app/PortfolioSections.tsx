@@ -98,9 +98,9 @@ export function PublicationsV2({ language, data }: SectionProps) {
         <article className="v2-citation">
           <span className="v2-publication-year">{publication.date.slice(0, 4)}</span>
           <div>
-            <p className="v2-venue" title={publication.venue}>ICROS 2023</p>
-            <h3 className="v2-published-title">{publication.title}</h3>
-            <Authors names={publication.authors} highlight={data.person.nameKo} lang="ko" />
+            <p className="v2-venue" lang="en" title={publication.venue}>ICROS 2023</p>
+            <h3 className="v2-published-title" lang="en">{publication.title}</h3>
+            <Authors names={publication.authors} highlight="G. T. Hahn" lang="en" />
             <div className="v2-publication-links">
               <p className="v2-publication-meta">
                 <time dateTime={publicationDate}>{publication.date}</time> · pp. {publication.pages}

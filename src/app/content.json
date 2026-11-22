@@ -527,9 +527,9 @@
     "submittedAt": "2026.09.24"
   },
   "publication": {
-    "title": "StarGAN-TA: 표정 생성 성능 향상을 위한 전이학습 StarGAN",
-    "authors": "박세환 · 한규탁 · 이석 · 김형석",
-    "venue": "제38회 제어로봇시스템학회 학술대회 (ICROS 2023)",
+    "title": "StarGAN-TA: StarGAN with Transfer Learning for Improved Facial Expression Generation Performance",
+    "authors": "S. H. Pak · G. T. Hahn · S. Lee · H. S. Kim",
+    "venue": "38th ICROS Annual Conference (ICROS 2023)",
     "date": "2023.06",
     "pages": "924–925",
     "url": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11480637"

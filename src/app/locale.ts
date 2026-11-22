@@ -38,7 +38,7 @@ export const copy = {
     closeDetails: "프로젝트 상세 닫기",
     researchStart: "2025.09 시작",
     submitted: "제출 · 제1저자",
-    conference: "제38회 제어로봇시스템학회 학술대회 · pp. 924–925",
+    conference: "38th ICROS Annual Conference · pp. 924–925",
     moteRecording: "Mote 앱의 회의 녹음 화면",
     moteSummary: "Mote 앱의 AI 회의 요약 결과 화면",
     moteCaption: "실제 앱 화면 · 녹음 및 회의 요약",

@@ -492,6 +492,7 @@ export default function App() {
               <a
                 className="publication"
                 href={data.publication.url}
+                lang="en"
                 {...external}
               >
                 <span>
