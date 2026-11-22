@@ -10,6 +10,14 @@ const filters = [
   { id: "development", label: "Development" },
 ];
 
+const appIconProjects = new Set([
+  "neatree",
+  "corsair-king",
+  "gpu-monitor",
+  "conference-countdown",
+  "pawfficer",
+]);
+
 const cardCopy: Partial<Record<string, Record<Language, string> & { tags: string[] }>> = {
   wallbaduk: {
     ko: "게임을 단독 개발해 3주 만에 iOS·Android에 출시했습니다. 모방학습·PPO와 탐색을 결합한 AI도 정식판에 적용했습니다.",
@@ -156,9 +164,16 @@ function ResearchCard({
           <div className="v2-card-description">
             <h3>
               <a className="v2-card-link" href={detailUrl.href} onClick={open} title={t.details}>
-                {project.id === "neatree" && (
-                  <img className="v2-card-title-icon" src="./images/neatree-app-icon.webp"
-                    width={38} height={38} alt="" loading="lazy" decoding="async" />
+                {appIconProjects.has(project.id) && (
+                  <img
+                    className="v2-card-title-icon"
+                    src={`./images/${project.id}-app-icon.webp`}
+                    width={48}
+                    height={48}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
                 )}
                 {project.name}
                 <span className="v2-card-arrow" aria-hidden="true"><ArrowRight size={20} strokeWidth={1.65} /></span>

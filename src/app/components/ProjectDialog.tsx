@@ -144,6 +144,27 @@ function DialogContent({
             ))}
           </div>
         )}
+        {project.id === "neatree" && (
+          <figure className="project-screens project-screens--wide">
+            <a href="./images/neatree-review.webp" target="_blank" rel="noopener noreferrer"
+              aria-label={language === "ko" ? "NeaTree 검토 화면 크게 보기" : "Open the NeaTree review screenshot full-size"}>
+              <img
+                src="./images/neatree-review.webp"
+                width={2304}
+                height={1440}
+                alt={language === "ko"
+                  ? "NeaTree 검토함에서 파일 세 개의 제안 이름과 보관 위치를 확인하고 적용할 수 있는 화면"
+                  : "NeaTree review inbox showing proposed names and destinations for three files before batch approval"}
+                loading="lazy"
+                decoding="async"
+              />
+            </a>
+            <figcaption>
+              {language === "ko" ? "NeaTree 개발판에서 샘플 파일을 일괄 검토하는 화면"
+                : "Batch review of sample files in the NeaTree development preview"}
+            </figcaption>
+          </figure>
+        )}
         {project.id === "mote" && (
           <figure className="project-screens">
             <div>

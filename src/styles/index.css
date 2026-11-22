@@ -884,6 +884,14 @@ footer {
 .project-screens img:only-child {
   width: min(80%, 260px);
 }
+.project-screens--wide > a {
+  display: block;
+}
+.project-screens--wide > a > img:only-child {
+  width: 100%;
+  border: 1px solid #eee;
+  border-radius: 8px;
+}
 .project-screens figcaption {
   text-align: center;
   color: #888;

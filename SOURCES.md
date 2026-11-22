@@ -35,6 +35,11 @@
 ## App screenshots
 
 - `public/images/neatree-app-icon.webp`: [NeaTree b24의 AppIcon 리소스](https://github.com/HahnGyuTak/NeaTree/blob/v0.1.0-b24/Sources/OrganizerApp/Resources/AppIcon.icns).
+- `public/images/neatree-review.webp`: 샘플 파일 이름과 보관 위치를 검토하는 [NeaTree b24 앱 캡처](https://github.com/HahnGyuTak/NeaTree/releases/download/v0.1.0-b24/NeaTree-b24-05-batch.png).
+- `public/images/corsair-king-app-icon.webp`: [Corsair King App Store 아이콘](https://apps.apple.com/kr/app/corsair-king/id6826480808).
+- `public/images/gpu-monitor-app-icon.webp`: [GPU Monitor v0.9.6 AppIcon 리소스](https://github.com/HahnGyuTak/gpu-monitor/blob/v0.9.6/AppIcon.icns).
+- `public/images/conference-countdown-app-icon.webp`: [Conference Countdown v1.4.1 AppIcon 리소스](https://github.com/HahnGyuTak/conference-countdown/blob/v1.4.1/Assets/AppIcon.png).
+- `public/images/pawfficer-app-icon.webp`: [Pawfficer 0.1.0 build 4 배포본](https://github.com/HahnGyuTak/Pawfficer-Releases/releases/tag/v0.1.0-build4)에 포함된 AppIcon.
 - `public/images/wallbaduk-game.png`: 본인 WallBadukApp 프로젝트의 `assets/screenshot/6.png`. 개발 버전 화면이며 원본 DEBUG 표시를 유지했습니다.
 - `public/images/mote-recording.jpg`, `mote-summary.jpg`: Mote 발표 PDF 4쪽에 포함된 실제 앱 화면 원본 JPEG를 추출했습니다.
 
