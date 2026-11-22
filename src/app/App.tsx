@@ -505,11 +505,11 @@ export default function App() {
               <h3 className="group-title awards-title">Awards</h3>
               <div className="awards-list">
                 {data.awards.map((a) => (
-                  <div key={a.year}>
+                  <div key={a.title}>
                     <time>{a.year}</time>
                     <div>
                       <h4>{a.title}</h4>
-                      <p>{a.organization}</p>
+                      {a.organization && <p>{a.organization}</p>}
                     </div>
                   </div>
                 ))}

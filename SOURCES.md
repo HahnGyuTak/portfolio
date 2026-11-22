@@ -24,7 +24,7 @@
 | Pawfficer | [앱 소개와 배포](https://github.com/HahnGyuTak/Pawfficer-Releases), [macOS 다운로드](https://github.com/HahnGyuTak/Pawfficer-Releases/releases/latest) |
 | STABLE | 본인 제공 `ICASSP2027.pdf`, `STABLE_github` 코드, ICASSP 2027 제출·심사 중 상태 본인 확인 |
 | StarGAN-TA | [연구 저장소](https://github.com/shp216/StarGAN-TA), [ICROS 논문](https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11480637), CV |
-| Lenfit | 본인 제공 `Lenfit_Hanium.pdf`, 역할 설명 |
+| Lenfit | 본인 제공 `Lenfit_Hanium.pdf`, 역할 설명. 상장 원문에서 2023 한이음 ICT멘토링 공모전 입선(한국정보산업연합회, 2023.12.07)을 확인했습니다. |
 | Diff-SVC / DiffWave | 본인 제공 2023-2 창의학기제 최종결과보고서 2~4쪽(전처리·학습·개인 역할·실험 구성), 로컬 연구 디렉터리, CV, 역할 직접 확인 |
 | RESTED | [세종대학교 공식 대상 수상 기록](https://withus.sejong.ac.kr/non/stuTlnt/view.do?dataSeq=1000040&sstTyCd=ST01&currentPageNo=1), [공개 발표자료 PDF](https://withus.sejong.ac.kr/comm/cmfile/download.do?encFileGrpSeq=19b82d7b338cb31f922c99903b99dbe2&encFileSeq=6f0d09eaa7573ee1a905876da477a5f4), CV, 역할 설명 |
 | WriteNow | [팀 프로젝트](https://github.com/AcademicFestival/.github/blob/main/profile/README.md), CV, 문서 샘플 수집·입출력 학습 데이터 직접 구축·OpenAI API를 통한 GPT 파인튜닝에 대한 본인 확인 (2026.10.22) |

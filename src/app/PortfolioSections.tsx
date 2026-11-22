@@ -228,11 +228,11 @@ export function ExperienceV2({ language, data }: SectionProps) {
         <div className="v2-awards">
           <h3>Awards</h3>
           {data.awards.map((award) => (
-            <div className="v2-award" key={award.year}>
+            <div className="v2-award" key={award.title}>
               <time dateTime={award.year}>{award.year}</time>
               <div>
                 <p>{award.title}</p>
-                <small>{award.organization}</small>
+                {award.organization && <small>{award.organization}</small>}
               </div>
             </div>
           ))}

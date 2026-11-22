@@ -536,21 +536,14 @@
   },
   "awards": [
     {
-      "year": "2024",
-      "title": "지능기전공학과 학술경진대회 대상",
-      "organization": "세종대학교",
-      "sourceTitle": "Grand Prize, 2024 Academic competitions, Department of IME"
-    },
-    {
       "year": "2023",
-      "title": "제16회 창의설계경진대회 지능기전공학부 대상",
-      "organization": "세종대학교",
+      "title": "제16회 세종대학교 창의설계경진대회 대상",
       "sourceTitle": "Grand Prize, 16th Annual Creative Design Competition, Sejong Univ"
     },
     {
-      "year": "2022",
-      "title": "알고리즘 대회 대상",
-      "organization": "Smarcle"
+      "year": "2023",
+      "title": "한이음 ICT멘토링 공모전 입선",
+      "organization": "한국정보산업연합회"
     },
     {
       "year": "2019",
