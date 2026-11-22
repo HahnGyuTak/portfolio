@@ -16,6 +16,12 @@
 
 | 경험 | 확인 자료 / 공개 출처 |
 | --- | --- |
+| NeaTree | [앱 소스·README](https://github.com/HahnGyuTak/NeaTree), [합성 사례 API 검증](https://github.com/HahnGyuTak/NeaTree/blob/main/docs/API_VALIDATION.md), [macOS 개발 미리보기](https://github.com/HahnGyuTak/NeaTree/releases/tag/v0.1.0-b24) |
+| Corsair King | [iPhone·iPad 정식판](https://apps.apple.com/kr/app/corsair-king/id6826480808), [Android APK·iOS 테스트 배포 안내](https://github.com/HahnGyuTak/CorsairKing-downloads) |
+| GPU Monitor | [앱 소스·README](https://github.com/HahnGyuTak/gpu-monitor), [Apple Silicon 릴리스](https://github.com/HahnGyuTak/gpu-monitor/releases/latest) |
+| Conference Countdown | [앱 소스·README](https://github.com/HahnGyuTak/conference-countdown), [Apple Silicon 릴리스](https://github.com/HahnGyuTak/conference-countdown/releases/latest) |
+| MLLM Image Edit | [모델 통합·추론 코드](https://github.com/HahnGyuTak/DL-project), [공개 웹 UI](https://model-dock.pages.dev/chatbot) |
+| Pawfficer | [앱 소개와 배포](https://github.com/HahnGyuTak/Pawfficer-Releases), [macOS 다운로드](https://github.com/HahnGyuTak/Pawfficer-Releases/releases/latest) |
 | STABLE | 본인 제공 `ICASSP2027.pdf`, `STABLE_github` 코드, ICASSP 2027 제출·심사 중 상태 본인 확인 |
 | StarGAN-TA | [연구 저장소](https://github.com/shp216/StarGAN-TA), [ICROS 논문](https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11480637), CV |
 | Lenfit | 본인 제공 `Lenfit_Hanium.pdf`, 역할 설명 |
@@ -28,6 +34,7 @@
 
 ## App screenshots
 
+- `public/images/neatree-app-icon.webp`: [NeaTree b24의 AppIcon 리소스](https://github.com/HahnGyuTak/NeaTree/blob/v0.1.0-b24/Sources/OrganizerApp/Resources/AppIcon.icns).
 - `public/images/wallbaduk-game.png`: 본인 WallBadukApp 프로젝트의 `assets/screenshot/6.png`. 개발 버전 화면이며 원본 DEBUG 표시를 유지했습니다.
 - `public/images/mote-recording.jpg`, `mote-summary.jpg`: Mote 발표 PDF 4쪽에 포함된 실제 앱 화면 원본 JPEG를 추출했습니다.
 

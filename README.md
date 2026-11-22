@@ -1,6 +1,6 @@
 # Gyutak Hahn · Personal Portfolio
 
-한규탁의 AI 연구·개발 포트폴리오입니다. 기존 React/Vite 프로젝트를 바탕으로 프로필, 9개 R&D 카드, 연구·학력·논문·수상, 연락처를 구성했습니다.
+한규탁의 AI 연구·개발 포트폴리오입니다. 프로필, 15개 R&D 카드, 연구·학력·논문·수상, 연락처를 담았습니다.
 
 - 포트폴리오: https://hahngyutak.github.io/portfolio/
 - English: https://hahngyutak.github.io/portfolio/?lang=en
@@ -67,7 +67,7 @@ pnpm preview     # dist/ 결과 확인
 
 - V2는 Figtree와 Noto Sans KR, 원본 앱 캡처, 별도 Publications와 Toolkit 섹션을 사용합니다.
 - V1은 CodePen의 하단 시작 → 상단 고정 내비게이션과 현재 섹션 밑줄 이동을 사용합니다.
-- 전체 9개 R&D 카드, All / Research / Development 필터, Focus 태그와 사이트별 링크 아이콘
+- 전체 15개 R&D 카드, All / Research / Development 필터, Focus 태그와 사이트별 링크 아이콘
 - 네이티브 `<dialog>` 기반 상세, 키보드 포커스 관리, 딥 링크
 - 외부 서비스 키·로그인·추적 스크립트 없는 정적 사이트
 - V1은 `Century Gothic, Lato, sans-serif` 글꼴, 회색 배경, 넓은 제목 자간, 70px 메뉴와 파란 밑줄을 사용합니다.

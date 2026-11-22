@@ -95,7 +95,13 @@
 .portfolio-v2 .v2-card-link {
   display: inline-flex;
   align-items: center;
+  gap: 0.4rem;
   min-height: 44px;
+}
+
+.portfolio-v2 .v2-card-title-icon {
+  flex: none;
+  object-fit: contain;
 }
 
 .portfolio-v2 .v2-card-arrow {

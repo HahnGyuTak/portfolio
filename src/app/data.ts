@@ -23,7 +23,13 @@ export const getContent = (language: Language) =>
   language === "en" ? englishContent : content;
 export const projectOrder = [
   "wallbaduk",
+  "neatree",
   "stable",
+  "corsair-king",
+  "gpu-monitor",
+  "conference-countdown",
+  "mllm-image-edit",
+  "pawfficer",
   "souf",
   "mote",
   "writenow",

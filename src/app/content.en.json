@@ -13,6 +13,213 @@
   },
   "projects": [
     {
+      "id": "neatree",
+      "name": "NeaTree",
+      "nameEn": "NeaTree",
+      "category": "development",
+      "kicker": "LLM API · MACOS",
+      "status": "Public development preview",
+      "subtitle": "LLM-powered file organizer for macOS",
+      "period": "Nov 2026",
+      "role": "macOS app development · OpenAI API integration · file movement and undo · preview distribution",
+      "summary": "I built a macOS app that proposes file names and destinations from existing folder structures and naming rules, then moves files after user review.",
+      "problem": "Sorting downloads meant cross-checking document contents against folder-specific rules. The app needed to handle ambiguous suggestions and files that changed after review before moving anything.",
+      "contributions": [
+        "I inferred candidate rules from folder structures and file-name examples, then passed approved rules and extracted content to the OpenAI Responses API for structured names, destinations, and rationales. Apple Vision OCR extended text extraction to images and scanned PDFs.",
+        "I built the SwiftUI flow for previewing files, editing suggestions, and approving or deferring batches. Before moves, the app checks for destination escapes, overwrites, and source changes. Move history supports undo.",
+        "I linked completed downloads to a review window in the menu bar and stored the user's OpenAI API key in macOS Keychain."
+      ],
+      "outcome": "I verified the live API path with five synthetic cases. Three files matched their original SHA-256 hashes after moving and undoing the moves. I published the v0.1.0 b24 development preview for macOS 14 and later as DMG and ZIP assets on GitHub Releases.",
+      "tags": [
+        "SwiftUI",
+        "OpenAI API",
+        "Apple Vision OCR"
+      ],
+      "links": [
+        {
+          "label": "Source code",
+          "url": "https://github.com/HahnGyuTak/NeaTree"
+        },
+        {
+          "label": "Download preview",
+          "url": "https://github.com/HahnGyuTak/NeaTree/releases/tag/v0.1.0-b24",
+          "showLabel": true
+        }
+      ]
+    },
+    {
+      "id": "corsair-king",
+      "name": "Corsair King",
+      "nameEn": "Corsair King",
+      "category": "development",
+      "kicker": "MOBILE · MULTIPLAYER",
+      "status": "iOS release · Public Android testing",
+      "subtitle": "Invite-code multiplayer card game for 2–7 players",
+      "period": "Oct 2026–",
+      "role": "Multiplayer development · gameplay and reconnection · iOS and Android distribution",
+      "summary": "I built an online game where 2–7 players join by invite code, bid on how many tricks they will win, and play their hands round by round.",
+      "problem": "Friends needed to join a room easily and see consistent bids, card plays, and round scores across devices.",
+      "contributions": [
+        "I built code and barcode invites, lobbies with optional bots, and round progression and scoring for individual and team modes.",
+        "I improved connection and reconnection handling and synchronized audio cues with card dealing, flipping, and playing.",
+        "I managed App Store distribution for iPhone and iPad and public Android APK test builds."
+      ],
+      "outcome": "The iPhone and iPad app is available on the App Store. Public Android APK test builds are available via GitHub Releases.",
+      "tags": [
+        "Multiplayer",
+        "Mobile Game",
+        "Release Engineering"
+      ],
+      "links": [
+        {
+          "label": "App Store",
+          "url": "https://apps.apple.com/kr/app/corsair-king/id6826480808"
+        },
+        {
+          "label": "Android test APK",
+          "url": "https://github.com/HahnGyuTak/CorsairKing-downloads/releases/latest",
+          "showLabel": true
+        },
+        {
+          "label": "TestFlight",
+          "url": "https://testflight.apple.com/join/JmGv7aXB",
+          "showLabel": true
+        }
+      ]
+    },
+    {
+      "id": "gpu-monitor",
+      "name": "GPU Monitor",
+      "nameEn": "GPU Monitor",
+      "category": "development",
+      "kicker": "MACOS · ML TOOLING",
+      "subtitle": "Menu bar monitoring for remote GPUs and training runs",
+      "period": "Sep 2026",
+      "role": "macOS app development · remote GPU and training-log collection · public distribution",
+      "summary": "I built a macOS menu bar app that shows GPU usage and tmux training progress and ETAs from Linux servers over SSH.",
+      "problem": "Checking training status across servers required switching terminals and finding the relevant tmux session on each host.",
+      "contributions": [
+        "I reused existing SSH configuration to collect NVIDIA GPU utilization, VRAM, and temperature and display them in a SwiftUI and AppKit menu bar app.",
+        "I parsed tqdm, step, epoch, and ETA output from tmux and let users pin a training run to the menu bar.",
+        "I added notifications for OOMs, errors, and process exits and let users choose which servers to query and display."
+      ],
+      "outcome": "I published an Apple Silicon macOS build on GitHub Releases. It monitors multiple Linux servers without installing an agent on the servers.",
+      "tags": [
+        "SwiftUI",
+        "SSH",
+        "GPU Monitoring"
+      ],
+      "links": [
+        {
+          "label": "Source code",
+          "url": "https://github.com/HahnGyuTak/gpu-monitor"
+        },
+        {
+          "label": "Download for macOS",
+          "url": "https://github.com/HahnGyuTak/gpu-monitor/releases/latest",
+          "showLabel": true
+        }
+      ]
+    },
+    {
+      "id": "conference-countdown",
+      "name": "Conference Countdown",
+      "nameEn": "Conference Countdown",
+      "category": "development",
+      "kicker": "MACOS · RESEARCH TOOLING",
+      "subtitle": "macOS menu bar tracker for official conference deadlines",
+      "period": "Sep 2026",
+      "role": "SwiftUI app development · Python deadline collector · Apple Silicon distribution",
+      "summary": "I built a Mac menu bar app that reads paper deadlines from official submission systems and conference documents and counts down to deadlines for selected venues.",
+      "problem": "Conferences publish deadlines in different places and time zones. The year a paper is submitted can also differ from the year the conference takes place.",
+      "contributions": [
+        "I prioritized official submission systems, paper kits and author instructions, then calls for papers in the Python collector, and recorded both the dates and their supporting source text.",
+        "I tracked submission and conference years separately, preserved time zones, and withheld countdowns when sources of equal priority disagreed.",
+        "I built the SwiftUI menu bar view for selected deadlines, source links, and last-checked times, along with ICS export."
+      ],
+      "outcome": "I published the Apple Silicon build on GitHub Releases. The collector requires Python 3.10 or later.",
+      "tags": [
+        "SwiftUI",
+        "Python",
+        "Data Collection"
+      ],
+      "links": [
+        {
+          "label": "Source code",
+          "url": "https://github.com/HahnGyuTak/conference-countdown"
+        },
+        {
+          "label": "Download for macOS",
+          "url": "https://github.com/HahnGyuTak/conference-countdown/releases/latest",
+          "showLabel": true
+        }
+      ]
+    },
+    {
+      "id": "mllm-image-edit",
+      "name": "MLLM Image Edit",
+      "nameEn": "MLLM Image Edit",
+      "category": "development",
+      "kicker": "VISION-LANGUAGE · IMAGE EDITING",
+      "subtitle": "Conversational, object-level image editing",
+      "period": "Apr–Jun 2026",
+      "role": "Model integration · Gradio demo · web UI and inference API",
+      "summary": "I built a demo that locates an object from a Korean editing request, lets the user review the mask and prompt, and edits the selected region.",
+      "problem": "The system needed to distinguish the object to edit from the intended change and show the proposed edit region before generation.",
+      "contributions": [
+        "I used Qwen2.5-VL to parse Korean requests into object labels and edit intent, then connected Grounding DINO and EfficientSAM to generate boxes and masks.",
+        "I built a conversation flow that presents the mask overlay and SD3 Inpaint prompt for approval before editing the selected region.",
+        "I shared the dialog logic between Gradio and the web UI and moved model calls to a FastAPI service running on a GPU."
+      ],
+      "outcome": "I published the Gradio demo and integration code on GitHub and deployed the web UI to Cloudflare Pages. Web editing requires a running GPU inference server.",
+      "tags": [
+        "Qwen2.5-VL",
+        "Segmentation",
+        "SD3 Inpaint"
+      ],
+      "links": [
+        {
+          "label": "Source and instructions",
+          "url": "https://github.com/HahnGyuTak/DL-project"
+        },
+        {
+          "label": "Web UI",
+          "url": "https://model-dock.pages.dev/chatbot",
+          "showLabel": true
+        }
+      ]
+    },
+    {
+      "id": "pawfficer",
+      "name": "Pawfficer",
+      "nameEn": "Pawfficer",
+      "category": "development",
+      "kicker": "MACOS · REALTIME",
+      "subtitle": "Floating macOS companion for shared focus sessions",
+      "period": "May 2026",
+      "role": "SwiftUI app and floating panels · real-time presence · macOS distribution",
+      "summary": "I built a macOS app that uses small floating characters to show when friends in an invite-only room are focusing or taking a break.",
+      "problem": "The app needed to make remote study feel shared without pulling attention away from work or sharing users' long-term session histories.",
+      "contributions": [
+        "I connected menu bar controls to a SwiftUI and AppKit floating window and added focus and break controls with timers.",
+        "I used Supabase for room membership, invites, and real-time focus presence, and kept recent shared room summaries separate from personal study history.",
+        "I stored personal session history on-device and surfaced daily, weekly, and per-session views."
+      ],
+      "outcome": "I published DMG and ZIP builds signed with Apple Developer ID and notarized for macOS via GitHub Releases.",
+      "tags": [
+        "SwiftUI",
+        "Supabase Realtime",
+        "macOS"
+      ],
+      "links": [
+        {
+          "label": "Download for macOS",
+          "url": "https://github.com/HahnGyuTak/Pawfficer-Releases/releases/latest",
+          "showLabel": true
+        }
+      ]
+    },
+    {
       "id": "wallbaduk",
       "name": "WallBaduk",
       "nameEn": "WallBaduk",

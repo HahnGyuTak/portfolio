@@ -1,4 +1,4 @@
-import { ArrowRight, ExternalLink, FileText, Trophy } from "lucide-react";
+import { ArrowRight, Download, ExternalLink, FileText, Trophy } from "lucide-react";
 import type { MouseEvent } from "react";
 import type { Project } from "./data";
 import { copy, type Language } from "./locale";
@@ -80,14 +80,14 @@ function ProjectResources({ project, language }: { project: Project; language: L
     <div className="v2-card-resources">
       {project.links.map((link) => {
         const { hostname, pathname } = new URL(link.url);
-        const brand = resourceBrands[hostname];
+        const isRelease = hostname === "github.com" && pathname.includes("/releases/");
+        const brand = isRelease ? undefined : resourceBrands[hostname];
         const label = resourceLabels[pathname]?.[language] ?? (link.showLabel ? link.label : "");
         const accessibleLabel = `${project.name} · ${link.label}`;
         const isAward = pathname === "/non/stuTlnt/view.do";
-        const Icon = isAward ? Trophy : hostname === "hahngyutak.github.io" ||
-          hostname === "www.dbpia.co.kr" || pathname.endsWith("/download.do")
-          ? FileText
-          : ExternalLink;
+        const isDocument = hostname === "hahngyutak.github.io" ||
+          hostname === "www.dbpia.co.kr" || pathname.endsWith("/download.do");
+        const Icon = isRelease ? Download : isAward ? Trophy : isDocument ? FileText : ExternalLink;
 
         return (
           <a
@@ -156,6 +156,10 @@ function ResearchCard({
           <div className="v2-card-description">
             <h3>
               <a className="v2-card-link" href={detailUrl.href} onClick={open} title={t.details}>
+                {project.id === "neatree" && (
+                  <img className="v2-card-title-icon" src="./images/neatree-app-icon.webp"
+                    width={38} height={38} alt="" loading="lazy" decoding="async" />
+                )}
                 {project.name}
                 <span className="v2-card-arrow" aria-hidden="true"><ArrowRight size={20} strokeWidth={1.65} /></span>
               </a>
