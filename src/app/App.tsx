@@ -79,6 +79,7 @@ export default function App() {
   const selected = projects.find((p) => p.id === selectedId) || null;
   const navigation = version === 1 ? sections : v2Sections;
   const t = copy[language];
+  const aiRush = data.programs.find((program) => program.id === "naver-ai-rush");
   const resumeHref = language === "en" ? "./resume-en.html" : "./resume.html";
   const dialogReturn = useRef(projectReturn());
   const closing = useRef(false);
@@ -478,6 +479,19 @@ export default function App() {
                   </article>
                 ))}
               </div>
+              {aiRush && (
+                <>
+                  <h3 className="group-title">Activities</h3>
+                  <div className="research-list">
+                    <article>
+                      <time>{aiRush.period}</time>
+                      <h4>{aiRush.title}</h4>
+                      <span className="research-role">{aiRush.role}</span>
+                      <p>{aiRush.description}</p>
+                    </article>
+                  </div>
+                </>
+              )}
             </div>
             <div>
               <h3 className="group-title">Papers</h3>

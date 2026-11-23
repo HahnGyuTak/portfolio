@@ -16,6 +16,7 @@
 
 | 경험 | 확인 자료 / 공개 출처 |
 | --- | --- |
+| NAVER AI RUSH 2023 | [네이버클라우드 공식 프로그램 소개](https://navercorp.com/media/pressReleasesDetail?seq=2425), 세종AI대왕 팀 최종 결과보고서(2023.09.05 OT, 2023.12.01 최종 과제 제출), 본인 CV의 프로젝트 주도 기록 |
 | NeaTree | [앱 소스·README](https://github.com/HahnGyuTak/NeaTree), [합성 사례 API 검증](https://github.com/HahnGyuTak/NeaTree/blob/main/docs/API_VALIDATION.md), [macOS 개발 미리보기](https://github.com/HahnGyuTak/NeaTree/releases/tag/v0.1.0-b24) |
 | Corsair King | [iPhone·iPad 정식판](https://apps.apple.com/kr/app/corsair-king/id6826480808), [Android APK·iOS 테스트 배포 안내](https://github.com/HahnGyuTak/CorsairKing-downloads) |
 | GPU Monitor | [앱 소스·README](https://github.com/HahnGyuTak/gpu-monitor), [Apple Silicon 릴리스](https://github.com/HahnGyuTak/gpu-monitor/releases/latest) |

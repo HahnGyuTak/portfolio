@@ -583,9 +583,11 @@
   ],
   "programs": [
     {
-      "title": "NAVER AI RUSH",
-      "period": "2023.08–11",
-      "description": "Project using HyperCLOVA X"
+      "id": "naver-ai-rush",
+      "title": "NAVER AI RUSH 2023",
+      "period": "2023.09–2023.12",
+      "role": "NAVER Cloud Ambassador · AI Convergence Track",
+      "description": "I led Team Sejong AI Daewang's text de-identification project using HyperCLOVA X. We tested example-based prompts in CLOVA Studio that masked names and generalized street-level addresses to districts. We submitted a final report on use cases for reviewing posts and preparing training data, along with expert feedback."
     },
     {
       "title": "LG Aimers",

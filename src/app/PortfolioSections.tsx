@@ -208,6 +208,16 @@ export function ExperienceV2({ language, data, projectHref, onProjectClick }: Se
       current: false,
     });
   }
+  const aiRush = data.programs.find((program) => program.id === "naver-ai-rush");
+  if (aiRush?.role && aiRush.description) {
+    experience.push({
+      organization: aiRush.title,
+      period: aiRush.period,
+      role: aiRush.role,
+      topic: aiRush.description,
+      current: false,
+    });
+  }
   experience.sort((a, b) => b.period.slice(0, 7).localeCompare(a.period.slice(0, 7)));
 
   return (

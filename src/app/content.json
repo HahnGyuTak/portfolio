@@ -565,9 +565,11 @@
   ],
   "programs": [
     {
-      "title": "NAVER AI RUSH",
-      "period": "2023.08–11",
-      "description": "HyperCLOVA X 활용 프로젝트"
+      "id": "naver-ai-rush",
+      "title": "NAVER AI RUSH 2023",
+      "period": "2023.09–2023.12",
+      "role": "네이버클라우드 앰배서더 · AI 전공융합 트랙",
+      "description": "세종AI대왕 팀에서 HyperCLOVA X를 활용한 개인정보 비식별화 과제를 주도했습니다. 팀은 CLOVA Studio에서 예시 프롬프트로 이름 마스킹과 상세 주소의 구 단위 일반화를 시험했습니다. 게시글 검토와 학습 데이터 전처리 시나리오, 전문가 피드백을 최종 결과보고서에 정리해 제출했습니다."
     },
     {
       "title": "LG Aimers",
